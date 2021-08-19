@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Platformer_Game
 {
@@ -10,12 +11,13 @@ namespace Platformer_Game
         private SpriteBatch _spriteBatch;
         public int Screen_Width;
         public int Screen_Height;
+        public Rectangle window;
 
         private Texture2D SpriteSheet;
-
         private Player player;
-
-        public Rectangle window { get; set; }
+        private Platform platform;
+        private List<Platform> platforms = new List<Platform>();
+        
 
         public Game1()
         {
@@ -39,6 +41,8 @@ namespace Platformer_Game
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteSheet = Content.Load<Texture2D>("player_images");
             player = new Player(SpriteSheet, new Vector2(0, 0));
+            platform = new Platform(SpriteSheet, new Vector2(0, 800), 1000, 20);
+            platforms.Add(platform);
         }
 
         protected override void Update(GameTime gameTime)
@@ -48,7 +52,7 @@ namespace Platformer_Game
                 Exit();
             }
 
-            player.Update(gameTime);
+            player.Update(gameTime, platforms, window.Height);
             
             base.Update(gameTime);
         }
@@ -59,6 +63,7 @@ namespace Platformer_Game
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch, gameTime);
+            platform.Draw(_spriteBatch, gameTime);
 
             _spriteBatch.End();
             base.Draw(gameTime);
