@@ -16,7 +16,8 @@ namespace Platformer_Game
         private Texture2D SpriteSheet;
         private Player player;
         private Platform platform;
-        private List<Platform> platforms = new List<Platform>();
+        public List<Platform> platforms = new List<Platform>();
+        public List<Particle> particles = new List<Particle>();
         
 
         public Game1()
@@ -52,8 +53,13 @@ namespace Platformer_Game
                 Exit();
             }
 
-            player.Update(gameTime, platforms, window.Height);
-            
+            player.Update(gameTime, platforms, particles ,window.Height);
+
+            foreach (Particle particle in particles)
+            {
+                particle.Update(gameTime, platforms, particles, window.Height);
+            }
+
             base.Update(gameTime);
         }
 
@@ -63,7 +69,16 @@ namespace Platformer_Game
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch, gameTime);
-            platform.Draw(_spriteBatch, gameTime);
+
+            foreach (Platform platform in platforms)
+            {
+                platform.Draw(_spriteBatch, gameTime);
+            }
+
+            foreach (Particle particle in particles)
+            {
+                particle.Draw(_spriteBatch, gameTime);
+            }
 
             _spriteBatch.End();
             base.Draw(gameTime);

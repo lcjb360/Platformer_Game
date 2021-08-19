@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Platformer_Game
 {
-    class Sprite
+    public class Sprite
     {
         
 
@@ -28,6 +28,11 @@ namespace Platformer_Game
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
             spriteBatch.Draw(Texture, position, new Rectangle(X, Y, Width, Height), Color.White);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color)
+        {
+            spriteBatch.Draw(Texture, position, new Rectangle(X, Y, Width, Height), color);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, int width, int height)

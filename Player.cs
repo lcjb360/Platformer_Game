@@ -9,11 +9,13 @@ namespace Platformer_Game
 {
     class Player
     {
+        private MouseState mouseState = new MouseState();
         public Sprite Stationary_Right_Sprite;
         public Sprite Stationary_Left_Sprite;
         public Sprite Moving_Right_Sprite;
         public Sprite Moving_Left_Sprite;
         public Sprite Current_Sprite;
+        public Texture2D Texture;
         public Vector2 Position;
         public int Width;
         public int Height;
@@ -29,6 +31,7 @@ namespace Platformer_Game
             Width = Current_Sprite.Width;
             Height = Current_Sprite.Height;
             Position = position;
+            Texture = texture;
         }
 
         public float Y_of_platform;
@@ -53,8 +56,9 @@ namespace Platformer_Game
             Current_Sprite.Draw(spriteBatch, Position);
         }
 
-        public void Update(GameTime gameTime, List<Platform> platforms, int screen_height)
+        public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, int screen_height)
         {
+            mouseState = Mouse.GetState();
             //Movement Control
             if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > -10)
             {
@@ -114,6 +118,21 @@ namespace Platformer_Game
             if (Velocity.X < 0)
             {
                 Current_Sprite = Moving_Left_Sprite;
+            }
+
+            //particle creation
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (Current_Sprite == Moving_Left_Sprite || Current_Sprite == Stationary_Left_Sprite)
+                {
+                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y+30), new Vector2((Velocity.X - 2), Velocity.Y - 2));
+                    particles.Add(particle);
+                }
+                if (Current_Sprite == Moving_Right_Sprite || Current_Sprite == Stationary_Right_Sprite)
+                {
+                    Particle particle = new Particle(Texture, new Vector2(Position.X + Width, Position.Y + 30), new Vector2((Velocity.X + 2), Velocity.Y - 2));
+                    particles.Add(particle);
+                }
             }
         }
     }

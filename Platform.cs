@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Platformer_Game
 {
-    class Platform
+    public class Platform
     {
         public Sprite Default_Platform;
         public Vector2 Position;
