@@ -15,6 +15,8 @@ namespace Platformer_Game
 
         private Player player;
 
+        public Rectangle window { get; set; }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -24,10 +26,11 @@ namespace Platformer_Game
 
         protected override void Initialize()
         {
-            _graphics.IsFullScreen = false;
-            Screen_Width = _graphics.PreferredBackBufferWidth;
-            Screen_Height = _graphics.PreferredBackBufferHeight;
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
+            window = GraphicsDevice.Viewport.Bounds;
             base.Initialize();
         }
 
@@ -44,7 +47,9 @@ namespace Platformer_Game
             {
                 Exit();
             }
+
             player.Update(gameTime);
+            
             base.Update(gameTime);
         }
 

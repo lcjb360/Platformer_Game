@@ -15,6 +15,8 @@ namespace Platformer_Game
         public Sprite Moving_Left_Sprite;
         public Sprite Current_Sprite;
         public Vector2 Position;
+        public int width;
+        public int height;
         public Vector2 Velocity;
 
         public Player(Texture2D texture, Vector2 position)
@@ -24,7 +26,14 @@ namespace Platformer_Game
             Moving_Right_Sprite = new Sprite(texture, 30, 0, 30, 60);
             Moving_Left_Sprite = new Sprite(texture, 30, 0, 30, 60);
             Current_Sprite = Stationary_Right_Sprite;
+            width = Current_Sprite.Width;
+            height = Current_Sprite.Height;
             Position = position;
+        }
+
+        private bool OnPlatform()
+        {
+
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
