@@ -50,7 +50,7 @@ namespace Platformer_Game
             walls.Add(wall);
             foreach (Wall wall in walls)
             {
-                platforms.Add(new Platform(SpriteSheet, wall.Position, wall.Width, 10));
+                platforms.Add(new Platform(SpriteSheet, wall.Position, wall.Width, 7));
             }
         }
 

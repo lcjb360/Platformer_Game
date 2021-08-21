@@ -29,13 +29,13 @@ namespace Platformer_Game
 
         private void HittingWall(List<Wall> walls)
         {
-            Rectangle particle_edge = new Rectangle((int)(Position.X + Velocity.X - 2), (int)(Position.Y + Velocity.Y - 2), (int)Width + 2, (int)Height + 2);
+            Rectangle particle_edge2 = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
+            Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Wall wall in walls)
             {
-                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)Width, (int)Height);
-                if (particle_edge.Intersects(wall_edge))
+                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge) ||wall_edge.Contains(Position) || wall_edge.Contains(Position+Velocity))
                 {
-                    Velocity.Y = 100;
                     if (Velocity.X > 0)
                     {
                         Position.X = wall.Position.X - Width;
@@ -68,7 +68,7 @@ namespace Platformer_Game
             {
                 if (Position.Y + Height > platform.Position.Y && Position.Y + Height < platform.Position.Y + platform.Height)
                 {
-                    if (Position.X + Width > platform.Position.X && Position.X < platform.Position.X + platform.Width)
+                    if (Position.X + Width - 1 > platform.Position.X && Position.X + 1 < platform.Position.X + platform.Width)
                     {
                         Y_of_platform = platform.Position.Y;
                         return true;
@@ -80,21 +80,22 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, float screen_height)
         {
-            if (!OnPlatform(platforms) && Velocity.Y < 5)
+            if (!OnPlatform(platforms) && Velocity.Y < 7)
             {
                 Velocity.Y += 1;
             }
             if (OnPlatform(platforms))
             {
                 Velocity.Y = 0;
-                if (Velocity.X > 0)
-                {
-                    Velocity.X -= 1;
-                }
-                if (Velocity.X < 0)
-                {
-                    Velocity.X += 1;
-                }
+                //if (Velocity.X > 0)
+                //{
+                //    Velocity.X -= 1;
+                //}
+                //if (Velocity.X < 0)
+                //{
+                //    Velocity.X += 1;
+                //}
+                Velocity.X = 0;
                 Position.Y = Y_of_platform - Height;
             }
 

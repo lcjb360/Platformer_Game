@@ -45,7 +45,7 @@ namespace Platformer_Game
             Rectangle particle_edge = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
             foreach (Wall wall in walls)
             {
-                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)Width, (int)Height);
+                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
                 if (particle_edge.Intersects(wall_edge))
                 {
                     if (Velocity.X > 0)
@@ -72,7 +72,7 @@ namespace Platformer_Game
             {
                 if (Position.Y + Height >= platform.Position.Y && Position.Y + Height <= platform.Position.Y + platform.Height)
                 {
-                    if (Position.X + Width >= platform.Position.X && Position.X <= platform.Position.X + platform.Width)
+                    if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1<= platform.Position.X + platform.Width)
                     {
                         Y_of_platform = platform.Position.Y;
                         return true;
@@ -156,7 +156,7 @@ namespace Platformer_Game
 
             
             Vector2 mousePosVect = new Vector2(mouseState.X, mouseState.Y);
-            mousePosVect -= Position;
+            mousePosVect -= new Vector2(Position.X + (Width/2), Position.Y + (Height/2));
             //Sprite Control
             if (Velocity.X == 0)
             {
@@ -182,7 +182,7 @@ namespace Platformer_Game
             if (mouseState.LeftButton == ButtonState.Pressed && ticker == 0 && particle_id < capacity)
             {
                 mousePosVect.Normalize();
-                mousePosVect *= 5;
+                mousePosVect *= 6;
                 bool colliding = false;
                 if (Current_Sprite == Moving_Left_Sprite || Current_Sprite == Stationary_Left_Sprite)
                 {
