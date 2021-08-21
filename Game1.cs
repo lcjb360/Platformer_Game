@@ -17,6 +17,8 @@ namespace Platformer_Game
         private Player player;
         private Platform platform;
         public List<Platform> platforms = new List<Platform>();
+        private Wall wall;
+        public List<Wall> walls = new List<Wall>();
         public List<Particle> particles = new List<Particle>();
         
 
@@ -44,6 +46,12 @@ namespace Platformer_Game
             player = new Player(SpriteSheet, new Vector2(0, 0));
             platform = new Platform(SpriteSheet, new Vector2(0, 800), 1000, 20);
             platforms.Add(platform);
+            wall = new Wall(SpriteSheet, new Vector2(775, 700), 25, 100);
+            walls.Add(wall);
+            foreach (Wall wall in walls)
+            {
+                platforms.Add(new Platform(SpriteSheet, wall.Position, wall.Width, 10));
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -53,11 +61,11 @@ namespace Platformer_Game
                 Exit();
             }
 
-            player.Update(gameTime, platforms, particles ,window.Height);
+            player.Update(gameTime, platforms, particles, walls, window.Height);
 
             foreach (Particle particle in particles)
             {
-                particle.Update(gameTime, platforms, particles, window.Height);
+                particle.Update(gameTime, platforms, particles, walls, window.Height);
             }
 
             base.Update(gameTime);
@@ -70,6 +78,11 @@ namespace Platformer_Game
 
             player.Draw(_spriteBatch, gameTime);
 
+            foreach (Wall wall in walls)
+            {
+                wall.Draw(_spriteBatch, gameTime);
+            }
+            
             foreach (Platform platform in platforms)
             {
                 platform.Draw(_spriteBatch, gameTime);
