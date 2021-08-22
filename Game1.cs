@@ -10,18 +10,12 @@ namespace Platformer_Game
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public Rectangle window;
+        public int level_number;
+        public string game_state;
 
         private Texture2D SpriteSheet;
-        private Player player;
-        private Platform platform;
-        public List<Platform> platforms = new List<Platform>();
-        private Wall wall;
-        public List<Wall> walls = new List<Wall>();
-        public List<Particle> particles = new List<Particle>();
-        private Spike spike;
-        public List<Spike> spikes = new List<Spike>();
-        private Lava lava;
-        public List<Lava> lavas = new List<Lava>();
+
+        public Level Tutorial;
 
 
         public Game1()
@@ -45,28 +39,21 @@ namespace Platformer_Game
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteSheet = Content.Load<Texture2D>("player_images");
+            game_state = "Tutorial";
 
-            player = new Player(SpriteSheet, new Vector2(0, window.Height + 90));
-            
-            platform = new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 1000, 30);
-            platforms.Add(platform);
-            platform = new Platform(SpriteSheet, new Vector2(1000, window.Height - 30 +12), 1 * 60, 30);
-            platforms.Add(platform);
-            platform = new Platform(SpriteSheet, new Vector2(1060, window.Height - 30), window.Width - 1060, 30);
-            platforms.Add(platform);
+            level_number = 0;
 
-            wall = new Wall(SpriteSheet, new Vector2(770, window.Height - 130), 30, 100);
-            walls.Add(wall);
-            foreach (Wall wall in walls)
-            {
-                platforms.Add(new Platform(SpriteSheet, wall.Position, wall.Width, 7));
-            }
-            
-            spike = new Spike(SpriteSheet, new Vector2(850, window.Height - 40), 5*9);
-            spikes.Add(spike);
+            Tutorial = new Level(true, false, level_number, window,
+                new Player(SpriteSheet, new Vector2(0, window.Height - 90)), 
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 1000, 30),
+                                       new Platform(SpriteSheet, new Vector2(1000, window.Height - 30 + 12), 1 * 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(1060, window.Height - 30), window.Width - 1060, 30)}, 
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, window.Height - 130), 30, 100) }, 
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(850, window.Height - 40), 5 * 9) }, 
+                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60) },
+                SpriteSheet);
 
-            lava = new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60);
-            lavas.Add(lava);
+            level_number++;
         }
 
         protected override void Update(GameTime gameTime)
@@ -75,14 +62,14 @@ namespace Platformer_Game
             {
                 Exit();
             }
-
-            player.Update(gameTime, platforms, particles, walls, spikes, lavas, window.Height);
-
-            foreach (Particle particle in particles)
+            switch (game_state)
             {
-                particle.Update(gameTime, platforms, particles, walls, lavas, window.Height);
+                case ("Tutorial"):
+                    Tutorial.Update(gameTime);
+                    break;
+                default:
+                    break;
             }
-
             base.Update(gameTime);
         }
 
@@ -91,31 +78,13 @@ namespace Platformer_Game
             GraphicsDevice.Clear(Color.Tomato);
             _spriteBatch.Begin();
 
-            player.Draw(_spriteBatch, gameTime);
-
-            foreach (Wall wall in walls)
+            switch (game_state)
             {
-                wall.Draw(_spriteBatch, gameTime);
-            }
-            
-            foreach (Platform platform in platforms)
-            {
-                platform.Draw(_spriteBatch, gameTime);
-            }
-
-            foreach (Spike spike in spikes)
-            {
-                spike.Draw(_spriteBatch, gameTime);
-            }
-
-            foreach (Lava lava in lavas)
-            {
-                lava.Draw(_spriteBatch, gameTime);
-            }
-
-            foreach (Particle particle in particles)
-            {
-                particle.Draw(_spriteBatch, gameTime);
+                case ("Tutorial"):
+                    Tutorial.Draw(_spriteBatch ,gameTime);
+                    break;
+                default:
+                    break;
             }
 
             _spriteBatch.End();

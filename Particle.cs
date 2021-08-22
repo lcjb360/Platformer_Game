@@ -115,8 +115,8 @@ namespace Platformer_Game
                 Position.Y = Y_of_platform - Height;
             }
 
-            bool colliding_L = false;
-            bool colliding_B = false;
+            bool colliding_H = false;
+            bool colliding_V = false;
             Particle colliding_with = null;
             Rectangle particle_edge = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
             foreach (Particle particle in particles)
@@ -128,23 +128,23 @@ namespace Platformer_Game
                     {
                         if (Position.X + Width > particle.Position.X && Position.X < particle.Position.X + particle.Width)
                         {
-                            colliding_B = true;
+                            colliding_V = true;
                             colliding_with = particle;
                         }
                     }
                     if (particle_edge.Intersects(other_edge))
                     {
-                        colliding_L = true;
+                        colliding_H = true;
                         colliding_with = particle;
                     }
                 }
             }
-            if (colliding_L)
+            if (colliding_H)
             {
                 colliding_with.Velocity = Velocity/2;
                 Velocity.X /= 2;
             }
-            if (colliding_B)
+            if (colliding_V)
             {
                 Velocity.Y = 0;
                 if (Velocity.X > 0)

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Platformer_Game
 {
-    class Player
+    public class Player
     {
         private MouseState mouseState = new MouseState();
         public Sprite Stationary_Right_Sprite;
