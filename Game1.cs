@@ -9,8 +9,6 @@ namespace Platformer_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public int Screen_Width;
-        public int Screen_Height;
         public Rectangle window;
 
         private Texture2D SpriteSheet;
@@ -20,7 +18,11 @@ namespace Platformer_Game
         private Wall wall;
         public List<Wall> walls = new List<Wall>();
         public List<Particle> particles = new List<Particle>();
-        
+        private Spike spike;
+        public List<Spike> spikes = new List<Spike>();
+        private Lava lava;
+        public List<Lava> lavas = new List<Lava>();
+
 
         public Game1()
         {
@@ -43,15 +45,28 @@ namespace Platformer_Game
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteSheet = Content.Load<Texture2D>("player_images");
-            player = new Player(SpriteSheet, new Vector2(0, 0));
-            platform = new Platform(SpriteSheet, new Vector2(0, 800), 1000, 20);
+
+            player = new Player(SpriteSheet, new Vector2(0, window.Height + 90));
+            
+            platform = new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 1000, 30);
             platforms.Add(platform);
-            wall = new Wall(SpriteSheet, new Vector2(775, 700), 25, 100);
+            platform = new Platform(SpriteSheet, new Vector2(1000, window.Height - 30 +12), 1 * 60, 30);
+            platforms.Add(platform);
+            platform = new Platform(SpriteSheet, new Vector2(1060, window.Height - 30), window.Width - 1060, 30);
+            platforms.Add(platform);
+
+            wall = new Wall(SpriteSheet, new Vector2(770, window.Height - 130), 30, 100);
             walls.Add(wall);
             foreach (Wall wall in walls)
             {
                 platforms.Add(new Platform(SpriteSheet, wall.Position, wall.Width, 7));
             }
+            
+            spike = new Spike(SpriteSheet, new Vector2(850, window.Height - 40), 5*9);
+            spikes.Add(spike);
+
+            lava = new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60);
+            lavas.Add(lava);
         }
 
         protected override void Update(GameTime gameTime)
@@ -61,11 +76,11 @@ namespace Platformer_Game
                 Exit();
             }
 
-            player.Update(gameTime, platforms, particles, walls, window.Height);
+            player.Update(gameTime, platforms, particles, walls, spikes, lavas, window.Height);
 
             foreach (Particle particle in particles)
             {
-                particle.Update(gameTime, platforms, particles, walls, window.Height);
+                particle.Update(gameTime, platforms, particles, walls, lavas, window.Height);
             }
 
             base.Update(gameTime);
@@ -86,6 +101,16 @@ namespace Platformer_Game
             foreach (Platform platform in platforms)
             {
                 platform.Draw(_spriteBatch, gameTime);
+            }
+
+            foreach (Spike spike in spikes)
+            {
+                spike.Draw(_spriteBatch, gameTime);
+            }
+
+            foreach (Lava lava in lavas)
+            {
+                lava.Draw(_spriteBatch, gameTime);
             }
 
             foreach (Particle particle in particles)

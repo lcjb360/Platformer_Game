@@ -15,10 +15,12 @@ namespace Platformer_Game
         public float Height;
         public float Width;
         public int id;
+        //public Sprite none;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id)
         {
             Default_Particle = new Sprite(texture, 60, 0, 5, 5);
+            //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
             Velocity = velocity;
             Height = Default_Particle.Height;
@@ -26,6 +28,20 @@ namespace Platformer_Game
             id = particle_id;
         }
 
+        private void HittingHazard(List<Lava> lavas)
+        {
+            Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            foreach (Lava lava in lavas)
+            {
+                Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y - 1, (int)lava.Length, (int)lava.Height);
+                if (particle_edge.Intersects(lava_edge))
+                {
+                    Width = 0;
+                    Height = 0;
+                    //Default_Particle = none;
+                }
+            }
+        }
 
         private void HittingWall(List<Wall> walls)
         {
@@ -78,7 +94,7 @@ namespace Platformer_Game
             return false;
         }
 
-        public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, float screen_height)
+        public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
         {
             if (!OnPlatform(platforms) && Velocity.Y < 7)
             {
@@ -144,11 +160,12 @@ namespace Platformer_Game
             }
             HittingWall(walls);
             Position += Velocity;
+            HittingHazard(lavas);
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Default_Particle.Draw(spriteBatch, Position);
+            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height);
         }
     }
 }

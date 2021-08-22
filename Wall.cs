@@ -8,14 +8,14 @@ namespace Platformer_Game
 {
     public class Wall
     {
-        public Sprite Default_Platform;
+        public Sprite Default_Wall;
         public Vector2 Position;
         public int Width;
         public int Height;
 
         public Wall(Texture2D texture, Vector2 position, int width, int height)
         {
-            Default_Platform = new Sprite(texture, 0, 60, 59, 15);
+            Default_Wall = new Sprite(texture, 0, 60, 59, 15);
             Position = position;
             Width = width;
             Height = height;
@@ -23,7 +23,7 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Default_Platform.Draw(spriteBatch, Position, Width, Height);
+            Default_Wall.Draw(spriteBatch, Position, Width, Height);
         }
     }
 }
