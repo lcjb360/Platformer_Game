@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Numbers.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Numbers.png
+
 #begin player_images.png
 /importer:TextureImporter
 /processor:TextureProcessor

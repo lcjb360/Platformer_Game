@@ -14,7 +14,11 @@ namespace Platformer_Game
         public string game_state;
 
         private Texture2D SpriteSheet;
+        private Texture2D NumberSheet;
+        public Sprite Box;
+        public Sprite one;
 
+        public List<Level> levels = new List<Level>();
         public Level Tutorial;
 
 
@@ -32,6 +36,7 @@ namespace Platformer_Game
             _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
             window = GraphicsDevice.Viewport.Bounds;
+            game_state = "Main_Menu";
             base.Initialize();
         }
 
@@ -39,7 +44,10 @@ namespace Platformer_Game
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteSheet = Content.Load<Texture2D>("player_images");
-            game_state = "Tutorial";
+            NumberSheet = Content.Load<Texture2D>("Numbers");
+
+            Box = new Sprite(NumberSheet, 5, 5, 100, 100);
+            one = new Sprite(NumberSheet, 14, 226, 42, 73);
 
             level_number = 0;
 
@@ -53,6 +61,7 @@ namespace Platformer_Game
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60) },
                 SpriteSheet);
 
+            levels.Add(Tutorial);
             level_number++;
         }
 
@@ -75,13 +84,19 @@ namespace Platformer_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Tomato);
+            
             _spriteBatch.Begin();
 
             switch (game_state)
             {
                 case ("Tutorial"):
+                    GraphicsDevice.Clear(Color.Tomato);
                     Tutorial.Draw(_spriteBatch ,gameTime);
+                    //_spriteBatch.Draw(NumberSheet, new Vector2(0, 0), Color.White);
+                    break;
+                case ("Main_Menu"):
+                    GraphicsDevice.Clear(Color.White);
+                    Menu_Draw(_spriteBatch, gameTime);
                     break;
                 default:
                     break;
@@ -89,6 +104,12 @@ namespace Platformer_Game
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public void Menu_Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            one.Draw(spriteBatch, new Vector2(200, 200));
+            Box.Draw(spriteBatch, new Vector2(200 - (Box.Width - one.Width) / 2, 200 - (Box.Height - one.Height) / 2));
         }
     }
 }
