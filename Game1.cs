@@ -12,11 +12,18 @@ namespace Platformer_Game
         public Rectangle window;
         public int level_number;
         public string game_state;
+        private MouseState mouseState = new MouseState();
 
         private Texture2D SpriteSheet;
         private Texture2D NumberSheet;
-        public Sprite Box;
+        public Sprite Box_Sprite;
+        public Box box;
         public Sprite one;
+        public Sprite two;
+        public Sprite three;
+        public Sprite four;
+        public Sprite five;
+        public List<Box> boxes = new List<Box>();
 
         public List<Level> levels = new List<Level>();
         public Level Tutorial;
@@ -46,8 +53,14 @@ namespace Platformer_Game
             SpriteSheet = Content.Load<Texture2D>("player_images");
             NumberSheet = Content.Load<Texture2D>("Numbers");
 
-            Box = new Sprite(NumberSheet, 5, 5, 100, 100);
+            Box_Sprite = new Sprite(NumberSheet, 5, 5, 100, 100);
             one = new Sprite(NumberSheet, 14, 226, 42, 73);
+            two = new Sprite(NumberSheet, 73, 226, 64, 73);
+            three = new Sprite(NumberSheet, 144, 226, 63, 73);
+            four = new Sprite(NumberSheet, 215, 226, 62, 73);
+            five = new Sprite(NumberSheet, 285, 226, 63, 73);
+
+
 
             level_number = 0;
 
@@ -73,8 +86,11 @@ namespace Platformer_Game
             }
             switch (game_state)
             {
-                case ("Tutorial"):
+                case ("1,1"):
                     Tutorial.Update(gameTime);
+                    break;
+                case ("Main_Menu"):
+                    game_state = Menu_Update(gameTime);
                     break;
                 default:
                     break;
@@ -89,16 +105,16 @@ namespace Platformer_Game
 
             switch (game_state)
             {
-                case ("Tutorial"):
+                case ("1,1"):
                     GraphicsDevice.Clear(Color.Tomato);
                     Tutorial.Draw(_spriteBatch ,gameTime);
-                    //_spriteBatch.Draw(NumberSheet, new Vector2(0, 0), Color.White);
                     break;
                 case ("Main_Menu"):
                     GraphicsDevice.Clear(Color.White);
                     Menu_Draw(_spriteBatch, gameTime);
                     break;
                 default:
+                    GraphicsDevice.Clear(Color.Black);
                     break;
             }
 
@@ -108,8 +124,59 @@ namespace Platformer_Game
 
         public void Menu_Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            one.Draw(spriteBatch, new Vector2(200, 200));
-            Box.Draw(spriteBatch, new Vector2(200 - (Box.Width - one.Width) / 2, 200 - (Box.Height - one.Height) / 2), Color.Red);
+            Color color = Color.Red;
+            for (int i = 200; i < 601; i += 200)
+            {
+                if (i == 400)
+                {
+                    color = Color.Green;
+                }
+                if (i == 600)
+                {
+                    color = Color.Blue;
+                }
+                box = new Box(new Vector2(200 - (Box_Sprite.Width - one.Width) / 2, i - (Box_Sprite.Height - one.Height) / 2), color, $"1,{i/200}", Box_Sprite);
+                boxes.Add(box);
+                box.Draw(spriteBatch);
+                one.Draw(spriteBatch, new Vector2(200, i));
+
+                box = new Box(new Vector2(400 - (Box_Sprite.Width - two.Width) / 2, i - (Box_Sprite.Height - two.Height) / 2), color, $"2,{i/200}", Box_Sprite);
+                boxes.Add(box);
+                box.Draw(spriteBatch);
+                two.Draw(spriteBatch, new Vector2(400, i));
+
+                box = new Box(new Vector2(600 - (Box_Sprite.Width - three.Width) / 2, i - (Box_Sprite.Height - three.Height) / 2), color, $"3,{i/200}", Box_Sprite);
+                boxes.Add(box);
+                box.Draw(spriteBatch);
+                three.Draw(spriteBatch, new Vector2(600, i));
+
+                box = new Box(new Vector2(800 - (Box_Sprite.Width - four.Width) / 2, i - (Box_Sprite.Height - four.Height) / 2), color, $"4,{i/200}", Box_Sprite);
+                boxes.Add(box);
+                box.Draw(spriteBatch);
+                four.Draw(spriteBatch, new Vector2(800, i));
+
+                box = new Box(new Vector2(1000 - (Box_Sprite.Width - five.Width) / 2, i - (Box_Sprite.Height - five.Height) / 2), color, $"5,{i/200}", Box_Sprite);
+                boxes.Add(box);
+                box.Draw(spriteBatch);
+                five.Draw(spriteBatch, new Vector2(1000, i));
+            }
+        }
+
+        public string Menu_Update(GameTime gameTime)
+        {
+            mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 mousePosVect = new Vector2(mouseState.X, mouseState.Y);
+                foreach (Box box in boxes)
+                {
+                    if (box.box.Contains(mousePosVect))
+                    {
+                        return box.state;
+                    }
+                }
+            }
+            return "Main_Menu";
         }
     }
 }
