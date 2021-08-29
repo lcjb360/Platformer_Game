@@ -109,7 +109,7 @@ namespace Platformer_Game
         public void Menu_Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             one.Draw(spriteBatch, new Vector2(200, 200));
-            Box.Draw(spriteBatch, new Vector2(200 - (Box.Width - one.Width) / 2, 200 - (Box.Height - one.Height) / 2));
+            Box.Draw(spriteBatch, new Vector2(200 - (Box.Width - one.Width) / 2, 200 - (Box.Height - one.Height) / 2), Color.Red);
         }
     }
 }
