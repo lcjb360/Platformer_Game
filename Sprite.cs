@@ -39,5 +39,10 @@ namespace Platformer_Game
         {
             spriteBatch.Draw(Texture, new Rectangle((int)position.X, (int)position.Y, width, height), new Rectangle(X, Y, Width, Height), Color.White);
         }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, int width, int height, Color color)
+        {
+            spriteBatch.Draw(Texture, new Rectangle((int)position.X, (int)position.Y, width, height), new Rectangle(X, Y, Width, Height), color);
+        }
     }
 }

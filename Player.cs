@@ -16,6 +16,7 @@ namespace Platformer_Game
         public Sprite Moving_Left_Sprite;
         public Sprite Current_Sprite;
         public Sprite Container_Bar;
+        public string state;
         public Texture2D Texture;
         public Vector2 Position;
         public Vector2 Start_Position;
@@ -34,6 +35,7 @@ namespace Platformer_Game
             Moving_Left_Sprite = new Sprite(texture, 30, 0, 30, 60);
             Container_Bar = new Sprite(texture, 61, 0, 5, 5);
             Current_Sprite = Stationary_Right_Sprite;
+            state = "right";
             Width = Current_Sprite.Width;
             Height = Current_Sprite.Height;
             Position = position;
@@ -124,7 +126,14 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Current_Sprite.Draw(spriteBatch, Position);
+            if (state == "right")
+            {
+                Current_Sprite.Draw(spriteBatch, Position);
+            }
+            else
+            {
+                Current_Sprite.Draw(spriteBatch, Position);
+            }
             Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)particle_id / (float)capacity)), 5);
         }
 
@@ -189,25 +198,16 @@ namespace Platformer_Game
             Vector2 mousePosVect = new Vector2(mouseState.X, mouseState.Y);
             mousePosVect -= new Vector2(Position.X + (Width/2), Position.Y + (Height/2));
             //Sprite Control
-            if (Velocity.X == 0)
-            {
                 if (mousePosVect.X > Position.X+(Width/2))
                 {
+                    state = "right";
                     Current_Sprite = Stationary_Right_Sprite;
                 }
                 if (mousePosVect.X < Position.X + (Width / 2))
                 {
+                    state = "left";
                     Current_Sprite = Stationary_Left_Sprite;
                 }
-            }
-            if (Velocity.X != 0 && mousePosVect.X > Position.X + (Width / 2))
-            {
-                Current_Sprite = Moving_Right_Sprite;
-            }
-            if (Velocity.X != 0 && mousePosVect.X < Position.X + (Width / 2))
-            {
-                Current_Sprite = Moving_Left_Sprite;
-            }
 
             //particle creation
             if (mouseState.LeftButton == ButtonState.Pressed && ticker == 0 && particle_id < capacity)
@@ -223,7 +223,7 @@ namespace Platformer_Game
                 }
                 
                 bool colliding = false;
-                if (Current_Sprite == Moving_Left_Sprite || Current_Sprite == Stationary_Left_Sprite)
+                if (state == "left")
                 {
                     Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y+30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id);
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
@@ -248,7 +248,7 @@ namespace Platformer_Game
                 }
                 if (Current_Sprite == Moving_Right_Sprite || Current_Sprite == Stationary_Right_Sprite)
                 {
-                    Particle particle = new Particle(Texture, new Vector2(Position.X + Width, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id);
+                    Particle particle = new Particle(Texture, new Vector2(Position.X + 30, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id);
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     foreach (Particle particlex in particles)
                     {

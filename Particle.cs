@@ -165,7 +165,7 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height);
+            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height, new Color(63,72,204));
         }
     }
 }
