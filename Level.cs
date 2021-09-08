@@ -48,7 +48,7 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Player.Draw(spriteBatch, gameTime);
+            
 
             foreach (Wall wall in Walls)
             {
@@ -59,6 +59,8 @@ namespace Platformer_Game
             {
                 platform.Draw(spriteBatch, gameTime);
             }
+
+            Player.Draw(spriteBatch, gameTime);
 
             foreach (Spike spike in Spikes)
             {
@@ -74,6 +76,7 @@ namespace Platformer_Game
             {
                 particle.Draw(spriteBatch, gameTime);
             }
+
         }
     }
 }

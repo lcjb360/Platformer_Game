@@ -52,6 +52,7 @@ namespace Platformer_Game
                 Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
                 if (player_edge.Intersects(wall_edge))
                 {
+                    
                     if (Velocity.X > 0)
                     {
                         if (Position.X < wall.Position.X + (wall.Width/2))
@@ -64,6 +65,10 @@ namespace Platformer_Game
                     {
                         Position.X = wall.Position.X + wall.Width;
                         Velocity.X = 0;
+                    }
+                    if (Velocity.Y < 0 && Position.X == wall.Position.X + wall.Width//etc)
+                    {
+                        Velocity.Y = 0;
                     }
                 }
             }

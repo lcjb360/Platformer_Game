@@ -65,11 +65,14 @@ namespace Platformer_Game
             level_number = 0;
 
             Tutorial = new Level(true, false, level_number, window,
-                new Player(SpriteSheet, new Vector2(0, window.Height - 90)), 
+                new Player(SpriteSheet, new Vector2(30, window.Height - 90)), 
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 1000, 30),
                                        new Platform(SpriteSheet, new Vector2(1000, window.Height - 30 + 12), 1 * 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1060, window.Height - 30), window.Width - 1060, 30)}, 
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, window.Height - 130), 30, 100) }, 
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, window.Height - 130), 30, 100),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)}, 
                 new List<Spike>() {    new Spike(SpriteSheet, new Vector2(850, window.Height - 40), 5 * 9) }, 
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60) },
                 SpriteSheet);
