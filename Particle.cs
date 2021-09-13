@@ -78,7 +78,7 @@ namespace Platformer_Game
         }
 
         public float Y_of_platform;
-        private bool OnPlatform(List<Platform> platforms)
+        public bool OnPlatform(List<Platform> platforms)
         {
             foreach (Platform platform in platforms)
             {

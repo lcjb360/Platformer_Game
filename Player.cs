@@ -27,7 +27,7 @@ namespace Platformer_Game
         public int particle_id;
         public int ticker = 0;
 
-        public Player(Texture2D texture, Vector2 position)
+        public Player(Texture2D texture, Vector2 start_position)
         {
             Stationary_Right_Sprite = new Sprite(texture, 0, 0, 30, 60);
             Stationary_Left_Sprite = new Sprite(texture, 0, 0, 30, 60);
@@ -38,40 +38,47 @@ namespace Platformer_Game
             state = "right";
             Width = Current_Sprite.Width;
             Height = Current_Sprite.Height;
-            Position = position;
-            Start_Position = position;
+            Position = start_position;
+            Start_Position = start_position;
             Texture = texture;
-            capacity = 200;
+            capacity = 500;
         }
 
-        private void HittingWall(List<Wall> walls)
+        private bool HittingWall(List<Wall> walls)
         {
-            Rectangle player_edge = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
+            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            Rectangle player_top_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y), (int)Width -20 , (int)Height/2);
+            Rectangle player_bottom_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y + (Height/2)), (int)Width - 20, (int)Height / 2);
+            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width/2), (int)(Position.Y) + 10, (int)Width/2, (int)Height -20);
+            Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
             foreach (Wall wall in walls)
             {
                 Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
                 if (player_edge.Intersects(wall_edge))
                 {
-                    
-                    if (Velocity.X > 0)
-                    {
-                        if (Position.X < wall.Position.X + (wall.Width/2))
-                        {
-                            Position.X = wall.Position.X - Width;
-                            Velocity.X = 0;
-                        }
-                    }
-                    if (Velocity.X < 0)
-                    {
-                        Position.X = wall.Position.X + wall.Width;
-                        Velocity.X = 0;
-                    }
-                    if (Velocity.Y < 0 && Position.X == wall.Position.X + wall.Width//etc)
+                    if (player_top_edge.Intersects(wall_edge))
                     {
                         Velocity.Y = 0;
+                        Position.Y = wall.Position.Y + wall.Height;
+                        return true;
+                    }
+                    //if (player_bottom_edge.Intersects(wall_edge))
+                    //{
+
+                    //}
+                    if (player_right_edge.Intersects(wall_edge))
+                    {
+                        Velocity.X = 0;
+                        Position.X = wall.Position.X - Width;
+                    }
+                    if (player_left_edge.Intersects(wall_edge))
+                    {
+                        Velocity.X = 0;
+                        Position.X = wall.Position.X + wall.Width;
                     }
                 }
             }
+            return false;
         }
 
         private void HittingHazard(List<Spike> spikes, List<Lava> lavas)
@@ -121,8 +128,11 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width >= particle.Position.X && Position.X <= particle.Position.X + particle.Width)
                     {
-                        Y_of_particle = particle.Position.Y;
-                        return true;
+                        if (particle.Velocity.Y <= 0)
+                        {
+                            Y_of_particle = particle.Position.Y;
+                            return true;
+                        }        
                     }
                 }
             }
@@ -180,6 +190,7 @@ namespace Platformer_Game
             }
             Y_of_particle = 9999;
             Y_of_platform = 9999;
+            bool colliding1 = HittingWall(walls);
             if (OnPlatform(platforms, particles, spikes, lavas))
             {
                 Velocity.Y = 0;
@@ -187,7 +198,7 @@ namespace Platformer_Game
                 {
                     Position.Y = Y_of_platform - Height;
                 }
-                if (Y_of_particle != 9999)
+                if (Y_of_particle != 9999 && !colliding1)
                 {
                     Position.Y = Y_of_particle - Height;
                 }
@@ -197,7 +208,7 @@ namespace Platformer_Game
                 Position.Y = 0;
             }
             HittingHazard(spikes, lavas);
-            HittingWall(walls);
+            
 
             
             Vector2 mousePosVect = new Vector2(mouseState.X, mouseState.Y);
