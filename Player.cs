@@ -48,7 +48,6 @@ namespace Platformer_Game
         {
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             Rectangle player_top_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y), (int)Width -20 , (int)Height/2);
-            Rectangle player_bottom_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y + (Height/2)), (int)Width - 20, (int)Height / 2);
             Rectangle player_right_edge = new Rectangle((int)(Position.X + Width/2), (int)(Position.Y) + 10, (int)Width/2, (int)Height -20);
             Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
             foreach (Wall wall in walls)
@@ -62,10 +61,6 @@ namespace Platformer_Game
                         Position.Y = wall.Position.Y + wall.Height;
                         return true;
                     }
-                    //if (player_bottom_edge.Intersects(wall_edge))
-                    //{
-
-                    //}
                     if (player_right_edge.Intersects(wall_edge))
                     {
                         Velocity.X = 0;
