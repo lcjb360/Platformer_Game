@@ -27,6 +27,7 @@ namespace Platformer_Game
 
         public List<Level> levels = new List<Level>();
         public Level Tutorial;
+        public Level two_one;
 
 
         public Game1()
@@ -64,7 +65,7 @@ namespace Platformer_Game
 
             level_number = 0;
 
-            Tutorial = new Level(true, false, level_number, window,
+            Tutorial = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90)), 
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 1000, 30),
                                        new Platform(SpriteSheet, new Vector2(1000, window.Height - 30 + 12), 1 * 60, 30),
@@ -79,6 +80,18 @@ namespace Platformer_Game
 
             levels.Add(Tutorial);
             level_number++;
+
+            two_one = new Level(false, false, level_number, window, new Vector2(window.Width - 50, window.Height -50),
+                new Player(SpriteSheet, new Vector2(30, window.Height - 90)),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
+                                     },
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+                new List<Spike>() {  },
+                new List<Lava>() {  },
+                SpriteSheet);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -89,8 +102,17 @@ namespace Platformer_Game
             }
             switch (game_state)
             {
-                case ("1,1"):
-                    Tutorial.Update(gameTime);
+                case "1,1":
+                    if (Tutorial.Update(gameTime))
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
+                case "2,1":
+                    if (two_one.Update(gameTime))
+                    {
+                        game_state = "Main_Menu";
+                    }
                     break;
                 case ("Main_Menu"):
                     game_state = Menu_Update(gameTime);
@@ -108,9 +130,13 @@ namespace Platformer_Game
 
             switch (game_state)
             {
-                case ("1,1"):
+                case "1,1":
                     GraphicsDevice.Clear(Color.Tomato);
                     Tutorial.Draw(_spriteBatch ,gameTime);
+                    break;
+                case "2,1":
+                    GraphicsDevice.Clear(Color.Tomato);
+                    two_one.Draw(_spriteBatch, gameTime);
                     break;
                 case ("Main_Menu"):
                     GraphicsDevice.Clear(Color.White);

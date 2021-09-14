@@ -10,6 +10,7 @@ namespace Platformer_Game
     {
         public bool Unlocked;
         public bool Completed;
+        public Vector2 Finish_Point;
         public int id;
         public Rectangle Window;
         private Player Player;
@@ -18,8 +19,9 @@ namespace Platformer_Game
         private List<Spike> Spikes;
         private List<Lava> Lavas;
         private List<Particle> Particles = new List<Particle>();
+        public Rectangle player_edge;
 
-        public Level(bool unlocked, bool completed, int id, Rectangle window, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
+        public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point,Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
         {
             Unlocked = unlocked;
             Completed = completed;
@@ -30,20 +32,30 @@ namespace Platformer_Game
             Walls = walls;
             Spikes = spikes;
             Lavas = lavas;
+            Finish_Point = finish_point;
             foreach (Wall wall in walls)
             {
                 Platforms.Add(new Platform(spriteSheet, wall.Position, wall.Width, 7));
             }
         }
 
-        public void Update(GameTime gameTime)
+        public bool Update(GameTime gameTime)
         {
             Player.Update(gameTime, Platforms, Particles, Walls, Spikes, Lavas, Window.Height);
+            player_edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);
+            if (player_edge.Contains(Finish_Point))
+            {
+                Particles = new List<Particle>();
+                Player.Position = Player.Start_Position;
+                Player.Velocity = new Vector2(0, 0);
+                return true;
+            }
 
             foreach (Particle particle in Particles)
             {
                 particle.Update(gameTime, Platforms, Particles, Walls, Lavas, Window.Height);
             }
+            return false;
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)

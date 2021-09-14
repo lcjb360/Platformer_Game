@@ -103,14 +103,6 @@ namespace Platformer_Game
             if (OnPlatform(platforms))
             {
                 Velocity.Y = 0;
-                //if (Velocity.X > 0)
-                //{
-                //    Velocity.X -= 1;
-                //}
-                //if (Velocity.X < 0)
-                //{
-                //    Velocity.X += 1;
-                //}
                 Velocity.X = 0;
                 Position.Y = Y_of_platform - Height;
             }
