@@ -50,7 +50,7 @@ namespace Platformer_Game
             foreach (Wall wall in walls)
             {
                 Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge) ||wall_edge.Contains(Position) || wall_edge.Contains(Position+Velocity))
+                if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge))
                 {
                     if (Velocity.X > 0)
                     {
@@ -96,7 +96,7 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
         {
-            if (!OnPlatform(platforms) && Velocity.Y < 7)
+            if (!OnPlatform(platforms) && Velocity.Y < 5)
             {
                 Velocity.Y += 1;
             }

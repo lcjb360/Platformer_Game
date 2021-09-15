@@ -18,6 +18,7 @@ namespace Platformer_Game
         public Sprite Container_Bar;
         public string state;
         public Texture2D Texture;
+        public string living_state;
         public Vector2 Position;
         public Vector2 Start_Position;
         public float Width;
@@ -35,7 +36,7 @@ namespace Platformer_Game
             Moving_Left_Sprite = new Sprite(texture, 30, 0, 30, 60);
             Container_Bar = new Sprite(texture, 61, 0, 5, 5);
             Current_Sprite = Stationary_Right_Sprite;
-            state = "right";
+            state = "alive";
             Width = Current_Sprite.Width;
             Height = Current_Sprite.Height;
             Position = start_position;
@@ -84,6 +85,8 @@ namespace Platformer_Game
                 Rectangle spike_edge = new Rectangle((int)spike.Position.X, (int)spike.Position.Y, (int)spike.Length, (int)spike.Height);
                 if (player_edge.Intersects(spike_edge))
                 {
+                    living_state = "dead";
+                    particle_id = 0;
                     Position = Start_Position;
                     Velocity = new Vector2(0, 0);
                     Current_Sprite = Stationary_Right_Sprite;
@@ -94,6 +97,8 @@ namespace Platformer_Game
                 Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y - 1, (int)lava.Length, (int)lava.Height);
                 if (player_edge.Intersects(lava_edge))
                 {
+                    living_state = "dead";
+                    particle_id = 0;
                     Position = Start_Position;
                     Velocity = new Vector2(0, 0);
                     Current_Sprite = Stationary_Right_Sprite;
@@ -149,6 +154,7 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, int screen_height)
         {
+            living_state = "alive";
             if (ticker > 0)
             { ticker--; }
             mouseState = Mouse.GetState();

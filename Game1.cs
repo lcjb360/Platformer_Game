@@ -61,7 +61,16 @@ namespace Platformer_Game
             four = new Sprite(NumberSheet, 215, 226, 62, 73);
             five = new Sprite(NumberSheet, 285, 226, 63, 73);
 
-
+            //default = new Level(false, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+            //    new Player(SpriteSheet, new Vector2(30, window.Height - 90)),
+            //    new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
+            //                         },
+            //    new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+            //                           new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
+            //                           new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+            //    new List<Spike>() { },
+            //    new List<Lava>() { },
+            //    SpriteSheet);
 
             level_number = 0;
 
@@ -87,8 +96,9 @@ namespace Platformer_Game
                                      },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
-                new List<Spike>() {  },
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30),
+                                       new Wall(SpriteSheet, new Vector2(100, window.Height - 300), window.Width - 200, window.Height - 300)},
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(100, window.Height - 310), window.Width - 200 - ((window.Width -200) % 9)) },
                 new List<Lava>() {  },
                 SpriteSheet);
 
@@ -105,11 +115,22 @@ namespace Platformer_Game
                 case "1,1":
                     if (Tutorial.Update(gameTime))
                     {
+                        Tutorial.Completed = true;
+                        two_one.Unlocked = true;
                         game_state = "Main_Menu";
                     }
                     break;
                 case "2,1":
-                    if (two_one.Update(gameTime))
+                    if (two_one.Unlocked)
+                    {
+                        if (two_one.Update(gameTime))
+                        {
+                            two_one.Completed = true;
+
+                            game_state = "Main_Menu";
+                        }
+                    }
+                    else
                     {
                         game_state = "Main_Menu";
                     }
@@ -125,7 +146,6 @@ namespace Platformer_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            
             _spriteBatch.Begin();
 
             switch (game_state)
@@ -135,8 +155,11 @@ namespace Platformer_Game
                     Tutorial.Draw(_spriteBatch ,gameTime);
                     break;
                 case "2,1":
-                    GraphicsDevice.Clear(Color.Tomato);
-                    two_one.Draw(_spriteBatch, gameTime);
+                    if (two_one.Unlocked)
+                    {
+                        GraphicsDevice.Clear(Color.Tomato);
+                        two_one.Draw(_spriteBatch, gameTime);
+                    }
                     break;
                 case ("Main_Menu"):
                     GraphicsDevice.Clear(Color.White);

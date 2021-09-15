@@ -37,11 +37,20 @@ namespace Platformer_Game
             {
                 Platforms.Add(new Platform(spriteSheet, wall.Position, wall.Width, 7));
             }
+            for (int i = 0; i < walls.Count; i++)
+            {
+                walls[i].Position.Y += 7;
+                walls[i].Height += 7;
+            }
         }
 
         public bool Update(GameTime gameTime)
         {
             Player.Update(gameTime, Platforms, Particles, Walls, Spikes, Lavas, Window.Height);
+            if (Player.living_state == "dead")
+            {
+                Particles = new List<Particle>();
+            }
             player_edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);
             if (player_edge.Contains(Finish_Point))
             {

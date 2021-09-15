@@ -15,7 +15,7 @@ namespace Platformer_Game
 
         public Wall(Texture2D texture, Vector2 position, int width, int height)
         {
-            Default_Wall = new Sprite(texture, 0, 60, 59, 15);
+            Default_Wall = new Sprite(texture, 0, 61, 59, 14);
             Position = position;
             Width = width;
             Height = height;
