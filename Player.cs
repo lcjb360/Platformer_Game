@@ -24,11 +24,11 @@ namespace Platformer_Game
         public float Width;
         public float Height;
         public Vector2 Velocity;
-        public int capacity;
+        public int Capacity;
         public int particle_id;
         public int ticker = 0;
 
-        public Player(Texture2D texture, Vector2 start_position)
+        public Player(Texture2D texture, Vector2 start_position, int capacity)
         {
             Stationary_Right_Sprite = new Sprite(texture, 0, 0, 30, 60);
             Stationary_Left_Sprite = new Sprite(texture, 0, 0, 30, 60);
@@ -42,7 +42,7 @@ namespace Platformer_Game
             Position = start_position;
             Start_Position = start_position;
             Texture = texture;
-            capacity = 500;
+            Capacity = 500;
         }
 
         private bool HittingWall(List<Wall> walls)
@@ -149,7 +149,7 @@ namespace Platformer_Game
             {
                 Current_Sprite.Draw(spriteBatch, Position);
             }
-            Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)particle_id / (float)capacity)), 5);
+            Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)particle_id / (float)Capacity)), 5);
         }
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, int screen_height)
@@ -227,7 +227,7 @@ namespace Platformer_Game
                 }
 
             //particle creation
-            if (mouseState.LeftButton == ButtonState.Pressed && ticker == 0 && particle_id < capacity)
+            if (mouseState.LeftButton == ButtonState.Pressed && ticker == 0 && particle_id < Capacity)
             {
                 if ((mousePosVect/10).Length() > 10)
                 {

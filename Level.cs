@@ -21,7 +21,7 @@ namespace Platformer_Game
         private List<Particle> Particles = new List<Particle>();
         public Rectangle player_edge;
 
-        public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point,Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
+        public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
         {
             Unlocked = unlocked;
             Completed = completed;
