@@ -9,6 +9,7 @@ namespace Platformer_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        //(1366 * 767)
         public Rectangle window;
         public int level_number;
         public string game_state;
@@ -39,6 +40,7 @@ namespace Platformer_Game
 
         protected override void Initialize()
         {
+
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             _graphics.IsFullScreen = true;
@@ -72,9 +74,10 @@ namespace Platformer_Game
             //    new List<Lava>() { },
             //    SpriteSheet);
 
+            //(1366 * 767)
             level_number = 0;
 
-            Tutorial = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+            Tutorial = new Level(true, false, level_number, window, new Vector2(window.Width - (50), window.Height - 50),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200), 
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 1000, 30),
                                        new Platform(SpriteSheet, new Vector2(1000, window.Height - 30 + 12), 1 * 60, 30),
@@ -83,7 +86,7 @@ namespace Platformer_Game
                                        new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)}, 
-                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(850, window.Height - 40), 5 * 9) }, 
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2((float)850 * ((float)1024/(float)1366), window.Height - 40), 5 * 9) }, 
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60) },
                 SpriteSheet);
 
