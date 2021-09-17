@@ -76,6 +76,8 @@ namespace Platformer_Game
 
             //(1366 * 767)
             level_number = 0;
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
 
             Tutorial = new Level(true, false, level_number, window, new Vector2(window.Width - (50), window.Height - 50),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200), 
@@ -86,7 +88,7 @@ namespace Platformer_Game
                                        new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)}, 
-                new List<Spike>() {    new Spike(SpriteSheet, new Vector2((float)850 * ((float)1024/(float)1366), window.Height - 40), 5 * 9) }, 
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2((float)850 * w_ratio, window.Height - 40), 5 * 9) }, 
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, window.Height - 29), 1 * 60) },
                 SpriteSheet);
 
