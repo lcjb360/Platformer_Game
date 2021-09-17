@@ -60,6 +60,11 @@ namespace Platformer_Game
                 return true;
             }
 
+            foreach (Platform platform in Platforms)
+            {
+                platform.Update(gameTime);
+            }
+
             foreach (Particle particle in Particles)
             {
                 particle.Update(gameTime, Platforms, Particles, Walls, Lavas, Window.Height);

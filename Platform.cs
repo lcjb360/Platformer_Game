@@ -10,8 +10,25 @@ namespace Platformer_Game
     {
         public Sprite Default_Platform;
         public Vector2 Position;
+        public Vector2 Start_Position;
+        public Vector2 Destination;
+        public Vector2 Start_Destination;
         public int Width;
         public int Height;
+        public bool Moving;
+
+
+        public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination)
+        {
+            Default_Platform = new Sprite(texture, 0, 60, 59, 15);
+            Position = position;
+            Start_Position = position;
+            Width = width;
+            Height = height;
+            Moving = moving;
+            Destination = destination;
+            Start_Destination = destination;
+        }
 
         public Platform(Texture2D texture, Vector2 position, int width, int height)
         {
@@ -19,6 +36,24 @@ namespace Platformer_Game
             Position = position;
             Width = width;
             Height = height;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (Moving)
+            {
+                if ((Position.X - 5 <= Start_Destination.X && Start_Destination.X <= Position.X + 5) && (Position.Y - 5 <= Start_Destination.Y && Start_Destination.Y <= Position.Y + 5) && Destination != Start_Position)
+                {
+                    Destination = Start_Position;
+                }
+                if (Position == Start_Position && Start_Position == Destination)
+                {
+                    Destination = Start_Destination;
+                }
+                Vector2 travelling = Destination - Position;
+                travelling.Normalize();
+                Position += 5 * travelling;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
