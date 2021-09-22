@@ -74,7 +74,10 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            
+            foreach (Lava lava in Lavas)
+            {
+                lava.Draw(spriteBatch, gameTime);
+            }
 
             foreach (Wall wall in Walls)
             {
@@ -91,11 +94,6 @@ namespace Platformer_Game
             foreach (Spike spike in Spikes)
             {
                 spike.Draw(spriteBatch, gameTime);
-            }
-
-            foreach (Lava lava in Lavas)
-            {
-                lava.Draw(spriteBatch, gameTime);
             }
 
             foreach (Particle particle in Particles)

@@ -20,6 +20,13 @@ namespace Platformer_Game
             Position = position;
             Length = length;
         }
+        public Lava(Texture2D texture, Vector2 position, int length, int height)
+        {
+            Default_Lava = new Sprite(texture, 0, 76, Width, Height);
+            Position = position;
+            Length = length;
+            Height = height;
+        }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
