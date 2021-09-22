@@ -30,6 +30,7 @@ namespace Platformer_Game
         public Level Tutorial;
         public Level two_one;
         public Level three_one;
+        public Level four_one;
 
 
         public Game1()
@@ -103,7 +104,7 @@ namespace Platformer_Game
                 new List<Lava>() {  },
                 SpriteSheet);
 
-            three_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, 60),
+            three_one = new Level(false, false, level_number, window, new Vector2(window.Width - 50, 60),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1200, 150), 400, 30),
@@ -117,6 +118,18 @@ namespace Platformer_Game
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(60, window.Height - 25), 25*60, 25)},
                 SpriteSheet);
 
+            four_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+                new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 60, 30) },
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height)
+                                       },
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(200, window.Height - 400), 10 * 9),
+                                       new Spike(SpriteSheet, new Vector2(500, window.Height - 400), 10 * 9),
+                                       new Spike(SpriteSheet, new Vector2(800, window.Height - 400), 10 * 9),
+                                       new Spike(SpriteSheet, new Vector2(1100, window.Height - 400), 10 * 9)},
+                new List<Lava>() { },
+                SpriteSheet);
         }
 
         protected override void Update(GameTime gameTime)
@@ -132,7 +145,7 @@ namespace Platformer_Game
                     {
                         Tutorial.Completed = true;
                         two_one.Unlocked = true;
-                        game_state = "Main_Menu";
+                        game_state = "2,1";
                     }
                     break;
                 case "2,1":
@@ -142,7 +155,7 @@ namespace Platformer_Game
                         {
                             two_one.Completed = true;
                             three_one.Unlocked = true;
-                            game_state = "Main_Menu";
+                            game_state = "3,1";
                         }
                     }
                     else
@@ -156,7 +169,22 @@ namespace Platformer_Game
                         if (three_one.Update(gameTime))
                         {
                             three_one.Completed = true;
-                            three_one.Unlocked = true;
+                            four_one.Unlocked = true;
+                            game_state = "Main_Menu";
+                        }
+                    }
+                    else
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
+                case "4,1":
+                    if (four_one.Unlocked)
+                    {
+                        if (four_one.Update(gameTime))
+                        {
+                            four_one.Completed = true;
+                            //five_one.Unlocked = true;
                             game_state = "Main_Menu";
                         }
                     }
@@ -196,6 +224,13 @@ namespace Platformer_Game
                     {
                         GraphicsDevice.Clear(Color.Tomato);
                         three_one.Draw(_spriteBatch, gameTime);
+                    }
+                    break;
+                case "4,1":
+                    if (four_one.Unlocked)
+                    {
+                        GraphicsDevice.Clear(Color.Tomato);
+                        four_one.Draw(_spriteBatch, gameTime);
                     }
                     break;
                 case ("Main_Menu"):
