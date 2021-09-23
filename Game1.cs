@@ -120,14 +120,19 @@ namespace Platformer_Game
 
             four_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 60, 30) },
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(window.Width - 60, window.Height - 30), 60, 30) },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height)
                                        },
-                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(200, window.Height - 400), 10 * 9),
-                                       new Spike(SpriteSheet, new Vector2(500, window.Height - 400), 10 * 9),
-                                       new Spike(SpriteSheet, new Vector2(800, window.Height - 400), 10 * 9),
-                                       new Spike(SpriteSheet, new Vector2(1100, window.Height - 400), 10 * 9)},
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(200, window.Height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(500, window.Height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(800, window.Height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(1100, window.Height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(335, window.Height - 200), 18 * 9),
+                                       new Spike(SpriteSheet, new Vector2(635, window.Height - 200), 18 * 9),
+                                       new Spike(SpriteSheet, new Vector2(935, window.Height - 200), 18 * 9)
+                                       },
                 new List<Lava>() { },
                 SpriteSheet);
         }

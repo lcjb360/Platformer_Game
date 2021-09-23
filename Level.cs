@@ -42,6 +42,10 @@ namespace Platformer_Game
                 walls[i].Position.Y += 7;
                 walls[i].Height += 7;
             }
+            foreach (Spike spike in spikes)
+            {
+                Platforms.Add(new Platform(spriteSheet, new Vector2(spike.Position.X, spike.Position.Y + 10), spike.Length, 20));
+            }
         }
 
         public bool Update(GameTime gameTime)
