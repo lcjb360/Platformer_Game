@@ -14,9 +14,31 @@ namespace Platformer_Game
         public Vector2 Destination;
         public Vector2 Start_Destination;
         public int Width;
+        public int Start_Width;
         public int Height;
+        public int Start_Height;
         public bool Moving;
+        public bool Flashing;
+        public bool Weak;
+        int ticks;
+        public bool Appear = true;
 
+        public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination, bool flashing, bool weak, bool appear)
+        {
+            Default_Platform = new Sprite(texture, 0, 60, 59, 15);
+            Position = position;
+            Start_Position = position;
+            Width = width;
+            Start_Width = width;
+            Start_Height = height;
+            Height = height;
+            Moving = moving;
+            Destination = destination;
+            Start_Destination = destination;
+            Flashing = flashing;
+            Weak = weak;
+            Appear = appear;
+        }
 
         public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination)
         {
@@ -40,6 +62,7 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime)
         {
+            
             if (Moving)
             {
                 if ((Position.X - 5 <= Start_Destination.X && Start_Destination.X <= Position.X + 5) && (Position.Y - 5 <= Start_Destination.Y && Start_Destination.Y <= Position.Y + 5) && Destination != Start_Position)
@@ -54,11 +77,25 @@ namespace Platformer_Game
                 travelling.Normalize();
                 Position += 5 * travelling;
             }
+            if (Flashing)
+            {
+                ticks++;
+                if (ticks >= 50)
+                {
+                    Width = 0;
+                    Height = 0;
+                    Appear = false;
+                    ticks = 0;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-           Default_Platform.Draw(spriteBatch, Position, Width, Height);
+            if (Appear)
+            {
+                Default_Platform.Draw(spriteBatch, Position, Width, Height);
+            }
         }
     }
 }

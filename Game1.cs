@@ -31,6 +31,7 @@ namespace Platformer_Game
         public Level two_one;
         public Level three_one;
         public Level four_one;
+        public Level five_one;
 
 
         public Game1()
@@ -118,7 +119,7 @@ namespace Platformer_Game
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(60, window.Height - 25), 25*60, 25)},
                 SpriteSheet);
 
-            four_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+            four_one = new Level(false, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(window.Width - 60, window.Height - 30), 60, 30) },
@@ -133,6 +134,17 @@ namespace Platformer_Game
                                        new Spike(SpriteSheet, new Vector2(635, window.Height - 200), 18 * 9),
                                        new Spike(SpriteSheet, new Vector2(935, window.Height - 200), 18 * 9)
                                        },
+                new List<Lava>() { },
+                SpriteSheet);
+
+            five_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+                new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
+                                     },
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+                new List<Spike>() { },
                 new List<Lava>() { },
                 SpriteSheet);
         }
@@ -198,6 +210,21 @@ namespace Platformer_Game
                         game_state = "Main_Menu";
                     }
                     break;
+                case "5,1":
+                    if (five_one.Unlocked)
+                    {
+                        if (five_one.Update(gameTime))
+                        {
+                            five_one.Completed = true;
+                            //five_one.Unlocked = true;
+                            game_state = "Main_Menu";
+                        }
+                    }
+                    else
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
                 case ("Main_Menu"):
                     game_state = Menu_Update(gameTime);
                     break;
@@ -236,6 +263,13 @@ namespace Platformer_Game
                     {
                         GraphicsDevice.Clear(Color.Tomato);
                         four_one.Draw(_spriteBatch, gameTime);
+                    }
+                    break;
+                case "5,1":
+                    if (five_one.Unlocked)
+                    {
+                        GraphicsDevice.Clear(Color.Tomato);
+                        five_one.Draw(_spriteBatch, gameTime);
                     }
                     break;
                 case ("Main_Menu"):
