@@ -107,6 +107,7 @@ namespace Platformer_Game
         }
 
         public float Y_of_platform;
+        public Platform touched_platform;
         public float Y_of_particle;
         private bool OnPlatform(List<Platform> platforms, List<Particle> particles, List<Spike> spikes, List<Lava> lavas)
         {
@@ -117,6 +118,7 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1<= platform.Position.X + platform.Width)
                     {
+                        touched_platform = platform;
                         Y_of_platform = platform.Position.Y;
                         return true;
                     }
@@ -197,6 +199,7 @@ namespace Platformer_Game
                 Velocity.Y = 0;
                 if (Y_of_platform != 9999)
                 {
+                    touched_platform.Touched = true;
                     Position.Y = Y_of_platform - Height;
                 }
                 if (Y_of_particle != 9999 && !colliding1)

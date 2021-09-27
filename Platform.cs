@@ -20,6 +20,7 @@ namespace Platformer_Game
         public bool Moving;
         public bool Flashing;
         public bool Weak;
+        public bool Touched = false;
         public int ticks;
         public bool Appear = true;
         public bool Start_Appear;
@@ -96,6 +97,28 @@ namespace Platformer_Game
                 {
                     Height = Start_Height;
                     Width = Start_Width;
+                }
+            }
+            if (Weak)
+            {
+                if (Touched)
+                {
+                    ticks++;
+                    if (ticks >= 50)
+                    {
+                        Appear = !Appear;
+                        ticks = 0;
+                    }
+                    if (!Appear)
+                    {
+                        Width = 0;
+                        Height = 0;
+                    }
+                    else
+                    {
+                        Height = Start_Height;
+                        Width = Start_Width;
+                    }
                 }
             }
         }

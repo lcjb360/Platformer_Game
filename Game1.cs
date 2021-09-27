@@ -139,7 +139,7 @@ namespace Platformer_Game
 
             five_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30, false, new Vector2(0,0), true, false, true)
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
                                      },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
