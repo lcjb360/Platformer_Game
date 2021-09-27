@@ -20,8 +20,9 @@ namespace Platformer_Game
         public bool Moving;
         public bool Flashing;
         public bool Weak;
-        int ticks;
+        public int ticks;
         public bool Appear = true;
+        public bool Start_Appear;
 
         public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination, bool flashing, bool weak, bool appear)
         {
@@ -38,6 +39,7 @@ namespace Platformer_Game
             Flashing = flashing;
             Weak = weak;
             Appear = appear;
+            Start_Appear = appear;
         }
 
         public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination)
@@ -82,10 +84,18 @@ namespace Platformer_Game
                 ticks++;
                 if (ticks >= 50)
                 {
+                    Appear = !Appear;
+                    ticks = 0;
+                }
+                if (!Appear)
+                {
                     Width = 0;
                     Height = 0;
-                    Appear = false;
-                    ticks = 0;
+                }
+                else
+                {
+                    Height = Start_Height;
+                    Width = Start_Width;
                 }
             }
         }

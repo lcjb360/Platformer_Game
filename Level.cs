@@ -54,6 +54,14 @@ namespace Platformer_Game
             if (Player.living_state == "dead")
             {
                 Particles = new List<Particle>();
+                for (int i = 0; i < Platforms.Count; i++)
+                {
+                    if (Platforms[i].Flashing || Platforms[i].Weak)
+                    {
+                        Platforms[i].ticks = 0;
+                        Platforms[i].Appear = Platforms[i].Start_Appear;
+                    }
+                }
             }
             player_edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);
             if (player_edge.Contains(Finish_Point))
@@ -83,6 +91,11 @@ namespace Platformer_Game
                 lava.Draw(spriteBatch, gameTime);
             }
 
+            foreach (Spike spike in Spikes)
+            {
+                spike.Draw(spriteBatch, gameTime);
+            }
+
             foreach (Wall wall in Walls)
             {
                 wall.Draw(spriteBatch, gameTime);
@@ -94,11 +107,6 @@ namespace Platformer_Game
             }
 
             Player.Draw(spriteBatch, gameTime);
-
-            foreach (Spike spike in Spikes)
-            {
-                spike.Draw(spriteBatch, gameTime);
-            }
 
             foreach (Particle particle in Particles)
             {
