@@ -114,7 +114,7 @@ namespace Platformer_Game
             HittingHazard(spikes, lavas);
             foreach (Platform platform in platforms)
             {
-                if (Position.Y + Height >= platform.Position.Y && Position.Y + Height <= platform.Position.Y + platform.Height)
+                if (Position.Y + Height >= platform.Position.Y && Position.Y + Height <= platform.Position.Y + platform.Height && platform.Width != 0)
                 {
                     if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1<= platform.Position.X + platform.Width)
                     {
