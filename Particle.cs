@@ -23,8 +23,8 @@ namespace Platformer_Game
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
             Velocity = velocity;
-            Height = Default_Particle.Height;
-            Width = Default_Particle.Width;
+            Height = 8;
+            Width = 8;
             id = particle_id;
         }
 
@@ -133,8 +133,8 @@ namespace Platformer_Game
             }
             if (colliding_H)
             {
-                colliding_with.Velocity = Velocity/2;
-                Velocity.X /= 2;
+                colliding_with.Velocity.X = 0;
+                Velocity.X = 0;
             }
             if (colliding_V)
             {

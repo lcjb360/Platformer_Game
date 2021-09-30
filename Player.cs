@@ -163,23 +163,30 @@ namespace Platformer_Game
             //Movement Control
             if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > -10)
             {
-                Velocity.X -= 1;
+                if (OnPlatform(platforms, particles, spikes, lavas))
+                {
+                    Velocity.X -= 1;
+                }
+                else
+                {
+                    Velocity.X -= (float)0.5;
+                }
             }
             if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) && Velocity.X < 10)
             {
-                Velocity.X += 1;
+                if (OnPlatform(platforms,particles,spikes, lavas))
+                {
+                    Velocity.X += 1;
+                }
+                else
+                {
+                    Velocity.X += (float)0.5;
+                }
             }
             if ((Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.D)) && 
                 (Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.A)) && Velocity.X != 0)
             {
-                if (Velocity.X > 0)
-                {
-                    Velocity.X -= 1;
-                }
-                if (Velocity.X < 0)
-                {
-                    Velocity.X += 1;
-                }
+                Velocity.X /= (float)1.3;
             }
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && OnPlatform(platforms, particles, spikes, lavas))
             {
@@ -187,7 +194,7 @@ namespace Platformer_Game
             }
             Position += Velocity;
 
-            if (!OnPlatform(platforms, particles, spikes, lavas) && Velocity.Y < 5)
+            if (!OnPlatform(platforms, particles, spikes, lavas) && Velocity.Y < 8)
             {
                 Velocity.Y += 1;
             }
