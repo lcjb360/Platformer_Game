@@ -107,6 +107,8 @@ namespace Platformer_Game
         }
 
         public float Y_of_platform;
+        public Vector2 platform_Velocity;
+        public bool platform_Moving;
         public Platform touched_platform;
         public float Y_of_particle;
         private bool OnPlatform(List<Platform> platforms, List<Particle> particles, List<Spike> spikes, List<Lava> lavas)
@@ -120,6 +122,17 @@ namespace Platformer_Game
                     {
                         touched_platform = platform;
                         Y_of_platform = platform.Position.Y;
+                        if(platform.Moving)
+                        {
+                            platform_Velocity = (platform.Destination - platform.Position);
+                            platform_Velocity.Normalize();
+                            platform_Velocity *= 8;
+                            platform_Moving = true;
+                        }
+                        else
+                        {
+                            platform_Moving = false;
+                        }
                         return true;
                     }
                 }
@@ -186,8 +199,23 @@ namespace Platformer_Game
             if ((Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.D)) && 
                 (Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.A)) && Velocity.X != 0)
             {
-                Velocity.X /= (float)1.3;
-            }
+                if (OnPlatform(platforms, particles, spikes, lavas))
+                {
+                    if (platform_Moving)
+                    {
+                        Velocity += new Vector2(platform_Velocity.X, platform_Velocity.Y);
+                    }
+                    else
+                    {
+                        Velocity.X /= (float)1.3;
+                    }
+                }
+                else
+                {
+                    Velocity.X /= (float)1.3;
+                }
+
+        }
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && OnPlatform(platforms, particles, spikes, lavas))
             {
                 Velocity.Y = -10;
@@ -203,14 +231,23 @@ namespace Platformer_Game
             bool colliding1 = HittingWall(walls);
             if (OnPlatform(platforms, particles, spikes, lavas))
             {
-                Velocity.Y = 0;
+                
                 if (Y_of_platform != 9999)
                 {
+                    if (platform_Moving)
+                    {
+                        Velocity = new Vector2(platform_Velocity.X, platform_Velocity.Y);
+                    }
+                    else
+                    {
+                        Velocity.Y = 0;
+                    }
                     touched_platform.Touched = true;
                     Position.Y = Y_of_platform - Height;
                 }
                 if (Y_of_particle != 9999 && !colliding1)
                 {
+                    Velocity.Y = 0;
                     Position.Y = Y_of_particle - Height;
                 }
             }

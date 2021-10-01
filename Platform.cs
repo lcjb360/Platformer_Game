@@ -78,7 +78,7 @@ namespace Platformer_Game
                 }
                 Vector2 travelling = Destination - Position;
                 travelling.Normalize();
-                Position += 5 * travelling;
+                Position += 8 * travelling;
             }
             if (Flashing)
             {
