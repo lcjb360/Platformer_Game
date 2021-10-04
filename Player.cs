@@ -127,7 +127,14 @@ namespace Platformer_Game
                             platform_Velocity = (platform.Destination - platform.Position);
                             platform_Velocity.Normalize();
                             platform_Velocity *= 8;
-                            platform_Moving = true;
+                            if (platform_Velocity.X != 0)
+                            {
+                                platform_Moving = true;
+                            }
+                            else
+                            {
+                                platform_Moving = false;
+                            }
                         }
                         else
                         {
@@ -203,7 +210,10 @@ namespace Platformer_Game
                 {
                     if (platform_Moving)
                     {
-                        Velocity += new Vector2(platform_Velocity.X, platform_Velocity.Y);
+                        if (platform_Velocity.X != float.NaN)
+                        {
+                            //Velocity.X = 20;
+                        }
                     }
                     else
                     {
@@ -212,10 +222,9 @@ namespace Platformer_Game
                 }
                 else
                 {
-                    Velocity.X /= (float)1.3;
+                    Velocity.X /= (float)1.2;
                 }
-
-        }
+            }
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && OnPlatform(platforms, particles, spikes, lavas))
             {
                 Velocity.Y = -10;
@@ -236,7 +245,7 @@ namespace Platformer_Game
                 {
                     if (platform_Moving)
                     {
-                        Velocity = new Vector2(platform_Velocity.X, platform_Velocity.Y);
+                        //Velocity = new Vector2(platform_Velocity.X, platform_Velocity.Y);
                     }
                     else
                     {

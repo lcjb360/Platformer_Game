@@ -106,7 +106,7 @@ namespace Platformer_Game
                 new List<Lava>() {  },
                 SpriteSheet);
 
-            three_one = new Level(false, false, level_number, window, new Vector2(window.Width - 50, 60),
+            three_one = new Level(true, false, level_number, window, new Vector2(window.Width - 50, 60),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1200, 150), 400, 30),
