@@ -8,15 +8,17 @@ namespace Platformer_Game
 {
     public class Platform
     {
+        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+        
         public Sprite Default_Platform;
         public Vector2 Position;
         public Vector2 Start_Position;
         public Vector2 Destination;
         public Vector2 Start_Destination;
-        public int Width;
-        public int Start_Width;
-        public int Height;
-        public int Start_Height;
+        public float Width;
+        public float Start_Width;
+        public float Height;
+        public float Start_Height;
         public bool Moving;
         public bool Flashing;
         public bool Weak;
@@ -25,42 +27,48 @@ namespace Platformer_Game
         public bool Appear = true;
         public bool Start_Appear;
 
-        public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination, bool flashing, bool weak, bool appear)
+        public Platform(Texture2D texture, Vector2 position, float width, float height, bool moving, Vector2 destination, bool flashing, bool weak, bool appear)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Default_Platform = new Sprite(texture, 0, 60, 59, 15);
-            Position = position;
-            Start_Position = position;
-            Width = width;
-            Start_Width = width;
-            Start_Height = height;
-            Height = height;
+            Position = new Vector2(position.X*w_ratio, position.Y*h_ratio);
+            Start_Position = Position;
+            Width = (float)width * w_ratio;
+            Start_Width = Width;
+            Start_Height = (float)height * h_ratio;
+            Height = Start_Height;
             Moving = moving;
-            Destination = destination;
-            Start_Destination = destination;
+            Destination = new Vector2(destination.X*w_ratio, destination.Y*h_ratio);
+            Start_Destination = Destination;
             Flashing = flashing;
             Weak = weak;
             Appear = appear;
             Start_Appear = appear;
         }
 
-        public Platform(Texture2D texture, Vector2 position, int width, int height, bool moving, Vector2 destination)
+        public Platform(Texture2D texture, Vector2 position, float width, float height, bool moving, Vector2 destination)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Default_Platform = new Sprite(texture, 0, 60, 59, 15);
-            Position = position;
-            Start_Position = position;
-            Width = width;
-            Height = height;
+            Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
+            Start_Position = Position;
+            Width = (float)width * w_ratio;
+            Height = (float)height * h_ratio;
             Moving = moving;
-            Destination = destination;
-            Start_Destination = destination;
+            Destination = new Vector2(destination.X * w_ratio, destination.Y * h_ratio);
+            Start_Destination = Destination;
         }
 
-        public Platform(Texture2D texture, Vector2 position, int width, int height)
+        public Platform(Texture2D texture, Vector2 position, float width, float height)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Default_Platform = new Sprite(texture, 0, 60, 59, 15);
-            Position = position;
-            Width = width;
-            Height = height;
+            Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
+            Width = width * w_ratio;
+            Height = height * h_ratio;
         }
 
         public void Update(GameTime gameTime)
@@ -127,7 +135,8 @@ namespace Platformer_Game
         {
             if (Appear)
             {
-                Default_Platform.Draw(spriteBatch, Position, Width, Height);
+                
+                Default_Platform.Draw(spriteBatch, Position, (int)Width, (int)Height);
             }
         }
     }

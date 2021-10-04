@@ -9,6 +9,7 @@ namespace Platformer_Game
 {
     public class Player
     {
+        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         private MouseState mouseState = new MouseState();
         public Sprite Stationary_Right_Sprite;
         public Sprite Stationary_Left_Sprite;
@@ -30,6 +31,8 @@ namespace Platformer_Game
 
         public Player(Texture2D texture, Vector2 start_position, int capacity)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Stationary_Right_Sprite = new Sprite(texture, 0, 0, 30, 60);
             Stationary_Left_Sprite = new Sprite(texture, 0, 0, 30, 60);
             Moving_Right_Sprite = new Sprite(texture, 30, 0, 30, 60);
@@ -37,10 +40,10 @@ namespace Platformer_Game
             Container_Bar = new Sprite(texture, 61, 0, 5, 5);
             Current_Sprite = Stationary_Right_Sprite;
             state = "alive";
-            Width = Current_Sprite.Width;
-            Height = Current_Sprite.Height;
-            Position = start_position;
-            Start_Position = start_position;
+            Width = (int)((float)Current_Sprite.Width * w_ratio);
+            Height = (int)((float)Current_Sprite.Height * h_ratio);
+            Position = new Vector2(start_position.X * w_ratio, start_position.Y * h_ratio);
+            Start_Position = Position;
             Texture = texture;
             Capacity = 500;
         }
