@@ -116,6 +116,8 @@ namespace Platformer_Game
         public float Y_of_particle;
         private bool OnPlatform(List<Platform> platforms, List<Particle> particles, List<Spike> spikes, List<Lava> lavas)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             HittingHazard(spikes, lavas);
             foreach (Platform platform in platforms)
             {
@@ -128,8 +130,15 @@ namespace Platformer_Game
                         if(platform.Moving)
                         {
                             platform_Velocity = (platform.Destination - platform.Position);
-                            platform_Velocity.Normalize();
-                            platform_Velocity *= 8;
+                            if (platform_Velocity.X > 0)
+                            {
+                                platform_Velocity.X = (float)8;
+                            }
+                            else
+                            {
+                                platform_Velocity.X = (float)-8;
+                            }
+                            
                             if (platform_Velocity.X != 0)
                             {
                                 platform_Moving = true;
@@ -166,19 +175,23 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             if (state == "right")
             {
-                Current_Sprite.Draw(spriteBatch, Position);
+                Current_Sprite.Draw(spriteBatch, Position, (int)(Width*w_ratio), (int)(Height*h_ratio));
             }
             else
             {
-                Current_Sprite.Draw(spriteBatch, Position);
+                Current_Sprite.Draw(spriteBatch, Position, (int)(Width * w_ratio), (int)(Height * h_ratio));
             }
             Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)particle_id / (float)Capacity)), 5);
         }
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, int screen_height)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             living_state = "alive";
             if (ticker > 0)
             { ticker--; }
@@ -213,13 +226,15 @@ namespace Platformer_Game
                 {
                     if (platform_Moving)
                     {
-                        if (platform_Velocity.X != float.NaN)
+                        if (platform_Velocity.X != float.NaN && platform_Velocity != null)
                         {
-                            //Velocity.X = 20;
+                            Velocity.X /= (float)1.3;
+                            Position.X += platform_Velocity.X;
                         }
                     }
                     else
                     {
+                        platform_Velocity.X = (float)0;
                         Velocity.X /= (float)1.3;
                     }
                 }
@@ -232,7 +247,10 @@ namespace Platformer_Game
             {
                 Velocity.Y = -10;
             }
+
+
             Position += Velocity;
+
 
             if (!OnPlatform(platforms, particles, spikes, lavas) && Velocity.Y < 8)
             {
