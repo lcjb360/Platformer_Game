@@ -162,7 +162,7 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width >= particle.Position.X && Position.X <= particle.Position.X + particle.Width)
                     {
-                        if (particle.Velocity.Y <= 0)
+                        if (particle.Velocity.Y <= 1)
                         {
                             Y_of_particle = particle.Position.Y;
                             return true;
@@ -226,11 +226,18 @@ namespace Platformer_Game
                 {
                     if (platform_Moving)
                     {
-                        if (platform_Velocity.X != float.NaN && platform_Velocity != null)
+                        Velocity.X /= (float)1.3;
+                        if (Math.Abs(platform_Velocity.X - platform_Velocity.X) > 1)
                         {
-                            Velocity.X /= (float)1.3;
-                            Position.X += platform_Velocity.X;
+                            Velocity.X /= (Math.Abs(platform_Velocity.X - platform_Velocity.X)/100);
                         }
+                        else
+                        {
+                            Velocity.X = platform_Velocity.X;
+                        }
+                        
+                        platform_Velocity.X = 0;
+                        platform_Moving = false;
                     }
                     else
                     {

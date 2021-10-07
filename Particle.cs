@@ -23,8 +23,8 @@ namespace Platformer_Game
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
             Velocity = velocity;
-            Height = 8;
-            Width = 8;
+            Height = 9;
+            Width = 9;
             id = particle_id;
         }
 
