@@ -78,6 +78,8 @@ namespace Platformer_Game
         }
 
         public float Y_of_platform;
+        public Vector2 platform_Velocity;
+        public bool platform_Moving;
         public bool OnPlatform(List<Platform> platforms)
         {
             foreach (Platform platform in platforms)
@@ -86,6 +88,31 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width - 1 > platform.Position.X && Position.X + 1 < platform.Position.X + platform.Width)
                     {
+                        if (platform.Moving)
+                        {
+                            platform_Velocity = (platform.Destination - platform.Position);
+                            if (platform_Velocity.X > 0)
+                            {
+                                platform_Velocity.X = (float)8;
+                            }
+                            else
+                            {
+                                platform_Velocity.X = (float)-8;
+                            }
+
+                            if (platform_Velocity.X != 0)
+                            {
+                                platform_Moving = true;
+                            }
+                            else
+                            {
+                                platform_Moving = false;
+                            }
+                        }
+                        else
+                        {
+                            platform_Moving = false;
+                        }
                         Y_of_platform = platform.Position.Y;
                         return true;
                     }
@@ -102,8 +129,17 @@ namespace Platformer_Game
             }
             if (OnPlatform(platforms))
             {
+                if (platform_Moving)
+                {
+                    //Position.X += 2 * platform_Velocity.X;
+                    Velocity.X = (float)1.5*platform_Velocity.X;
+                }
+                else
+                {
+                    Velocity.X = 0;
+                }
                 Velocity.Y = 0;
-                Velocity.X = 0;
+                
                 Position.Y = Y_of_platform - Height;
             }
 

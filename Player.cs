@@ -147,6 +147,10 @@ namespace Platformer_Game
                             {
                                 platform_Moving = false;
                             }
+                            if (platform_Velocity.Y != 0)
+                            {
+                                platform_Moving = false;
+                            }
                         }
                         else
                         {
@@ -226,22 +230,13 @@ namespace Platformer_Game
                 {
                     if (platform_Moving)
                     {
-                        Velocity.X /= (float)1.3;
-                        if (Math.Abs(platform_Velocity.X - platform_Velocity.X) > 1)
-                        {
-                            Velocity.X /= (Math.Abs(platform_Velocity.X - platform_Velocity.X)/100);
-                        }
-                        else
-                        {
-                            Velocity.X = platform_Velocity.X;
-                        }
-                        
+                        Velocity.X = platform_Velocity.X;
                         platform_Velocity.X = 0;
                         platform_Moving = false;
                     }
                     else
                     {
-                        platform_Velocity.X = (float)0;
+                        platform_Velocity.X = 0;
                         Velocity.X /= (float)1.3;
                     }
                 }
@@ -268,7 +263,7 @@ namespace Platformer_Game
             bool colliding1 = HittingWall(walls);
             if (OnPlatform(platforms, particles, spikes, lavas))
             {
-                
+                Position.Y = Y_of_platform - Height;
                 if (Y_of_platform != 9999)
                 {
                     if (platform_Moving)
