@@ -51,8 +51,8 @@ namespace Platformer_Game
         private bool HittingWall(List<Wall> walls)
         {
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            Rectangle player_top_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y), (int)Width -20 , (int)Height/2);
-            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width/2), (int)(Position.Y) + 10, (int)Width/2, (int)Height -20);
+            Rectangle player_top_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y), (int)Width - 20, (int)Height / 2);
+            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width / 2), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
             Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
             foreach (Wall wall in walls)
             {
@@ -123,22 +123,22 @@ namespace Platformer_Game
             {
                 if (Position.Y + Height >= platform.Position.Y && Position.Y + Height <= platform.Position.Y + platform.Height && platform.Width != 0)
                 {
-                    if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1<= platform.Position.X + platform.Width)
+                    if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1 <= platform.Position.X + platform.Width)
                     {
                         touched_platform = platform;
                         Y_of_platform = platform.Position.Y;
-                        if(platform.Moving)
+                        if (platform.Moving)
                         {
                             platform_Velocity = (platform.Destination - platform.Position);
-                            if (platform_Velocity.X > 0)
+                            if (platform_Velocity.X > 0 && platform_Velocity.Y == 0)
                             {
                                 platform_Velocity.X = (float)8;
                             }
-                            else
+                            if (platform_Velocity.Y == 0 && platform_Velocity.X < 0)
                             {
                                 platform_Velocity.X = (float)-8;
                             }
-                            
+
                             if (platform_Velocity.X != 0)
                             {
                                 platform_Moving = true;
@@ -170,7 +170,7 @@ namespace Platformer_Game
                         {
                             Y_of_particle = particle.Position.Y;
                             return true;
-                        }        
+                        }
                     }
                 }
             }
@@ -183,7 +183,7 @@ namespace Platformer_Game
             float h_ratio = (float)window.Height / (float)768;
             if (state == "right")
             {
-                Current_Sprite.Draw(spriteBatch, Position, (int)(Width*w_ratio), (int)(Height*h_ratio));
+                Current_Sprite.Draw(spriteBatch, Position, (int)(Width * w_ratio), (int)(Height * h_ratio));
             }
             else
             {
@@ -214,7 +214,7 @@ namespace Platformer_Game
             }
             if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) && Velocity.X < 10)
             {
-                if (OnPlatform(platforms,particles,spikes, lavas))
+                if (OnPlatform(platforms, particles, spikes, lavas))
                 {
                     Velocity.X += 1;
                 }
@@ -223,12 +223,12 @@ namespace Platformer_Game
                     Velocity.X += (float)0.5;
                 }
             }
-            if ((Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.D)) && 
+            if ((Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.D)) &&
                 (Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.A)) && Velocity.X != 0)
             {
                 if (OnPlatform(platforms, particles, spikes, lavas))
                 {
-                    if (platform_Moving)
+                    if (platform_Moving && platform_Velocity.Y == 0)
                     {
                         Velocity.X = platform_Velocity.X;
                         platform_Velocity.X = 0;
@@ -288,27 +288,27 @@ namespace Platformer_Game
                 Position.Y = 0;
             }
             HittingHazard(spikes, lavas);
-            
 
-            
+
+
             Vector2 mousePosVect = new Vector2(mouseState.X, mouseState.Y);
-            mousePosVect -= new Vector2(Position.X + (Width/2), Position.Y + (Height/2));
+            mousePosVect -= new Vector2(Position.X + (Width / 2), Position.Y + (Height / 2));
             //Sprite Control
-                if (mousePosVect.X > Position.X+(Width/2))
-                {
-                    state = "right";
-                    Current_Sprite = Stationary_Right_Sprite;
-                }
-                if (mousePosVect.X < Position.X + (Width / 2))
-                {
-                    state = "left";
-                    Current_Sprite = Stationary_Left_Sprite;
-                }
+            if (mousePosVect.X > Position.X + (Width / 2))
+            {
+                state = "right";
+                Current_Sprite = Stationary_Right_Sprite;
+            }
+            if (mousePosVect.X < Position.X + (Width / 2))
+            {
+                state = "left";
+                Current_Sprite = Stationary_Left_Sprite;
+            }
 
             //particle creation
             if (mouseState.LeftButton == ButtonState.Pressed && ticker == 0 && particle_id < Capacity)
             {
-                if ((mousePosVect/10).Length() > 10)
+                if ((mousePosVect / 10).Length() > 10)
                 {
                     mousePosVect.Normalize();
                     mousePosVect *= 10;
@@ -317,11 +317,11 @@ namespace Platformer_Game
                 {
                     mousePosVect /= 10;
                 }
-                
+
                 bool colliding = false;
                 if (state == "left")
                 {
-                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y+30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id);
+                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id);
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     foreach (Particle particlex in particles)
                     {
@@ -340,7 +340,7 @@ namespace Platformer_Game
                         particle_id++;
                         ticker = 2;
                     }
-                    
+
                 }
                 if (Current_Sprite == Moving_Right_Sprite || Current_Sprite == Stationary_Right_Sprite)
                 {
@@ -365,6 +365,6 @@ namespace Platformer_Game
                     }
                 }
             }
-        } 
+        }
     }
 }

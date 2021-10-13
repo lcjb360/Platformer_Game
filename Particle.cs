@@ -64,7 +64,7 @@ namespace Platformer_Game
                     }
                     if (Velocity.X == 0)
                     {
-                        if ((Position.X + Width)/2 > (wall.Position.X + wall.Width) / 2)
+                        if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
                         {
                             Position.X = wall.Position.X + wall.Width;
                         }
@@ -95,7 +95,7 @@ namespace Platformer_Game
                             {
                                 platform_Velocity.X = (float)8;
                             }
-                            else
+                            if (platform_Velocity.X < 0)
                             {
                                 platform_Velocity.X = (float)-8;
                             }
@@ -132,14 +132,14 @@ namespace Platformer_Game
                 if (platform_Moving)
                 {
                     //Position.X += 2 * platform_Velocity.X;
-                    Velocity.X = (float)1.5*platform_Velocity.X;
+                    Velocity.X = (float)1.5 * platform_Velocity.X;
                 }
                 else
                 {
                     Velocity.X = 0;
                 }
                 Velocity.Y = 0;
-                
+
                 Position.Y = Y_of_platform - Height;
             }
 
@@ -193,7 +193,7 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height, new Color(63,72,204));
+            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height, new Color(63, 72, 204));
         }
     }
 }
