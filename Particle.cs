@@ -131,15 +131,13 @@ namespace Platformer_Game
             {
                 if (platform_Moving)
                 {
-                    //Position.X += 2 * platform_Velocity.X;
-                    Velocity.X = (float)1.5 * platform_Velocity.X;
+                    Velocity.X = (float)1.2 * platform_Velocity.X;
                 }
                 else
                 {
                     Velocity.X = 0;
                 }
                 Velocity.Y = 0;
-
                 Position.Y = Y_of_platform - Height;
             }
 

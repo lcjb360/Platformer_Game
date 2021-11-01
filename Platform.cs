@@ -76,7 +76,7 @@ namespace Platformer_Game
             
             if (Moving)
             {
-                if ((Position.X - 5 <= Start_Destination.X && Start_Destination.X <= Position.X + 5) && (Position.Y - 5 <= Start_Destination.Y && Start_Destination.Y <= Position.Y + 5) && Destination != Start_Position)
+                if ((Position.X - 7 <= Start_Destination.X && Start_Destination.X <= Position.X + 7) && (Position.Y - 7 <= Start_Destination.Y && Start_Destination.Y <= Position.Y + 7) && Destination != Start_Position)
                 {
                     Destination = Start_Position;
                 }

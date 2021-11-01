@@ -33,6 +33,7 @@ namespace Platformer_Game
         public Level four_one;
         public Level five_one;
         public Level one_two;
+        public Level two_two;
 
 
         public Game1()
@@ -156,14 +157,29 @@ namespace Platformer_Game
 
             one_two = new Level(true, false, level_number, window, new Vector2(1366 - 50, 768 - 50),
                 new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1366, 30),
-                                       new Platform(SpriteSheet, new Vector2(200, 768 - 100), 100, 30, true, new Vector2(800, 768 -100))},
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(70, 768 - 50), 100, 30, true, new Vector2(370, 768 - 50)),
+                                       new Platform(SpriteSheet, new Vector2(770, 768 - 80), 100, 30, true, new Vector2(470, 768 - 80)),
+                                       new Platform(SpriteSheet, new Vector2(870, 768 - 50), 100, 30, true, new Vector2(1170, 768 - 50)),
+                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30)},
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
                 new List<Spike>() { },
+                new List<Lava>(){      new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
+                SpriteSheet);
+
+            two_two = new Level(false, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+                new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30)
+                                     },
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+                new List<Spike>() { },
                 new List<Lava>() { },
                 SpriteSheet);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -248,7 +264,22 @@ namespace Platformer_Game
                         if (one_two.Update(gameTime))
                         {
                             one_two.Completed = true;
-                            //one_three.Unlocked = true;
+                            two_two.Unlocked = true;
+                            game_state = "2,2";
+                        }
+                    }
+                    else
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
+                case "2,2":
+                    if (two_two.Unlocked)
+                    {
+                        if (two_two.Update(gameTime))
+                        {
+                            two_two.Completed = true;
+                            //three_two.Unlocked = true;
                             game_state = "Main_Menu";
                         }
                     }
@@ -309,6 +340,13 @@ namespace Platformer_Game
                     {
                         GraphicsDevice.Clear(new Color(100, 200, 75));
                         one_two.Draw(_spriteBatch, gameTime);
+                    }
+                    break;
+                case "2,2":
+                    if (two_two.Unlocked)
+                    {
+                        GraphicsDevice.Clear(new Color(100, 200, 75));
+                        two_two.Draw(_spriteBatch, gameTime);
                     }
                     break;
                 case ("Main_Menu"):
