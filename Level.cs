@@ -8,6 +8,7 @@ namespace Platformer_Game
 {
     public class Level
     {
+        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         public bool Unlocked;
         public bool Completed;
         public Vector2 Finish_Point;
@@ -23,6 +24,8 @@ namespace Platformer_Game
 
         public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Unlocked = unlocked;
             Completed = completed;
             this.id = id;
@@ -32,10 +35,10 @@ namespace Platformer_Game
             Walls = walls;
             Spikes = spikes;
             Lavas = lavas;
-            Finish_Point = finish_point;
+            Finish_Point = new Vector2(finish_point.X * w_ratio, finish_point.Y * h_ratio);
             foreach (Wall wall in walls)
             {
-                Platforms.Add(new Platform(spriteSheet, wall.Position, wall.Width, 7));
+                Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, wall.Position.Y / h_ratio), wall.Width / w_ratio, (float)7 / h_ratio));
             }
             for (int i = 0; i < walls.Count; i++)
             {
@@ -60,6 +63,7 @@ namespace Platformer_Game
                     {
                         Platforms[i].ticks = 0;
                         Platforms[i].Appear = Platforms[i].Start_Appear;
+                        Platforms[i].Touched = false;
                     }
                 }
             }
@@ -84,7 +88,7 @@ namespace Platformer_Game
             return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime, Texture2D spriteSheet)
         {
             foreach (Lava lava in Lavas)
             {
@@ -112,7 +116,17 @@ namespace Platformer_Game
             {
                 particle.Draw(spriteBatch, gameTime);
             }
-
+            Particle finish_point = new Particle(spriteSheet, Finish_Point, new Vector2(0, 0), 0, Color.White);
+            finish_point.Draw(spriteBatch, gameTime);
+            finish_point.Position.X += finish_point.Width;
+            finish_point.Colour = Color.Black;
+            finish_point.Draw(spriteBatch, gameTime);
+            finish_point.Position.Y += finish_point.Width;
+            finish_point.Colour = Color.White;
+            finish_point.Draw(spriteBatch, gameTime);
+            finish_point.Position.X -= finish_point.Width;
+            finish_point.Colour = Color.Black;
+            finish_point.Draw(spriteBatch, gameTime);
         }
     }
 }

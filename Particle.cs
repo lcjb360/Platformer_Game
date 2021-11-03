@@ -8,6 +8,7 @@ namespace Platformer_Game
 {
     public class Particle
     {
+        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         public Sprite Default_Particle;
         public Vector2 Position;
         public Vector2 Velocity;
@@ -15,17 +16,34 @@ namespace Platformer_Game
         public float Height;
         public float Width;
         public int id;
+        public Color Colour = new Color(63, 72, 204);
         //public Sprite none;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Default_Particle = new Sprite(texture, 60, 0, 5, 5);
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
-            Velocity = velocity;
-            Height = 9;
-            Width = 9;
+            Velocity = new Vector2(velocity.X * w_ratio, velocity.Y * h_ratio);
+            Height = (float)9 * h_ratio;
+            Width = (float)9 * w_ratio;
             id = particle_id;
+        }
+
+        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id, Color color)
+        {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
+            Default_Particle = new Sprite(texture, 60, 0, 5, 5);
+            //none = new Sprite(texture, 1, 93, 1, 1);
+            Position = position;
+            Velocity = new Vector2(velocity.X * w_ratio, velocity.Y * h_ratio);
+            Height = (float)9 * h_ratio;
+            Width = (float)9 * w_ratio;
+            id = particle_id;
+            Colour = color;
         }
 
         private void HittingHazard(List<Lava> lavas)
@@ -77,6 +95,7 @@ namespace Platformer_Game
             }
         }
 
+        public Platform touched_platform = null;
         public float Y_of_platform;
         public Vector2 platform_Velocity;
         public bool platform_Moving;
@@ -88,6 +107,10 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width - 1 > platform.Position.X && Position.X + 1 < platform.Position.X + platform.Width)
                     {
+                        if (platform.Weak)
+                        {
+                            touched_platform = platform;
+                        }
                         if (platform.Moving)
                         {
                             platform_Velocity = (platform.Destination - platform.Position);
@@ -123,12 +146,17 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
         {
+            
             if (!OnPlatform(platforms) && Velocity.Y < 5)
             {
                 Velocity.Y += 1;
             }
             if (OnPlatform(platforms))
-            {
+            {   
+                if (touched_platform != null)
+                {
+                    touched_platform.Touched = true;
+                }
                 if (platform_Moving)
                 {
                     Velocity.X = (float)1.2 * platform_Velocity.X;
@@ -191,7 +219,7 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height, new Color(63, 72, 204));
+            Default_Particle.Draw(spriteBatch, Position, (int)Width, (int)Height, Colour);
         }
     }
 }

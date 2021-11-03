@@ -66,17 +66,18 @@ namespace Platformer_Game
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
             Default_Platform = new Sprite(texture, 0, 60, 59, 15);
-            Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
-            Width = width * w_ratio;
-            Height = height * h_ratio;
+            Position = new Vector2(position.X * w_ratio + 1, position.Y * h_ratio);
+            Width = width * w_ratio + 1;
+            Height = height * h_ratio + 1;
         }
 
         public void Update(GameTime gameTime)
         {
-            
+            float w_ratio = (float)window.Width / (float)1366;
+            float margin = 7 * w_ratio;
             if (Moving)
             {
-                if ((Position.X - 7 <= Start_Destination.X && Start_Destination.X <= Position.X + 7) && (Position.Y - 7 <= Start_Destination.Y && Start_Destination.Y <= Position.Y + 7) && Destination != Start_Position)
+                if ((Position.X - margin <= Start_Destination.X && Start_Destination.X <= Position.X + margin) && (Position.Y - margin <= Start_Destination.Y && Start_Destination.Y <= Position.Y + margin) && Destination != Start_Position)
                 {
                     Destination = Start_Position;
                 }
@@ -109,12 +110,17 @@ namespace Platformer_Game
             }
             if (Weak)
             {
+                if (Appear)
+                {
+                    Height = Start_Height;
+                    Width = Start_Width;
+                }
                 if (Touched)
                 {
                     ticks++;
                     if (ticks >= 50)
                     {
-                        Appear = !Appear;
+                        Appear = false;
                         ticks = 0;
                     }
                     if (!Appear)
@@ -135,7 +141,6 @@ namespace Platformer_Game
         {
             if (Appear)
             {
-                
                 Default_Platform.Draw(spriteBatch, Position, (int)Width, (int)Height);
             }
         }
