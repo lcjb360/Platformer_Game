@@ -53,9 +53,9 @@ namespace Platformer_Game
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            Rectangle player_top_edge = new Rectangle((int)(Position.X + 5), (int)(Position.Y), (int)Width - 10, (int)Height / 2);
-            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width / 2), (int)(Position.Y) + 5, (int)Width / 2, (int)Height - 10);
-            Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 5, (int)Width / 2, (int)Height - 10);
+            Rectangle player_top_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y), (int)Width - 20, (int)Height / 2);
+            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width / 2), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
+            Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
             foreach (Wall wall in walls)
             {
                 if (wall.Destructible)

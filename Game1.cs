@@ -194,7 +194,7 @@ namespace Platformer_Game
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
                 SpriteSheet);
 
-            three_two = new Level(false, false, level_number, window, new Vector2(1320, 768 - 650),
+            three_two = new Level(false, false, level_number, window, new Vector2(1290, 768 - 650),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(165, 768 - 125), 100, 30, false, new Vector2(0,0), false, true, true),

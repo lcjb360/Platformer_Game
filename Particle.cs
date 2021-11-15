@@ -95,7 +95,7 @@ namespace Platformer_Game
                             wall.parts.RemoveAt(i);
                             Width = 0;
                             Height = 0;
-                            Position = new Vector2(-100, 0);
+                            Position = new Vector2(-100, 500);
                             return;
                             if (Velocity.X > 0)
                             {
