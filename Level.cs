@@ -47,7 +47,7 @@ namespace Platformer_Game
             }
             foreach (Spike spike in spikes)
             {
-                Platforms.Add(new Platform(spriteSheet, new Vector2(spike.Position.X, spike.Position.Y + 10), spike.Length, 20));
+                Platforms.Add(new Platform(spriteSheet, new Vector2(spike.Position.X / w_ratio, (spike.Position.Y + 10) / h_ratio), (float)spike.Length / w_ratio, 20));
             }
         }
 

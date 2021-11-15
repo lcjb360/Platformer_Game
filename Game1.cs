@@ -90,7 +90,7 @@ namespace Platformer_Game
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1000, 30),
                                        new Platform(SpriteSheet, new Vector2(1000, 768 - 30 + 12), 1 * 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1060, 768 - 30), 1366 - 1060, 30)}, 
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, 768 - 130), 30, 100, true),
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, 768 - 130), 30, 100),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)}, 

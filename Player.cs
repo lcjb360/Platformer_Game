@@ -233,26 +233,26 @@ namespace Platformer_Game
             { ticker--; }
             mouseState = Mouse.GetState();
             //Movement Control
-            if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > -10)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > (float)-10 * w_ratio)
             {
                 if (OnPlatform(platforms, particles, spikes, lavas))
                 {
-                    Velocity.X -= 1;
+                    Velocity.X -= (float)1 * w_ratio;
                 }
                 else
                 {
-                    Velocity.X -= (float)0.5;
+                    Velocity.X -= (float)0.5 * w_ratio;
                 }
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) && Velocity.X < 10)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) && Velocity.X < (float)10 * w_ratio)
             {
                 if (OnPlatform(platforms, particles, spikes, lavas))
                 {
-                    Velocity.X += 1;
+                    Velocity.X += (float)1 * w_ratio;
                 }
                 else
                 {
-                    Velocity.X += (float)0.5;
+                    Velocity.X += (float)0.5 * w_ratio;
                 }
             }
             if ((Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.D)) &&
@@ -279,7 +279,7 @@ namespace Platformer_Game
             }
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && OnPlatform(platforms, particles, spikes, lavas))
             {
-                Velocity.Y = -10;
+                Velocity.Y = (float)-10 * h_ratio;
             }
 
 
@@ -288,7 +288,7 @@ namespace Platformer_Game
 
             if (!OnPlatform(platforms, particles, spikes, lavas) && Velocity.Y < 8)
             {
-                Velocity.Y += 1;
+                Velocity.Y += (float)1 * w_ratio;
             }
             Y_of_particle = 9999;
             Y_of_platform = 9999;

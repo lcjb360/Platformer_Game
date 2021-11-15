@@ -214,10 +214,11 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
         {
-            
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             if (!OnPlatform(platforms) && Velocity.Y < 5)
             {
-                Velocity.Y += 1;
+                Velocity.Y += (float)1 * h_ratio;
             }
             if (OnPlatform(platforms))
             {   
@@ -227,7 +228,7 @@ namespace Platformer_Game
                 }
                 if (platform_Moving)
                 {
-                    Velocity.X = (float)1.2 * platform_Velocity.X;
+                    Velocity.X = ((float)1.2 * platform_Velocity.X) * w_ratio;
                 }
                 else
                 {
