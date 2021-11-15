@@ -53,29 +53,58 @@ namespace Platformer_Game
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            Rectangle player_top_edge = new Rectangle((int)(Position.X + 10  ), (int)(Position.Y), (int)Width - 20, (int)Height / 2);
-            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width / 2), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
-            Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
+            Rectangle player_top_edge = new Rectangle((int)(Position.X + 5), (int)(Position.Y), (int)Width - 10, (int)Height / 2);
+            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width / 2), (int)(Position.Y) + 5, (int)Width / 2, (int)Height - 10);
+            Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 5, (int)Width / 2, (int)Height - 10);
             foreach (Wall wall in walls)
             {
-                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                if (player_edge.Intersects(wall_edge))
+                if (wall.Destructible)
                 {
-                    if (player_top_edge.Intersects(wall_edge))
+                    for (int i = 0; i < wall.parts.Count; i++)
                     {
-                        Velocity.Y = 0;
-                        Position.Y = wall.Position.Y + wall.Height;
-                        return true;
+                        Rectangle part = wall.parts[i];
+                        if (player_edge.Intersects(part))
+                        {
+                            if (player_top_edge.Intersects(part))
+                            {
+                                Velocity.Y = 0;
+                                Position.Y = part.Y + part.Height;
+                                return true;
+                            }
+                            if (player_right_edge.Intersects(part))
+                            {
+                                Velocity.X = 0;
+                                Position.X = part.X - Width;
+                            }
+                            if (player_left_edge.Intersects(part))
+                            {
+                                Velocity.X = 0;
+                                Position.X = part.X + part.Width;
+                            }
+                        }
                     }
-                    if (player_right_edge.Intersects(wall_edge))
+                }
+                else
+                {
+                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                    if (player_edge.Intersects(wall_edge))
                     {
-                        Velocity.X = 0;
-                        Position.X = wall.Position.X - Width;
-                    }
-                    if (player_left_edge.Intersects(wall_edge))
-                    {
-                        Velocity.X = 0;
-                        Position.X = wall.Position.X + wall.Width;
+                        if (player_top_edge.Intersects(wall_edge))
+                        {
+                            Velocity.Y = 0;
+                            Position.Y = wall.Position.Y + wall.Height;
+                            return true;
+                        }
+                        if (player_right_edge.Intersects(wall_edge))
+                        {
+                            Velocity.X = 0;
+                            Position.X = wall.Position.X - Width;
+                        }
+                        if (player_left_edge.Intersects(wall_edge))
+                        {
+                            Velocity.X = 0;
+                            Position.X = wall.Position.X + wall.Width;
+                        }
                     }
                 }
             }

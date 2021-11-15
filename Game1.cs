@@ -35,6 +35,7 @@ namespace Platformer_Game
         public Level one_two;
         public Level two_two;
         public Level three_two;
+        public Level four_two;
 
 
         public Game1()
@@ -89,7 +90,7 @@ namespace Platformer_Game
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1000, 30),
                                        new Platform(SpriteSheet, new Vector2(1000, 768 - 30 + 12), 1 * 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1060, 768 - 30), 1366 - 1060, 30)}, 
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, 768 - 130), 30, 100),
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, 768 - 130), 30, 100, true),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)}, 
@@ -171,7 +172,7 @@ namespace Platformer_Game
                 new List<Lava>(){      new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
                 SpriteSheet);
 
-            two_two = new Level(true, false, level_number, window, new Vector2(1320, 768 - 530),
+            two_two = new Level(false, false, level_number, window, new Vector2(1320, 768 - 530),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200), 
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(65, 768 - 85), 100, 30, false, new Vector2(0,0), false, true, true),
@@ -193,7 +194,7 @@ namespace Platformer_Game
                 new List<Lava>() {     new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
                 SpriteSheet);
 
-            three_two = new Level(true, false, level_number, window, new Vector2(1320, 768 - 650),
+            three_two = new Level(false, false, level_number, window, new Vector2(1320, 768 - 650),
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(165, 768 - 125), 100, 30, false, new Vector2(0,0), false, true, true),
@@ -208,6 +209,17 @@ namespace Platformer_Game
                                        new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
                 new List<Spike>() { },
                 new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
+                SpriteSheet);
+
+            four_two = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
+                new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
+                                     },
+                new List<Wall>() {     new Destructible_Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+                new List<Spike>() { },
+                new List<Lava>() { },
                 SpriteSheet);
         }
 
@@ -319,7 +331,22 @@ namespace Platformer_Game
                         if (three_two.Update(gameTime))
                         {
                             three_two.Completed = true;
-                            //four_two.Unlocked = true;
+                            four_two.Unlocked = true;
+                            game_state = "Main_Menu";
+                        }
+                    }
+                    else
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
+                case "4,2":
+                    if (four_two.Unlocked)
+                    {
+                        if (four_two.Update(gameTime))
+                        {
+                            four_two.Completed = true;
+                            //five_two.Unlocked = true;
                             game_state = "Main_Menu";
                         }
                     }
@@ -394,6 +421,13 @@ namespace Platformer_Game
                     {
                         GraphicsDevice.Clear(new Color(100, 200, 75));
                         three_two.Draw(_spriteBatch, gameTime, SpriteSheet);
+                    }
+                    break;
+                case "4,2":
+                    if (four_two.Unlocked)
+                    {
+                        GraphicsDevice.Clear(new Color(100, 200, 75));
+                        four_two.Draw(_spriteBatch, gameTime, SpriteSheet);
                     }
                     break;
                 case ("Main_Menu"):

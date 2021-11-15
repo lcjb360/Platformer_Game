@@ -16,7 +16,9 @@ namespace Platformer_Game
         public float Height;
         public float Width;
         public int id;
-        public Color Colour = new Color(63, 72, 204);
+        public Color Colour = Color.Black;
+        public bool Burning = false;
+        public bool Liquid = false;
         //public Sprite none;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id)
@@ -46,6 +48,22 @@ namespace Platformer_Game
             Colour = color;
         }
 
+        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id, Color color, bool burning, bool liquid)
+        {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
+            Default_Particle = new Sprite(texture, 60, 0, 5, 5);
+            //none = new Sprite(texture, 1, 93, 1, 1);
+            Position = position;
+            Velocity = new Vector2(velocity.X * w_ratio, velocity.Y * h_ratio);
+            Height = (float)9 * h_ratio;
+            Width = (float)9 * w_ratio;
+            id = particle_id;
+            Colour = color;
+            Burning = burning;
+            Liquid = liquid;
+        }
+
         private void HittingHazard(List<Lava> lavas)
         {
             Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
@@ -63,32 +81,82 @@ namespace Platformer_Game
 
         private void HittingWall(List<Wall> walls)
         {
-            Rectangle particle_edge2 = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
+            Rectangle particle_edge2 = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width + 1, (int)Height + 1);
             Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Wall wall in walls)
             {
-                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge))
+                if (wall.Destructible)
                 {
-                    if (Velocity.X > 0)
+                    for (int i = 0; i < wall.parts.Count; i++)
                     {
-                        Position.X = wall.Position.X - Width;
-                        Velocity.X = 0;
-                    }
-                    if (Velocity.X < 0)
-                    {
-                        Position.X = wall.Position.X + wall.Width;
-                        Velocity.X = 0;
-                    }
-                    if (Velocity.X == 0)
-                    {
-                        if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
+                        Rectangle part = wall.parts[i];
+                        if (particle_edge.Intersects(part) || particle_edge2.Intersects(part))
                         {
-                            Position.X = wall.Position.X + wall.Width;
+                            wall.parts.RemoveAt(i);
+                            Width = 0;
+                            Height = 0;
+                            Position = new Vector2(-100, 0);
+                            return;
+                            if (Velocity.X > 0)
+                            {
+                                Position.X = part.X - Width;
+                                Velocity.X = 0;
+                            }
+                            if (Velocity.X < 0)
+                            {
+                                Position.X = part.X + part.Width;
+                                Velocity.X = 0;
+                            }
+                            if (Velocity.X == 0)
+                            {
+                                if ((Position.X + Width) / 2 > (part.X + part.Width) / 2)
+                                {
+                                    Position.X = part.X + part.Width;
+                                }
+                                else
+                                {
+                                    Position.X = part.X - Width;
+                                }
+                            }
                         }
-                        else
+                    }
+                }
+                else
+                { 
+                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                    if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge))
+                    {
+                        for (int i = 0; i < wall.parts.Count; i++)
+                        {
+                            if (wall.parts[i].Intersects(particle_edge) || particle_edge2.Intersects(wall_edge))
+                            {
+                                wall.parts.RemoveAt(i);
+                                Width = 0;
+                                Height = 0;
+                                Position = new Vector2(-100, 0);
+                                return;
+                            }
+                        }
+                        if (Velocity.X > 0)
                         {
                             Position.X = wall.Position.X - Width;
+                            Velocity.X = 0;
+                        }
+                        if (Velocity.X < 0)
+                        {
+                            Position.X = wall.Position.X + wall.Width;
+                            Velocity.X = 0;
+                        }
+                        if (Velocity.X == 0)
+                        {
+                            if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
+                            {
+                                Position.X = wall.Position.X + wall.Width;
+                            }
+                            else
+                            {
+                                Position.X = wall.Position.X - Width;
+                            }
                         }
                     }
                 }
