@@ -38,7 +38,7 @@ namespace Platformer_Game
             Finish_Point = new Vector2(finish_point.X * w_ratio, finish_point.Y * h_ratio);
             foreach (Wall wall in walls)
             {
-                Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, wall.Position.Y / h_ratio), wall.Width / w_ratio, (float)7 / h_ratio));
+                //Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, wall.Position.Y / h_ratio), wall.Width / w_ratio, (float)7 / h_ratio));
             }
             for (int i = 0; i < walls.Count; i++)
             {

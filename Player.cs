@@ -52,10 +52,10 @@ namespace Platformer_Game
         {
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
-            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            Rectangle player_top_edge = new Rectangle((int)(Position.X + 10), (int)(Position.Y), (int)Width - 20, (int)Height / 2);
-            Rectangle player_right_edge = new Rectangle((int)(Position.X + Width / 2), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
-            Rectangle player_left_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + 10, (int)Width / 2, (int)Height - 20);
+            Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
+            Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
+            Rectangle player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 2 + (int)Velocity.Y, (int)Width / 2, (int)Height - 4);
+            Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 2 + (int)Velocity.Y, (int)Width / 2, (int)Height - 4);
             foreach (Wall wall in walls)
             {
                 if (wall.Destructible)
@@ -157,7 +157,7 @@ namespace Platformer_Game
                     if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1 <= platform.Position.X + platform.Width)
                     {
                         touched_platform = platform;
-                        Y_of_platform = platform.Position.Y;
+                        Position.Y = platform.Position.Y - Height;
                         if (platform.Moving)
                         {
                             platform_Velocity = (platform.Destination - platform.Position);
@@ -199,7 +199,7 @@ namespace Platformer_Game
                     {
                         if (particle.Velocity.Y <= 1)
                         {
-                            Y_of_particle = particle.Position.Y;
+                            Position.Y = particle.Position.Y - Height;
                             return true;
                         }
                     }
@@ -290,31 +290,32 @@ namespace Platformer_Game
             {
                 Velocity.Y += (float)1 * w_ratio;
             }
-            Y_of_particle = 9999;
-            Y_of_platform = 9999;
+            //Y_of_particle = 9999;
+            //Y_of_platform = 9999;
             bool colliding1 = HittingWall(walls);
-            if (OnPlatform(platforms, particles, spikes, lavas))
-            {
-                Position.Y = Y_of_platform - Height;
-                if (Y_of_platform != 9999)
-                {
-                    if (platform_Moving)
-                    {
-                        //Velocity = new Vector2(platform_Velocity.X, platform_Velocity.Y);
-                    }
-                    else
-                    {
-                        Velocity.Y = 0;
-                    }
-                    touched_platform.Touched = true;
-                    Position.Y = Y_of_platform - Height;
-                }
-                if (Y_of_particle != 9999 && !colliding1)
-                {
-                    Velocity.Y = 0;
-                    Position.Y = Y_of_particle - Height;
-                }
-            }
+            OnPlatform(platforms, particles, spikes, lavas);
+            //if (OnPlatform(platforms, particles, spikes, lavas))
+            //{
+            //    Position.Y = Y_of_platform - Height;
+            //    if (Y_of_platform != 9999)
+            //    {
+            //        if (platform_Moving)
+            //        {
+            //            //Velocity = new Vector2(platform_Velocity.X, platform_Velocity.Y);
+            //        }
+            //        else
+            //        {
+            //            Velocity.Y = 0;
+            //        }
+            //        touched_platform.Touched = true;
+            //        Position.Y = Y_of_platform - Height;
+            //    }
+            //    if (Y_of_particle != 9999 && !colliding1)
+            //    {
+            //        Velocity.Y = 0;
+            //        Position.Y = Y_of_particle - Height;
+            //    }
+            //}
             if (Position.Y > screen_height)
             {
                 Position.Y = 0;
