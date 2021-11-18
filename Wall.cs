@@ -21,10 +21,9 @@ namespace Platformer_Game
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
             Default_Wall = new Sprite(texture, 0, 61, 59, 14);
-            Position = new Vector2(position.X * w_ratio, (position.Y * h_ratio) - ((float)7 * h_ratio));
+            Position = new Vector2(position.X * w_ratio, (position.Y * h_ratio));
             Width = width * w_ratio;
             Height = height * h_ratio;
-            Height += (float)7 * h_ratio;
         }
         public Wall(Texture2D texture, Vector2 position, float width, float height, bool destructable)
         {

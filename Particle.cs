@@ -97,27 +97,6 @@ namespace Platformer_Game
                             Height = 0;
                             Position = new Vector2(-100, 500);
                             return;
-                            if (Velocity.X > 0)
-                            {
-                                Position.X = part.X - Width;
-                                Velocity.X = 0;
-                            }
-                            if (Velocity.X < 0)
-                            {
-                                Position.X = part.X + part.Width;
-                                Velocity.X = 0;
-                            }
-                            if (Velocity.X == 0)
-                            {
-                                if ((Position.X + Width) / 2 > (part.X + part.Width) / 2)
-                                {
-                                    Position.X = part.X + part.Width;
-                                }
-                                else
-                                {
-                                    Position.X = part.X - Width;
-                                }
-                            }
                         }
                     }
                 }
@@ -126,38 +105,33 @@ namespace Platformer_Game
                     Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
                     if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge))
                     {
-                        for (int i = 0; i < wall.parts.Count; i++)
-                        {
-                            if (wall.parts[i].Intersects(particle_edge) || particle_edge2.Intersects(wall_edge))
-                            {
-                                wall.parts.RemoveAt(i);
-                                Width = 0;
-                                Height = 0;
-                                Position = new Vector2(-100, 0);
-                                return;
-                            }
-                        }
-                        if (Velocity.X > 0)
-                        {
-                            Position.X = wall.Position.X - Width;
-                            Velocity.X = 0;
-                        }
-                        if (Velocity.X < 0)
-                        {
-                            Position.X = wall.Position.X + wall.Width;
-                            Velocity.X = 0;
-                        }
-                        if (Velocity.X == 0)
-                        {
-                            if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
-                            {
-                                Position.X = wall.Position.X + wall.Width;
-                            }
-                            else
+                        //if (new Rectangle((int)(Position.X + Velocity.X), (int)((Position.Y + Velocity.Y) + (Height / 2)), (int)Width, (int)(Height / 2)).Intersects(wall_edge))
+                        //{
+                        //    Velocity.Y = 0;
+                        //    Position.Y = wall.Position.Y - Height;
+                        //}
+                            if (Velocity.X > 0)
                             {
                                 Position.X = wall.Position.X - Width;
+                                Velocity.X = 0;
                             }
-                        }
+                            if (Velocity.X < 0)
+                            {
+                                Position.X = wall.Position.X + wall.Width;
+                                Velocity.X = 0;
+                            }
+                            if (Velocity.X == 0)
+                            {
+                                if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
+                                {
+                                    Position.X = wall.Position.X + wall.Width;
+                                }
+                                else
+                                {
+                                    Position.X = wall.Position.X - Width;
+                                }
+                            }
+                        
                     }
                 }
             }

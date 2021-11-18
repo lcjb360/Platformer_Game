@@ -48,14 +48,12 @@ namespace Platformer_Game
             Capacity = 500;
         }
 
-        private bool HittingWall(List<Wall> walls)
+        private bool OnWall(List<Wall> walls)
         {
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
-            Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
-            Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
-            Rectangle player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 2 + (int)Velocity.Y, (int)Width / 2, (int)Height - 4);
-            Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 2 + (int)Velocity.Y, (int)Width / 2, (int)Height - 4);
+            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height + 1);
+            Rectangle player_bottom_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + ((int)Height / 2), (int)Width, (int)(Height / 2) + 1);
             foreach (Wall wall in walls)
             {
                 if (wall.Destructible)
@@ -65,21 +63,71 @@ namespace Platformer_Game
                         Rectangle part = wall.parts[i];
                         if (player_edge.Intersects(part))
                         {
+                            if (player_bottom_edge.Intersects(part))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                    if (player_edge.Intersects(wall_edge))
+                    {
+                        if (player_bottom_edge.Intersects(wall_edge))
+                        {
+                            Velocity.Y = 0;
+                            Position.Y = wall.Position.Y - Height;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool HittingWall(List<Wall> walls)
+        {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
+            Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
+            Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
+            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height/2), (int)Width - 20, (int)Height / 2);
+            Rectangle player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+            Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+            foreach (Wall wall in walls)
+            {
+                if (wall.Destructible)
+                {
+                    for (int i = 0; i < wall.parts.Count; i++)
+                    {
+                        Rectangle part = wall.parts[i];
+                        if (player_edge.Intersects(part))
+                        {
+                            if (player_right_edge.Intersects(part))
+                            {
+                                Velocity.X = 0;
+                                Position.X = part.X - Width;
+                                return true;
+                            }
+                            if (player_left_edge.Intersects(part))
+                            {
+                                Velocity.X = 0;
+                                Position.X = part.X + part.Width;
+                                return true;
+                            }
                             if (player_top_edge.Intersects(part))
                             {
                                 Velocity.Y = 0;
                                 Position.Y = part.Y + part.Height;
                                 return true;
                             }
-                            if (player_right_edge.Intersects(part))
+                            if (player_bottom_edge.Intersects(part))
                             {
-                                Velocity.X = 0;
-                                Position.X = part.X - Width;
-                            }
-                            if (player_left_edge.Intersects(part))
-                            {
-                                Velocity.X = 0;
-                                Position.X = part.X + part.Width;
+                                Velocity.Y = 0;
+                                Position.Y = part.Y - Height;
+                                return true;
                             }
                         }
                     }
@@ -104,6 +152,12 @@ namespace Platformer_Game
                         {
                             Velocity.X = 0;
                             Position.X = wall.Position.X + wall.Width;
+                        }
+                        if (player_bottom_edge.Intersects(wall_edge))
+                        {
+                            Velocity.Y = 0;
+                            Position.Y = wall.Position.Y - Height;
+                            return true;
                         }
                     }
                 }
@@ -277,7 +331,7 @@ namespace Platformer_Game
                     Velocity.X /= (float)1.2;
                 }
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && OnPlatform(platforms, particles, spikes, lavas))
+            if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && (OnPlatform(platforms, particles, spikes, lavas) || OnWall(walls)))
             {
                 Velocity.Y = (float)-10 * h_ratio;
             }
@@ -307,7 +361,7 @@ namespace Platformer_Game
             //        {
             //            Velocity.Y = 0;
             //        }
-            //        touched_platform.Touched = true;
+                    touched_platform.Touched = true;
             //        Position.Y = Y_of_platform - Height;
             //    }
             //    if (Y_of_particle != 9999 && !colliding1)
