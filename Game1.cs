@@ -215,7 +215,8 @@ namespace Platformer_Game
                 new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
                                      },
-                new List<Wall>() {     new Destructible_Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
+                                       new Wall(SpriteSheet, new Vector2(300, 0), 30, window.Height, true),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
                 new List<Spike>() { },
