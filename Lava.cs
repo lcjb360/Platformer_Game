@@ -39,8 +39,6 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
             for (int x = (int)Position.X; x < ((int)Position.X + Length); x += Width)
             {
                 Default_Lava.Draw(spriteBatch, new Vector2(x, Position.Y), Width, Height);

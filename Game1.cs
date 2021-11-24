@@ -88,14 +88,13 @@ namespace Platformer_Game
             Tutorial = new Level(true, false, level_number, window, new Vector2(1366 - (50), 768 - 50),
                 new Player(SpriteSheet, new Vector2(30, 768 - 90), 200), 
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1000, 30),
-                                       new Platform(SpriteSheet, new Vector2(1000, 768 - 30 + 12), 1 * 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1060, 768 - 30), 1366 - 1060, 30)}, 
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, 768 - 130), 30, 100),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)}, 
                 new List<Spike>() {    new Spike(SpriteSheet, new Vector2(850, 768 - 40), 5 * 9) }, 
-                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, 768 - 29), 1 * 60) },
+                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, 768 - 23), 1 * 60, 25), },
                 SpriteSheet);
 
             two_one = new Level(false, false, level_number, window, new Vector2(1366 - 50, 768 -50),
@@ -216,7 +215,9 @@ namespace Platformer_Game
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
                                      },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
-                                       new Wall(SpriteSheet, new Vector2(300, 0), 30, window.Height, true),
+                                       new Wall(SpriteSheet, new Vector2(300, 1), 30, window.Height, true),
+                                       new Wall(SpriteSheet, new Vector2(600, 1), 30, window.Height, true),
+                                       new Wall(SpriteSheet, new Vector2(900, 1), 30, window.Height, true),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
                 new List<Spike>() { },

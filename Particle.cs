@@ -69,7 +69,7 @@ namespace Platformer_Game
             Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Lava lava in lavas)
             {
-                Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y - 1, (int)lava.Length, (int)lava.Height);
+                Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y, (int)lava.Length, (int)lava.Height);
                 if (particle_edge.Intersects(lava_edge))
                 {
                     Width = 0;
@@ -85,7 +85,7 @@ namespace Platformer_Game
             Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Wall wall in walls)
             {
-                if (wall.Destructible)
+                if (wall.Destructible && Burning)
                 {
                     for (int i = 0; i < wall.parts.Count; i++)
                     {
@@ -105,12 +105,16 @@ namespace Platformer_Game
                     Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
                     if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge))
                     {
+                        if (Burning)
+                        {
+                            Position = new Vector2(-100, -100);
+                        }
                         //if (new Rectangle((int)(Position.X + Velocity.X), (int)((Position.Y + Velocity.Y) + (Height / 2)), (int)Width, (int)(Height / 2)).Intersects(wall_edge))
                         //{
                         //    Velocity.Y = 0;
                         //    Position.Y = wall.Position.Y - Height;
                         //}
-                            if (Velocity.X > 0)
+                        if (Velocity.X > 0)
                             {
                                 Position.X = wall.Position.X - Width;
                                 Velocity.X = 0;
@@ -179,6 +183,10 @@ namespace Platformer_Game
                             platform_Moving = false;
                         }
                         Y_of_platform = platform.Position.Y;
+                        if (Burning)
+                        {
+                            Position = new Vector2(-100, -100);
+                        }
                         return true;
                     }
                 }
@@ -226,12 +234,22 @@ namespace Platformer_Game
                         if (Position.X + Width > particle.Position.X && Position.X < particle.Position.X + particle.Width)
                         {
                             colliding_V = true;
+                            if (Burning && !particle.Burning)
+                            {
+                                particle.Position = new Vector2(-100, -100);
+                                Position = new Vector2(-100, -100);
+                            }
                             colliding_with = particle;
                         }
                     }
                     if (particle_edge.Intersects(other_edge))
                     {
                         colliding_H = true;
+                        if (Burning && !particle.Burning)
+                        {
+                            particle.Position = new Vector2(-100, -100);
+                            Position = new Vector2(-100, -100);
+                        }
                         colliding_with = particle;
                     }
                 }
@@ -258,6 +276,7 @@ namespace Platformer_Game
             HittingWall(walls);
             Position += Velocity;
             HittingHazard(lavas);
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
