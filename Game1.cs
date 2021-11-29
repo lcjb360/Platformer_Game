@@ -334,7 +334,7 @@ namespace Platformer_Game
                         {
                             three_two.Completed = true;
                             four_two.Unlocked = true;
-                            game_state = "Main_Menu";
+                            game_state = "4,2";
                         }
                     }
                     else

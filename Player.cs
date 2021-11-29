@@ -350,12 +350,22 @@ namespace Platformer_Game
                     Velocity.X /= (float)1.2;
                 }
             }
+            bool jumping = false;
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && (OnPlatform(platforms, particles, spikes, lavas) || OnWall(walls)))
             {
                 Velocity.Y = (float)-10 * h_ratio;
+                jumping = true;
             }
 
-
+            foreach (Particle particle in particles)
+            {
+                Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + (int)Height, (int)Width, 1);
+                Rectangle particle_edge = new Rectangle((int)(particle.Position.X), (int)(particle.Position.Y), (int)particle.Width, (int)particle.Height);
+                if (particle_edge.Intersects(player_edge) && Velocity.Y < 0 && !jumping)
+                {
+                    Velocity.Y = 0;
+                }
+            }
             Position += Velocity;
 
 
@@ -365,6 +375,7 @@ namespace Platformer_Game
             }
             //Y_of_particle = 9999;
             //Y_of_platform = 9999;
+
             bool colliding1 = HittingWall(walls);
             OnPlatform(platforms, particles, spikes, lavas);
             //if (OnPlatform(platforms, particles, spikes, lavas))
