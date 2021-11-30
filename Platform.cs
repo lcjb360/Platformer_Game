@@ -24,6 +24,7 @@ namespace Platformer_Game
         public bool Weak;
         public bool Touched = false;
         public int ticks;
+        public int moving_ticks = 0;
         public bool Appear = true;
         public bool Start_Appear;
 
@@ -77,13 +78,16 @@ namespace Platformer_Game
             float margin = 7 * w_ratio;
             if (Moving)
             {
-                if ((Position.X - margin <= Start_Destination.X && Start_Destination.X <= Position.X + margin) && (Position.Y - margin <= Start_Destination.Y && Start_Destination.Y <= Position.Y + margin) && Destination != Start_Position)
+                moving_ticks++;
+                if ((Position.X - margin <= Start_Destination.X && Start_Destination.X <= Position.X + margin) && (Position.Y - margin <= Start_Destination.Y && Start_Destination.Y <= Position.Y + margin) && Destination != Start_Position && moving_ticks > 2)
                 {
                     Destination = Start_Position;
+                    moving_ticks = 0;
                 }
-                if (Position == Start_Position && Start_Position == Destination)
+                if (Position == Start_Position && Start_Position == Destination && moving_ticks > 2)
                 {
                     Destination = Start_Destination;
+                    moving_ticks = 0;
                 }
                 Vector2 travelling = Destination - Position;
                 travelling.Normalize();

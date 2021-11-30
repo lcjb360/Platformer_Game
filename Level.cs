@@ -40,14 +40,14 @@ namespace Platformer_Game
             {
                 if (!wall.Destructible)
                 {
-                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, wall.Position.Y / h_ratio), wall.Width / w_ratio, (float)7 / h_ratio));
+                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio), (wall.Position.Y / h_ratio)), wall.Width / w_ratio, (float)(7) / h_ratio));
                 }
                 
             }
             for (int i = 0; i < walls.Count; i++)
             {
                 walls[i].Position.Y += 7;
-                walls[i].Height += 7;
+                walls[i].Height -= 7;
             }
             foreach (Spike spike in spikes)
             {
