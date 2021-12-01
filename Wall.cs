@@ -25,6 +25,7 @@ namespace Platformer_Game
             Width = width * w_ratio;
             Height = height * h_ratio;
         }
+
         public Wall(Texture2D texture, Vector2 position, float width, float height, bool destructable)
         {
             float w_ratio = (float)window.Width / (float)1366;

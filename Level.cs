@@ -57,6 +57,8 @@ namespace Platformer_Game
 
         public bool Update(GameTime gameTime)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             Player.Update(gameTime, Platforms, Particles, Walls, Spikes, Lavas, Window.Height);
             if (Player.living_state == "dead")
             {
@@ -70,6 +72,20 @@ namespace Platformer_Game
                         Platforms[i].ticks = 0;
                         Platforms[i].Appear = Platforms[i].Start_Appear;
                         Platforms[i].Touched = false;
+                    }
+                }
+                for (int i = 0; i < Walls.Count; i++)
+                {
+                    if (Walls[i].Destructible)
+                    {
+                        Walls[i].parts = new List<Rectangle>();
+                        for (int x = (int)Walls[i].Position.X; x < (int)(Walls[i].Position.X + Walls[i].Width); x += (int)(((float)9) * w_ratio))
+                        {
+                            for (int y = (int)Walls[i].Position.Y; y < (int)(Walls[i].Position.Y + Walls[i].Height); y += (int)(((float)9) * h_ratio))
+                            {
+                                Walls[i].parts.Add(new Rectangle((int)x, (int)y, (int)((float)9 * w_ratio), (int)((float)9 * h_ratio)));
+                            }
+                        }
                     }
                 }
             }
