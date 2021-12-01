@@ -30,6 +30,7 @@ namespace Platformer_Game
         public int particle_id;
         public int ticker = 0;
         bool waiting_to_switch = false;
+        bool waiting_to_reset = false;
 
         public Rectangle player_edge;
         public Rectangle player_top_edge;
@@ -330,6 +331,19 @@ namespace Platformer_Game
                 {
                     Particle_state = "fire";
                 }
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+            {
+                waiting_to_reset = true;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.K) && waiting_to_reset)
+            {
+                waiting_to_reset = false;
+                living_state = "dead";
+                particle_id = 0;
+                Position = Start_Position;
+                Velocity = new Vector2(0, 0);
+                Current_Sprite = Stationary_Right_Sprite;
             }
             if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > (float)-10 * w_ratio)
             {

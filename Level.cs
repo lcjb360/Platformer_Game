@@ -40,7 +40,7 @@ namespace Platformer_Game
             {
                 if (!wall.Destructible)
                 {
-                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio), (wall.Position.Y / h_ratio)), wall.Width / w_ratio, (float)(7) / h_ratio));
+                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, (wall.Position.Y / h_ratio)), (wall.Width / w_ratio) - (float)0.25, (float)(7) / h_ratio));
                 }
                 
             }
@@ -63,8 +63,10 @@ namespace Platformer_Game
                 Particles = new List<Particle>();
                 for (int i = 0; i < Platforms.Count; i++)
                 {
-                    if (Platforms[i].Flashing || Platforms[i].Weak)
+                    if (Platforms[i].Flashing || Platforms[i].Weak || Platforms[i].Moving)
                     {
+                        Platforms[i].Position = Platforms[i].Start_Position;
+                        Platforms[i].Destination = Platforms[i].Start_Destination;
                         Platforms[i].ticks = 0;
                         Platforms[i].Appear = Platforms[i].Start_Appear;
                         Platforms[i].Touched = false;
