@@ -65,13 +65,17 @@ namespace Platformer_Game
                 Particles = new List<Particle>();
                 for (int i = 0; i < Platforms.Count; i++)
                 {
-                    if (Platforms[i].Flashing || Platforms[i].Weak || Platforms[i].Moving)
+                    if (Platforms[i].Flashing || Platforms[i].Weak)
                     {
-                        Platforms[i].Position = Platforms[i].Start_Position;
-                        Platforms[i].Destination = Platforms[i].Start_Destination;
+
                         Platforms[i].ticks = 0;
                         Platforms[i].Appear = Platforms[i].Start_Appear;
                         Platforms[i].Touched = false;
+                    }
+                    if (Platforms[i].Moving)
+                    {
+                        Platforms[i].Position = Platforms[i].Start_Position;
+                        Platforms[i].Destination = Platforms[i].Start_Destination;
                     }
                 }
                 for (int i = 0; i < Walls.Count; i++)
