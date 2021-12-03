@@ -68,30 +68,41 @@ namespace Platformer_Game
             float h_ratio = (float)window.Height / (float)768;
             Default_Platform = new Sprite(texture, 0, 60, 59, 15);
             Position = new Vector2(position.X * w_ratio + 1, position.Y * h_ratio);
-            Width = width * w_ratio + 1;
-            Height = height * h_ratio + 1;
+            Width = width * w_ratio;
+            Height = height * h_ratio;
         }
 
         public void Update(GameTime gameTime)
         {
             float w_ratio = (float)window.Width / (float)1366;
-            float margin = 7 * w_ratio;
+            float h_ratio = (float)window.Height / (float)768;
+            float margin = 7 * w_ratio * h_ratio;
             if (Moving)
             {
+                Rectangle Destination_edge = new Rectangle((int)(Destination.X - (margin / 2)), (int)(Destination.Y - (margin / 2)), (int)margin, (int)margin);
+                Rectangle Platform_edge = new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height);
                 moving_ticks++;
-                if ((Position.X - margin <= Start_Destination.X && Start_Destination.X <= Position.X + margin) && (Position.Y - margin <= Start_Destination.Y && Start_Destination.Y <= Position.Y + margin) && Destination != Start_Position && moving_ticks > 2)
+                if (Destination_edge.Intersects(Platform_edge) && Destination != Start_Position && moving_ticks > 2)
                 {
                     Destination = Start_Position;
                     moving_ticks = 0;
                 }
-                if (Position == Start_Position && Start_Position == Destination && moving_ticks > 2)
+                if (Destination_edge.Intersects(Platform_edge) && Start_Position == Destination && moving_ticks > 2)
                 {
                     Destination = Start_Destination;
                     moving_ticks = 0;
                 }
                 Vector2 travelling = Destination - Position;
                 travelling.Normalize();
-                Position += 8 * travelling;
+                if (travelling.X == 0)
+                {
+                    Position += (8 * travelling) * h_ratio;
+                }
+                else
+                {
+                    Position += (8 * travelling) * w_ratio;
+                }
+                
             }
             if (Flashing)
             {

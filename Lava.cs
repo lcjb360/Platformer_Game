@@ -33,7 +33,7 @@ namespace Platformer_Game
             Default_Lava = new Sprite(texture, 0, 76, Width, Height);
             Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
             Length = (int)((float)length * w_ratio);
-            Width = (int)((float)Width * w_ratio) + 1;
+            Width = (int)((float)Width * w_ratio);
             Height = (int)((float)height * h_ratio);
         }
 

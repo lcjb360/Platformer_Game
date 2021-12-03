@@ -310,6 +310,11 @@ namespace Platformer_Game
         {
             float w_ratio = (float)window.Width / (float)1366;
             float h_ratio = (float)window.Height / (float)768;
+            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            if (!(new Rectangle((int)(window.X * w_ratio) + 5, (int)(window.Y*h_ratio) + 5, (int)(window.Width*w_ratio) - 10, (int)(window.Height*h_ratio) - 10)).Contains(player_edge))
+            {
+                living_state = "dead";
+            }
             living_state = "alive";
             if (ticker > 0)
             { ticker--; }
@@ -410,7 +415,7 @@ namespace Platformer_Game
 
             if (!OnPlatform(platforms, particles, spikes, lavas) && Velocity.Y < 8)
             {
-                Velocity.Y += (float)1 * w_ratio;
+                Velocity.Y += (float)1 * h_ratio;
             }
             //Y_of_particle = 9999;
             //Y_of_platform = 9999;
