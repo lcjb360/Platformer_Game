@@ -102,7 +102,6 @@ namespace Platformer_Game
                 {
                     Position += (8 * travelling) * w_ratio;
                 }
-                
             }
             if (Flashing)
             {

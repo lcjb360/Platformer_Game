@@ -162,7 +162,7 @@ namespace Platformer_Game
                 new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(70, 768 - 50), 100, 30, true, new Vector2(370, 768 - 50)),
-                                       new Platform(SpriteSheet, new Vector2(770, 768 - 80), 100, 30, true, new Vector2(470, 768 - 80)),
+                                       new Platform(SpriteSheet, new Vector2(770, 768 - 50), 100, 30, true, new Vector2(470, 768 - 50)),
                                        new Platform(SpriteSheet, new Vector2(870, 768 - 50), 100, 30, true, new Vector2(1170, 768 - 50)),
                                        new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30)},
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
