@@ -114,7 +114,15 @@ namespace Platformer_Game
                         //    Velocity.Y = 0;
                         //    Position.Y = wall.Position.Y - Height;
                         //}
-                        if (Velocity.X > 0)
+                        if (Liquid)
+                        {
+                            Velocity.X = (float)(-1) * Velocity.X;
+                        }
+                        else
+                        {
+
+
+                            if (Velocity.X > 0)
                             {
                                 Position.X = wall.Position.X - Width;
                                 Velocity.X = 0;
@@ -135,6 +143,7 @@ namespace Platformer_Game
                                     Position.X = wall.Position.X - Width;
                                 }
                             }
+                        }
                         
                     }
                 }
@@ -254,21 +263,35 @@ namespace Platformer_Game
                     }
                 }
             }
-            if (colliding_H)
+            if (colliding_H && !Liquid)
             {
                 colliding_with.Velocity.X = 0;
                 Velocity.X = 0;
             }
             if (colliding_V)
             {
-                Velocity.Y = 0;
-                if (Velocity.X > 0)
+                if (Liquid)
                 {
-                    Velocity.X -= 1;
+                    if (Velocity.X > 0)
+                    {
+                        Velocity.X += (float)0.5;
+                    }
+                    if (Velocity.X < 0)
+                    {
+                        Velocity.X -= (float)0.5;
+                    }
                 }
-                if (Velocity.X < 0)
+                Velocity.Y = 0;
+                if (!Liquid)
                 {
-                    Velocity.X += 1;
+                    if (Velocity.X > 0)
+                    {
+                        Velocity.X -= 1;
+                    }
+                    if (Velocity.X < 0)
+                    {
+                        Velocity.X += 1;
+                    }
                 }
                 colliding_with.Velocity.Y = 0;
                 Position.Y = colliding_with.Position.Y - Height;
