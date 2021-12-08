@@ -116,6 +116,10 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime, Texture2D spriteSheet)
         {
+            foreach (Platform platform in Platforms)
+            {
+                platform.Draw(spriteBatch, gameTime);
+            }
             foreach (Lava lava in Lavas)
             {
                 lava.Draw(spriteBatch, gameTime);
@@ -131,10 +135,7 @@ namespace Platformer_Game
                 wall.Draw(spriteBatch, gameTime);
             }
 
-            foreach (Platform platform in Platforms)
-            {
-                platform.Draw(spriteBatch, gameTime);
-            }
+            
 
             Player.Draw(spriteBatch, gameTime);
 

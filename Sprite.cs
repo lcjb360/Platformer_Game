@@ -24,7 +24,7 @@ namespace Platformer_Game
             Width = width;
             Height = height;
         }
-
+        //change x and y etc * ratio
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
             spriteBatch.Draw(Texture, position, new Rectangle(X, Y, Width, Height), Color.White);

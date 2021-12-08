@@ -114,9 +114,9 @@ namespace Platformer_Game
                 new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1200, 150), 400, 30),
-                                       new Platform(SpriteSheet, new Vector2(300, 768 - 50), 100, 30, true, new Vector2(300, 768 - 350)),
-                                       new Platform(SpriteSheet, new Vector2(600, 768 - 450), 100, 30, true, new Vector2(600, 768 - 150)),
-                                       new Platform(SpriteSheet, new Vector2(900, 768 - 350), 100, 30, true, new Vector2(900, 768 - 650))},
+                                       new Platform(SpriteSheet, new Vector2(300, 768 - 50), 150, 30, true, new Vector2(300, 768 - 350)),
+                                       new Platform(SpriteSheet, new Vector2(600, 768 - 450), 150, 30, true, new Vector2(600, 768 - 150)),
+                                       new Platform(SpriteSheet, new Vector2(900, 768 - 350), 150, 30, true, new Vector2(900, 768 - 650))},
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
@@ -162,7 +162,7 @@ namespace Platformer_Game
                 new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(70, 768 - 50), 100, 30, true, new Vector2(370, 768 - 50)),
-                                       new Platform(SpriteSheet, new Vector2(770, 768 - 50), 100, 30, true, new Vector2(470, 768 - 50)),
+                                       new Platform(SpriteSheet, new Vector2(770, 768 - 80), 100, 30, true, new Vector2(470, 768 - 80)),
                                        new Platform(SpriteSheet, new Vector2(870, 768 - 50), 100, 30, true, new Vector2(1170, 768 - 50)),
                                        new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30)},
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
@@ -225,10 +225,10 @@ namespace Platformer_Game
                 new List<Lava>() { },
                 SpriteSheet);
 
-            five_two = new Level(true, false, level_number, window, new Vector2(1366 - 50, 768 - 50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30),
+            five_two = new Level(true, false, level_number, window, new Vector2(1366 - 50, 768 - 330),
+                new Player(SpriteSheet, new Vector2(30, 768 - 290 - 60), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 290), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 290), 60, 30),
                                        new Platform(SpriteSheet, new Vector2( 110, 768 - 100), 100, 30, true, new Vector2( 110, 768 - 500), true, false, true),
                                        new Platform(SpriteSheet, new Vector2( 310, 768 - 500), 100, 30, true, new Vector2( 310, 768 - 100), true, false, false),
                                        new Platform(SpriteSheet, new Vector2( 510, 768 - 100), 100, 30, true, new Vector2( 510, 768 - 500), true, false, true),
@@ -241,13 +241,13 @@ namespace Platformer_Game
                                        new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
                                        new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
                 new List<Spike>() { },
-                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(60, 768 - 250), 1246, 250) },
+                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(0, 768 - 250), 1366, 250) },
                 SpriteSheet);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.End))
             {
                 Exit();
             }
