@@ -18,8 +18,8 @@ namespace Platformer_Game
 
         public Lava(Texture2D texture, Vector2 position, int length)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Lava = new Sprite(texture, 0, 76, Width, Height);
             Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
             Length = (int)((float)length * w_ratio);
@@ -28,8 +28,8 @@ namespace Platformer_Game
         }
         public Lava(Texture2D texture, Vector2 position, int length, int height)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Lava = new Sprite(texture, 0, 76, Width, Height);
             Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
             Length = (int)((float)length * w_ratio);

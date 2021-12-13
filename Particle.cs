@@ -18,13 +18,13 @@ namespace Platformer_Game
         public int id;
         public Color Colour = Color.Black;
         public bool Burning = false;
-        public bool Liquid = true;
+        public bool Liquid = false;
         //public Sprite none;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Particle = new Sprite(texture, 60, 0, 5, 5);
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
@@ -36,8 +36,8 @@ namespace Platformer_Game
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id, Color color)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Particle = new Sprite(texture, 60, 0, 5, 5);
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
@@ -50,8 +50,8 @@ namespace Platformer_Game
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id, Color color, bool burning, bool liquid)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Particle = new Sprite(texture, 60, 0, 5, 5);
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
@@ -205,8 +205,8 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             if (!OnPlatform(platforms) && Velocity.Y < 5)
             {
                 Velocity.Y += (float)1 * h_ratio;

@@ -18,8 +18,8 @@ namespace Platformer_Game
 
         public Wall(Texture2D texture, Vector2 position, float width, float height)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Wall = new Sprite(texture, 0, 61, 59, 14);
             Position = new Vector2(position.X * w_ratio, (position.Y * h_ratio));
             Width = width * w_ratio;
@@ -28,8 +28,8 @@ namespace Platformer_Game
 
         public Wall(Texture2D texture, Vector2 position, float width, float height, bool destructable)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Default_Wall = new Sprite(texture, 0, 61, 59, 14);
             Position = new Vector2(position.X * w_ratio, (position.Y * h_ratio) - ((float)7 * h_ratio));
             Width = width * w_ratio;

@@ -83,8 +83,8 @@ namespace Platformer_Game
             //    new List<Lava>() { },
             //    SpriteSheet);
 
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
 
             Tutorial = new Level(true, false, level_number, window, new Vector2(1366 - (50), 768 - 50),
                 new Player(SpriteSheet, new Vector2(30, 768 - 90), 200), 
@@ -402,7 +402,11 @@ namespace Platformer_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin();
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
+            Matrix matrix = new Matrix(new Vector4(w_ratio, 0, 0, 0), new Vector4(0, h_ratio, 0, 0), new Vector4(0, 0, 1, 0), new Vector4(0, 0, 0, 1));
+        _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, 
+matrix);
 
             switch (game_state)
             {
@@ -528,6 +532,8 @@ namespace Platformer_Game
 
         public string Menu_Update(GameTime gameTime)
         {
+            float w_ratio = (float)window.Width / (float)1366;
+            float h_ratio = (float)window.Height / (float)768;
             mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {

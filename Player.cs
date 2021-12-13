@@ -49,8 +49,8 @@ namespace Platformer_Game
 
         public Player(Texture2D texture, Vector2 start_position, int capacity)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Stationary_Right_Sprite = new Sprite(texture, 0, 0, 30, 60);
             Stationary_Left_Sprite = new Sprite(texture, 0, 0, 30, 60);
             Moving_Right_Sprite = new Sprite(texture, 30, 0, 30, 60);
@@ -68,8 +68,8 @@ namespace Platformer_Game
 
         private bool OnWall(List<Wall> walls)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height + 1);
             Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + 2, (int)(Position.Y) + ((int)Height / 2), (int)Width -4, (int)(Height / 2) + 1);
             foreach (Wall wall in walls)
@@ -108,8 +108,8 @@ namespace Platformer_Game
 
         private bool HittingWall(List<Wall> walls)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
             Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
             Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height/2), (int)Width - 20, ((int)Height / 2));
@@ -228,8 +228,8 @@ namespace Platformer_Game
         public float Y_of_particle;
         private bool OnPlatform(List<Platform> platforms, List<Particle> particles, List<Spike> spikes, List<Lava> lavas)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             HittingHazard(spikes, lavas);
             foreach (Platform platform in platforms)
             {
@@ -292,8 +292,8 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             if (state == "right")
             {
                 Current_Sprite.Draw(spriteBatch, Position, (int)(Width ), (int)(Height ));
@@ -308,8 +308,8 @@ namespace Platformer_Game
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, int screen_height)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             if (!(new Rectangle((int)(window.X * w_ratio) + 5, (int)(window.Y*h_ratio) + 5, (int)(window.Width*w_ratio) - 10, (int)(window.Height*h_ratio) - 10)).Contains(player_edge))
             {

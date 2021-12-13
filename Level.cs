@@ -24,8 +24,8 @@ namespace Platformer_Game
 
         public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Unlocked = unlocked;
             Completed = completed;
             this.id = id;
@@ -57,8 +57,8 @@ namespace Platformer_Game
 
         public bool Update(GameTime gameTime)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = 1;
+            float h_ratio = 1;
             Player.Update(gameTime, Platforms, Particles, Walls, Spikes, Lavas, Window.Height);
             if (Player.living_state == "dead")
             {
