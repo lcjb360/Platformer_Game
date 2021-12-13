@@ -493,7 +493,12 @@ namespace Platformer_Game
                         particle.Burning = true;
                         particle.Colour = Color.Red;
                     }
-                    
+                    if (Particle_state == "liquid")
+                    {
+                        particle.Liquid = true;
+                        particle.Colour = Color.MediumPurple;
+                    }
+
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     foreach (Particle particlex in particles)
                     {
@@ -521,6 +526,11 @@ namespace Platformer_Game
                     {
                         particle.Burning = true;
                         particle.Colour = Color.Red;
+                    }
+                    if (Particle_state == "liquid")
+                    {
+                        particle.Liquid = true;
+                        particle.Colour = Color.MediumPurple;
                     }
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     foreach (Particle particlex in particles)
