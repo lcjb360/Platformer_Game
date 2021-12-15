@@ -18,7 +18,7 @@ namespace Platformer_Game
         public int id;
         public Color Colour = Color.Black;
         public bool Burning = false;
-        public bool Liquid = true;
+        public bool Liquid = false;
         //public Sprite none;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id)
@@ -321,8 +321,15 @@ namespace Platformer_Game
             }
             if (colliding_H && !Liquid)
             {
-                colliding_with.Velocity.X = 0;
+                if (!colliding_with.Liquid)
+                {
+                    colliding_with.Velocity.X = 0;
+                }
                 Velocity.X = 0;
+            }
+            if (colliding_H && !colliding_with.Liquid)
+            {
+                Velocity.X = -Velocity.X;
             }
             if (colliding_V)
             {

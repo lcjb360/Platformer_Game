@@ -63,7 +63,7 @@ namespace Platformer_Game
             Position = new Vector2(start_position.X * w_ratio, start_position.Y * h_ratio);
             Start_Position = Position;
             Texture = texture;
-            Capacity = 500;
+            Capacity = 400;
         }
 
         private bool OnWall(List<Wall> walls)
@@ -330,9 +330,13 @@ namespace Platformer_Game
                 waiting_to_switch = false;
                 if (Particle_state == "fire")
                 {
+                    Particle_state = "liquid";
+                }
+                else if (Particle_state == "liquid")
+                {
                     Particle_state = "plain";
                 }
-                else
+                else if (Particle_state == "plain")
                 {
                     Particle_state = "fire";
                 }
