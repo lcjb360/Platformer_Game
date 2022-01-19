@@ -27,6 +27,7 @@ namespace Platformer_Game
         public int moving_ticks = 0;
         public bool Appear = true;
         public bool Start_Appear;
+        public Color Colour = Color.White;
 
         public Platform(Texture2D texture, Vector2 position, float width, float height, bool moving, Vector2 destination, bool flashing, bool weak, bool appear)
         {
@@ -70,6 +71,17 @@ namespace Platformer_Game
             Position = new Vector2(position.X * w_ratio + 1, position.Y * h_ratio);
             Width = width * w_ratio;
             Height = height * h_ratio;
+        }
+
+        public Platform(Texture2D texture, Vector2 position, float width, float height, Color color)
+        {
+            float w_ratio = 1;
+            float h_ratio = 1;
+            Default_Platform = new Sprite(texture, 0, 60, 59, 15);
+            Position = new Vector2(position.X * w_ratio + 1, position.Y * h_ratio);
+            Width = width * w_ratio;
+            Height = height * h_ratio;
+            Colour = color;
         }
 
         public void Update(GameTime gameTime)
@@ -153,7 +165,7 @@ namespace Platformer_Game
         {
             if (Appear)
             {
-                Default_Platform.Draw(spriteBatch, Position, (int)Width, (int)Height);
+                Default_Platform.Draw(spriteBatch, Position, (int)Width, (int)Height, Colour);
             }
         }
     }

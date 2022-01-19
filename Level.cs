@@ -20,7 +20,7 @@ namespace Platformer_Game
         private List<Spike> Spikes;
         private List<Lava> Lavas;
         private List<Particle> Particles = new List<Particle>();
-        private List<Key> Keys;
+        private List<Key> Keys = new List<Key>();
         public Rectangle player_edge;
 
         public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
@@ -75,7 +75,7 @@ namespace Platformer_Game
             {
                 if (!wall.Destructible)
                 {
-                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, (wall.Position.Y / h_ratio)), (wall.Width / w_ratio) - (float)0.25, (float)(7) / h_ratio));
+                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, (wall.Position.Y / h_ratio)), (wall.Width / w_ratio) - (float)0.25, (float)(7) / h_ratio, wall.Colour));
                 }
 
             }
@@ -130,6 +130,9 @@ namespace Platformer_Game
                 for (int i = 0; i < Keys.Count; i++)
                 {
                     Keys[i].Position = Keys[i].Start_Position;
+                    Keys[i].Width = 20;
+                    Keys[i].Height = 20;
+                    Player.Inventory.Remove(Keys[i].Colour);
                 }
             }
             player_edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);

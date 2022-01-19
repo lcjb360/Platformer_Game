@@ -9,11 +9,13 @@ namespace Platformer_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        //(1366 * 767)
+        //(1366 * 768)
         public Rectangle window;
         public int level_number;
         public string game_state;
         private MouseState mouseState = new MouseState();
+        const int screen_height = 768;
+        const int screen_width = 1366;
 
         private Texture2D SpriteSheet;
         private Texture2D NumberSheet;
@@ -38,6 +40,7 @@ namespace Platformer_Game
         public Level four_two;
         public Level five_two;
         public Level one_three;
+        public Level two_three;
 
 
         public Game1()
@@ -73,13 +76,13 @@ namespace Platformer_Game
             four = new Sprite(NumberSheet, 215, 226, 62, 73);
             five = new Sprite(NumberSheet, 285, 226, 63, 73);
 
-            //default = new Level(false, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
-            //    new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
-            //    new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
+            //default = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+            //    new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+            //    new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), screen_width, 30)
             //                         },
-            //    new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
-            //                           new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
-            //                           new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+            //    new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+            //                           new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+            //                           new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
             //    new List<Spike>() { },
             //    new List<Lava>() { },
             //    SpriteSheet);
@@ -87,175 +90,193 @@ namespace Platformer_Game
             float w_ratio = 1;
             float h_ratio = 1;
 
-            Tutorial = new Level(true, false, level_number, window, new Vector2(1366 - (50), 768 - 50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200), 
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1000, 30),
-                                       new Platform(SpriteSheet, new Vector2(1060, 768 - 30), 1366 - 1060, 30)}, 
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, 768 - 130), 30, 100),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)}, 
-                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(850, 768 - 40), 5 * 9) }, 
-                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(1000, 768 - 23), 1 * 60, 25), },
+
+            Tutorial = new Level(true, false, level_number, window, new Vector2(screen_width - (50), screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 1000, 30),
+                                       new Platform(SpriteSheet, new Vector2(1060, screen_height - 30), screen_width - 1060, 30)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(770, screen_height - 130), 30, 100),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
+                new List<Spike>() { new Spike(SpriteSheet, new Vector2(850, screen_height - 40), 5 * 9) },
+                new List<Lava>() { new Lava(SpriteSheet, new Vector2(1000, screen_height - 23), 1 * 60, 25), },
                 SpriteSheet);
 
-            two_one = new Level(false, false, level_number, window, new Vector2(1366 - 50, 768 -50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1366, 30)
+            two_one = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), screen_width, 30)
                                      },
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30),
-                                       new Wall(SpriteSheet, new Vector2(100, 768 - 300), 1366 - 200, 768 - 300)},
-                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(100, 768 - 310), 1366 - 200 - ((1366 -200) % 9)) },
-                new List<Lava>() {  },
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30),
+                                       new Wall(SpriteSheet, new Vector2(100, screen_height - 300), screen_width - 200, screen_height - 300)},
+                new List<Spike>() { new Spike(SpriteSheet, new Vector2(100, screen_height - 310), screen_width - 200 - ((screen_width - 200) % 9)) },
+                new List<Lava>() { },
                 SpriteSheet);
 
-            three_one = new Level(false, false, level_number, window, new Vector2(1366 - 50, 120),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
+            three_one = new Level(false, false, level_number, window, new Vector2(screen_width - 50, 120),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(1200, 150), 400, 30),
-                                       new Platform(SpriteSheet, new Vector2(300, 768 - 50), 150, 30, true, new Vector2(300, 768 - 350)),
-                                       new Platform(SpriteSheet, new Vector2(600, 768 - 450), 150, 30, true, new Vector2(600, 768 - 150)),
-                                       new Platform(SpriteSheet, new Vector2(900, 768 - 350), 150, 30, true, new Vector2(900, 768 - 650))},
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+                                       new Platform(SpriteSheet, new Vector2(300, screen_height - 50), 150, 30, true, new Vector2(300, screen_height - 350)),
+                                       new Platform(SpriteSheet, new Vector2(600, screen_height - 450), 150, 30, true, new Vector2(600, screen_height - 150)),
+                                       new Platform(SpriteSheet, new Vector2(900, screen_height - 350), 150, 30, true, new Vector2(900, screen_height - 650))},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(60, 768 - 25), 25*60, 25)},
+                new List<Lava>() { new Lava(SpriteSheet, new Vector2(60, screen_height - 25), 25 * 60, 25) },
                 SpriteSheet);
 
-            four_one = new Level(false, false, level_number, window, new Vector2(1366 - 50, 768 - 50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30) },
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768)
+            four_one = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 30), 60, 30) },
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height)
                                        },
-                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(200, 768 - 500), 15 * 9),
-                                       new Spike(SpriteSheet, new Vector2(500, 768 - 500), 15 * 9),
-                                       new Spike(SpriteSheet, new Vector2(800, 768 - 500), 15 * 9),
-                                       new Spike(SpriteSheet, new Vector2(1100, 768 - 500), 15 * 9),
-                                       new Spike(SpriteSheet, new Vector2(335, 768 - 200), 18 * 9),
-                                       new Spike(SpriteSheet, new Vector2(635, 768 - 200), 18 * 9),
-                                       new Spike(SpriteSheet, new Vector2(935, 768 - 200), 18 * 9)
+                new List<Spike>() {    new Spike(SpriteSheet, new Vector2(200, screen_height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(500, screen_height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(800, screen_height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(1100, screen_height - 500), 15 * 9),
+                                       new Spike(SpriteSheet, new Vector2(335, screen_height - 200), 18 * 9),
+                                       new Spike(SpriteSheet, new Vector2(635, screen_height - 200), 18 * 9),
+                                       new Spike(SpriteSheet, new Vector2(935, screen_height - 200), 18 * 9)
                                        },
                 new List<Lava>() { },
                 SpriteSheet);
 
-            five_one = new Level(false, false, level_number, window, new Vector2(1366 - 50, 768 - 50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(200, 768 - 30), 100, 30, false, new Vector2(0, 0), true, false, true),
-                                       new Platform(SpriteSheet, new Vector2(400, 768 - 30), 100, 30, false, new Vector2(0, 0), true, false, false),
-                                       new Platform(SpriteSheet, new Vector2(600, 768 - 30), 100, 30, false, new Vector2(0, 0), true, false, true),
-                                       new Platform(SpriteSheet, new Vector2(800, 768 - 30), 100, 30, false, new Vector2(0, 0), true, false, false),
-                                       new Platform(SpriteSheet, new Vector2(1000, 768 - 30), 100, 30, false, new Vector2(0, 0), true, false, true)},
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+            five_one = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(200, screen_height - 30), 100, 30, false, new Vector2(0, 0), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2(400, screen_height - 30), 100, 30, false, new Vector2(0, 0), true, false, false),
+                                       new Platform(SpriteSheet, new Vector2(600, screen_height - 30), 100, 30, false, new Vector2(0, 0), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2(800, screen_height - 30), 100, 30, false, new Vector2(0, 0), true, false, false),
+                                       new Platform(SpriteSheet, new Vector2(1000, screen_height - 30), 100, 30, false, new Vector2(0, 0), true, false, true)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>() { new Lava(NumberSheet, new Vector2(0, 768), 1366) },
+                new List<Lava>() { new Lava(NumberSheet, new Vector2(0, screen_height), screen_width) },
                 SpriteSheet);
 
-            one_two = new Level(true, false, level_number, window, new Vector2(1366 - 50, 768 - 50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(70, 768 - 50), 100, 30, true, new Vector2(370, 768 - 50)),
-                                       new Platform(SpriteSheet, new Vector2(770, 768 - 80), 100, 30, true, new Vector2(470, 768 - 80)),
-                                       new Platform(SpriteSheet, new Vector2(870, 768 - 50), 100, 30, true, new Vector2(1170, 768 - 50)),
-                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 30), 60, 30)},
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+            one_two = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(70, screen_height - 50), 100, 30, true, new Vector2(370, screen_height - 50)),
+                                       new Platform(SpriteSheet, new Vector2(770, screen_height - 80), 100, 30, true, new Vector2(470, screen_height - 80)),
+                                       new Platform(SpriteSheet, new Vector2(870, screen_height - 50), 100, 30, true, new Vector2(1170, screen_height - 50)),
+                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 30), 60, 30)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>(){      new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
+                new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, screen_height), screen_width) },
                 SpriteSheet);
 
-            two_two = new Level(false, false, level_number, window, new Vector2(1320, 768 - 530),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200), 
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(65, 768 - 85), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(170, 768 - 125), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(275, 768 - 165), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(380, 768 - 205), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(485, 768 - 245), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(590, 768 - 285), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(695, 768 - 325), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(800, 768 - 365), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(905, 768 - 405), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(1010, 768 - 445), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(1115, 768 - 485), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(1220, 768 - 525), 100, 30, false, new Vector2(0,0), false, true, true)},
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+            two_two = new Level(false, false, level_number, window, new Vector2(1320, screen_height - 530),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(65, screen_height - 85), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(170, screen_height - 125), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(275, screen_height - 165), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(380, screen_height - 205), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(485, screen_height - 245), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(590, screen_height - 285), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(695, screen_height - 325), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(800, screen_height - 365), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(905, screen_height - 405), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(1010, screen_height - 445), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(1115, screen_height - 485), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(1220, screen_height - 525), 100, 30, false, new Vector2(0,0), false, true, true)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
+                new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, screen_height), screen_width) },
                 SpriteSheet);
 
-            three_two = new Level(false, false, level_number, window, new Vector2(1290, 768 - 650),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(165, 768 - 125), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(330, 768 - 205), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(495, 768 - 285), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(660, 768 - 365), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(825, 768 - 445), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(990, 768 - 525), 100, 30, false, new Vector2(0,0), false, true, true),
-                                       new Platform(SpriteSheet, new Vector2(1155, 768 - 605), 100, 30, false, new Vector2(0,0), false, true, true),},
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+            three_two = new Level(false, false, level_number, window, new Vector2(1290, screen_height - 650),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(165, screen_height - 125), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(330, screen_height - 205), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(495, screen_height - 285), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(660, screen_height - 365), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(825, screen_height - 445), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(990, screen_height - 525), 100, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(1155, screen_height - 605), 100, 30, false, new Vector2(0,0), false, true, true),},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, 768), 1366) },
+                new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, screen_height), screen_width) },
                 SpriteSheet);
 
-            four_two = new Level(false, false, level_number, window, new Vector2(1366 - 50, 768 - 50),
-                new Player(SpriteSheet, new Vector2(30, 768 - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 30), 1366, 30)
+            four_two = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), screen_width, 30)
                                      },
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(300, 1), 30, 768, true),
-                                       new Wall(SpriteSheet, new Vector2(600, 1), 30, 768, true),
-                                       new Wall(SpriteSheet, new Vector2(900, 1), 30, 768, true),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(300, 1), 30, screen_height, true),
+                                       new Wall(SpriteSheet, new Vector2(600, 1), 30, screen_height, true),
+                                       new Wall(SpriteSheet, new Vector2(900, 1), 30, screen_height, true),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
                 new List<Lava>() { },
                 SpriteSheet);
 
-            five_two = new Level(false, false, level_number, window, new Vector2(1366 - 50, 768 - 330),
-                new Player(SpriteSheet, new Vector2(30, 768 - 290 - 60), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, 768 - 290), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(1366 - 60, 768 - 290), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2( 110, 768 - 100), 100, 30, true, new Vector2( 110, 768 - 500), true, false, true),
-                                       new Platform(SpriteSheet, new Vector2( 310, 768 - 500), 100, 30, true, new Vector2( 310, 768 - 100), true, false, false),
-                                       new Platform(SpriteSheet, new Vector2( 510, 768 - 100), 100, 30, true, new Vector2( 510, 768 - 500), true, false, true),
-                                       new Platform(SpriteSheet, new Vector2( 710, 768 - 500), 100, 30, true, new Vector2( 710, 768 - 100), true, false, false),
-                                       new Platform(SpriteSheet, new Vector2( 910, 768 - 100), 100, 30, true, new Vector2( 910, 768 - 500), true, false, true),
-                                       new Platform(SpriteSheet, new Vector2( 1110, 768 - 500), 100, 30, true, new Vector2( 1110, 768 - 100), true, false, false),
+            five_two = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 330),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 290 - 60), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 290), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 290), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2( 110, screen_height - 100), 100, 30, true, new Vector2( 110, screen_height - 500), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2( 310, screen_height - 500), 100, 30, true, new Vector2( 310, screen_height - 100), true, false, false),
+                                       new Platform(SpriteSheet, new Vector2( 510, screen_height - 100), 100, 30, true, new Vector2( 510, screen_height - 500), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2( 710, screen_height - 500), 100, 30, true, new Vector2( 710, screen_height - 100), true, false, false),
+                                       new Platform(SpriteSheet, new Vector2( 910, screen_height - 100), 100, 30, true, new Vector2( 910, screen_height - 500), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2( 1110, screen_height - 500), 100, 30, true, new Vector2( 1110, screen_height - 100), true, false, false),
 
                                      },
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(1366-30, 0), 30, 768),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), 1366, 30)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(0, 768 - 250), 1366, 250) },
+                new List<Lava>() {     new Lava(SpriteSheet, new Vector2(0, screen_height - 250), screen_width, 250) },
                 SpriteSheet);
 
-            one_three = new Level(true, false, level_number, window, new Vector2(window.Width - 50, window.Height - 50),
-                new Player(SpriteSheet, new Vector2(30, window.Height - 90), 200),
-                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, window.Height - 30), window.Width, 30)
+            one_three = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), screen_width, 30)
                                      },
-                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
-                                       new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30),
-                                       new Wall(SpriteSheet, new Vector2(300, 0), 30, window.Height, Color.Yellow)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(500, 30), 30, screen_height -60, Color.Yellow),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)
+                                       },
                 new List<Spike>() { },
                 new List<Lava>() { },
-                new List<Key>() { new Key(SpriteSheet, new Vector2(100, 768 - 100)) },
+                new List<Key>() { new Key(SpriteSheet, new Vector2(200, screen_height - 50)) },
+                SpriteSheet);
+
+            two_three = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), screen_width, 30),
+                                       new Platform(SpriteSheet, new Vector2(1128, 350), 100, 30),
+                                       new Platform(SpriteSheet, new Vector2(1252, 350), 100, 30),
+                                       new Platform(SpriteSheet, new Vector2(1370, 350), 100, 30),},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(1100, 350), 30, screen_height - 380, Color.Yellow),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)
+                                       },
+                new List<Spike>() { },
+                new List<Lava>() { },
+                new List<Key>() { new Key(SpriteSheet, new Vector2(1200, screen_height - 50)) },
                 SpriteSheet);
         }
 
@@ -411,8 +432,23 @@ namespace Platformer_Game
                         if (one_three.Update(gameTime))
                         {
                             one_three.Completed = true;
-                            //two_three.Unlocked = true;
+                            two_three.Unlocked = true;
                             game_state = "2,3";
+                        }
+                    }
+                    else
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
+                case "2,3":
+                    if (two_three.Unlocked)
+                    {
+                        if (two_three.Update(gameTime))
+                        {
+                            two_three.Completed = true;
+                            //three_three.Unlocked = true;
+                            game_state = "3,3";
                         }
                     }
                     else
@@ -432,16 +468,16 @@ namespace Platformer_Game
         protected override void Draw(GameTime gameTime)
         {
             float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float h_ratio = (float)window.Height / (float)screen_height;
             Matrix matrix = new Matrix(new Vector4(w_ratio, 0, 0, 0), new Vector4(0, h_ratio, 0, 0), new Vector4(0, 0, 1, 0), new Vector4(0, 0, 0, 1));
-        _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, 
-matrix);
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null,
+    matrix);
 
             switch (game_state)
             {
                 case "1,1":
                     GraphicsDevice.Clear(Color.Tomato);
-                    Tutorial.Draw(_spriteBatch ,gameTime, SpriteSheet);
+                    Tutorial.Draw(_spriteBatch, gameTime, SpriteSheet);
                     break;
                 case "2,1":
                     if (two_one.Unlocked)
@@ -513,6 +549,13 @@ matrix);
                         one_three.Draw(_spriteBatch, gameTime, SpriteSheet);
                     }
                     break;
+                case "2,3":
+                    if (two_three.Unlocked)
+                    {
+                        GraphicsDevice.Clear(new Color(150, 200, 255));
+                        two_three.Draw(_spriteBatch, gameTime, SpriteSheet);
+                    }
+                    break;
                 case ("Main_Menu"):
                     GraphicsDevice.Clear(Color.White);
                     Menu_Draw(_spriteBatch, gameTime);
@@ -539,37 +582,37 @@ matrix);
                 {
                     color = Color.Blue;
                 }
-                box = new Box(new Vector2(1366 * 1 / 11, 768 * ((2 * i) - 1) / 7), color, $"1,{i}", Box_Sprite);
+                box = new Box(new Vector2(screen_width * 1 / 11, screen_height * ((2 * i) - 1) / 7), color, $"1,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                one.Draw(spriteBatch, new Vector2((1366 * 1 / 11) + (Box_Sprite.Width - one.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - one.Height) / 2)));
+                one.Draw(spriteBatch, new Vector2((screen_width * 1 / 11) + (Box_Sprite.Width - one.Width) / 2, (screen_height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - one.Height) / 2)));
 
-                box = new Box(new Vector2(1366 * 3 / 11, 768 * ((2 * i) - 1) / 7), color, $"2,{i}", Box_Sprite);
+                box = new Box(new Vector2(screen_width * 3 / 11, screen_height * ((2 * i) - 1) / 7), color, $"2,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                two.Draw(spriteBatch, new Vector2((1366 * 3 / 11) + (Box_Sprite.Width - two.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - two.Height) / 2)));
+                two.Draw(spriteBatch, new Vector2((screen_width * 3 / 11) + (Box_Sprite.Width - two.Width) / 2, (screen_height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - two.Height) / 2)));
 
-                box = new Box(new Vector2(1366 * 5 / 11, 768 * ((2 * i) - 1) / 7), color, $"3,{i}", Box_Sprite);
+                box = new Box(new Vector2(screen_width * 5 / 11, screen_height * ((2 * i) - 1) / 7), color, $"3,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                three.Draw(spriteBatch, new Vector2((1366 * 5 / 11) + (Box_Sprite.Width - three.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - three.Height) / 2)));
+                three.Draw(spriteBatch, new Vector2((screen_width * 5 / 11) + (Box_Sprite.Width - three.Width) / 2, (screen_height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - three.Height) / 2)));
 
-                box = new Box(new Vector2(1366 * 7 / 11, 768 * ((2 * i) - 1) / 7), color, $"4,{i}", Box_Sprite);
+                box = new Box(new Vector2(screen_width * 7 / 11, screen_height * ((2 * i) - 1) / 7), color, $"4,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                four.Draw(spriteBatch, new Vector2((1366 * 7 / 11) + (Box_Sprite.Width - four.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
+                four.Draw(spriteBatch, new Vector2((screen_width * 7 / 11) + (Box_Sprite.Width - four.Width) / 2, (screen_height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
 
-                box = new Box(new Vector2(1366 * 9 / 11, 768 * ((2 * i) - 1) / 7), color, $"5,{i}", Box_Sprite);
+                box = new Box(new Vector2(screen_width * 9 / 11, screen_height * ((2 * i) - 1) / 7), color, $"5,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                five.Draw(spriteBatch, new Vector2((1366 * 9 / 11) + (Box_Sprite.Width - five.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
+                five.Draw(spriteBatch, new Vector2((screen_width * 9 / 11) + (Box_Sprite.Width - five.Width) / 2, (screen_height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
             }
         }
 
         public string Menu_Update(GameTime gameTime)
         {
-            float w_ratio = (float)window.Width / (float)1366;
-            float h_ratio = (float)window.Height / (float)768;
+            float w_ratio = (float)window.Width / (float)screen_width;
+            float h_ratio = (float)window.Height / (float)screen_height;
             mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {

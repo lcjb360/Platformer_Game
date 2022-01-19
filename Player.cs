@@ -89,19 +89,19 @@ namespace Platformer_Game
                         }
                     }
                 }
-                else
-                {
-                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                    if (player_edge.Intersects(wall_edge))
-                    {
-                        if (player_bottom_edge.Intersects(wall_edge))
-                        {
-                            Velocity.Y = 0;
-                            Position.Y = wall.Position.Y - Height;
-                            return true;
-                        }
-                    }
-                }
+                //else
+                //{
+                //    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                //    if (player_edge.Intersects(wall_edge))
+                //    {
+                //        if (player_bottom_edge.Intersects(wall_edge))
+                //        {
+                //            Velocity.Y = 0;
+                //            Position.Y = wall.Position.Y - Height;
+                //            return true;
+                //        }
+                //    }
+                //}
             }
             return false;
         }
@@ -484,7 +484,7 @@ namespace Platformer_Game
             }
 
             //particle creation
-            if (((mouseState.LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space))) && ticker == 0 && particle_id < Capacity)
+            if (((mouseState.LeftButton == ButtonState.Pressed) && ticker == 0 && particle_id < Capacity))
             {
                 if ((mousePosVect / 10).Length() > 10)
                 {
