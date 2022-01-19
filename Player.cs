@@ -31,6 +31,7 @@ namespace Platformer_Game
         public int ticker = 0;
         bool waiting_to_switch = false;
         bool waiting_to_reset = false;
+        public List<Color> Inventory = new List<Color>();
 
         public Rectangle player_edge;
         public Rectangle player_top_edge;
@@ -117,6 +118,13 @@ namespace Platformer_Game
             Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
             foreach (Wall wall in walls)
             {
+                foreach (Color colour in Inventory)
+                {
+                    if(wall.Colour == colour)
+                    {
+                        return false;
+                    }
+                }
                 if (wall.Destructible)
                 {
                     for (int i = 0; i < wall.parts.Count; i++)
@@ -476,7 +484,7 @@ namespace Platformer_Game
             }
 
             //particle creation
-            if (mouseState.LeftButton == ButtonState.Pressed && ticker == 0 && particle_id < Capacity)
+            if (((mouseState.LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space))) && ticker == 0 && particle_id < Capacity)
             {
                 if ((mousePosVect / 10).Length() > 10)
                 {

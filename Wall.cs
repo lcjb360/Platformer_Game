@@ -15,6 +15,7 @@ namespace Platformer_Game
         public float Height;
         public bool Destructible = false;
         public List<Rectangle> parts = new List<Rectangle>();
+        public Color Colour = Color.White;
 
         public Wall(Texture2D texture, Vector2 position, float width, float height)
         {
@@ -24,6 +25,17 @@ namespace Platformer_Game
             Position = new Vector2(position.X * w_ratio, (position.Y * h_ratio));
             Width = width * w_ratio;
             Height = height * h_ratio + 1;
+        }
+
+        public Wall(Texture2D texture, Vector2 position, float width, float height, Color color)
+        {
+            float w_ratio = 1;
+            float h_ratio = 1;
+            Default_Wall = new Sprite(texture, 0, 61, 59, 14);
+            Position = new Vector2(position.X * w_ratio, (position.Y * h_ratio));
+            Width = width * w_ratio;
+            Height = height * h_ratio + 1;
+            Colour = color;
         }
 
         public Wall(Texture2D texture, Vector2 position, float width, float height, bool destructable)
@@ -60,7 +72,7 @@ namespace Platformer_Game
             }
             else
             {
-                Default_Wall.Draw(spriteBatch, Position, (int)Width, (int)Height);
+                Default_Wall.Draw(spriteBatch, Position, (int)Width, (int)Height, Colour);
             }
         }
     }

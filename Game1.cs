@@ -251,9 +251,11 @@ namespace Platformer_Game
                                      },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, window.Height),
                                        new Wall(SpriteSheet, new Vector2(window.Width-30, 0), 30, window.Height),
-                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30)},
+                                       new Wall(SpriteSheet, new Vector2(0, 0), window.Width, 30),
+                                       new Wall(SpriteSheet, new Vector2(300, 0), 30, window.Height, Color.Yellow)},
                 new List<Spike>() { },
                 new List<Lava>() { },
+                new List<Key>() { new Key(SpriteSheet, new Vector2(100, 768 - 100)) },
                 SpriteSheet);
         }
 
@@ -537,30 +539,30 @@ matrix);
                 {
                     color = Color.Blue;
                 }
-                box = new Box(new Vector2(window.Width * 1 / 11, window.Height * ((2 * i) - 1) / 7), color, $"1,{i}", Box_Sprite);
+                box = new Box(new Vector2(1366 * 1 / 11, 768 * ((2 * i) - 1) / 7), color, $"1,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                one.Draw(spriteBatch, new Vector2((window.Width * 1 / 11) + (Box_Sprite.Width - one.Width) / 2, (window.Height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - one.Height) / 2)));
+                one.Draw(spriteBatch, new Vector2((1366 * 1 / 11) + (Box_Sprite.Width - one.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - one.Height) / 2)));
 
-                box = new Box(new Vector2(window.Width * 3 / 11, window.Height * ((2 * i) - 1) / 7), color, $"2,{i}", Box_Sprite);
+                box = new Box(new Vector2(1366 * 3 / 11, 768 * ((2 * i) - 1) / 7), color, $"2,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                two.Draw(spriteBatch, new Vector2((window.Width * 3 / 11) + (Box_Sprite.Width - two.Width) / 2, (window.Height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - two.Height) / 2)));
+                two.Draw(spriteBatch, new Vector2((1366 * 3 / 11) + (Box_Sprite.Width - two.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - two.Height) / 2)));
 
-                box = new Box(new Vector2(window.Width * 5 / 11, window.Height * ((2 * i) - 1) / 7), color, $"3,{i}", Box_Sprite);
+                box = new Box(new Vector2(1366 * 5 / 11, 768 * ((2 * i) - 1) / 7), color, $"3,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                three.Draw(spriteBatch, new Vector2((window.Width * 5 / 11) + (Box_Sprite.Width - three.Width) / 2, (window.Height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - three.Height) / 2)));
+                three.Draw(spriteBatch, new Vector2((1366 * 5 / 11) + (Box_Sprite.Width - three.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - three.Height) / 2)));
 
-                box = new Box(new Vector2(window.Width * 7 / 11, window.Height * ((2 * i) - 1) / 7), color, $"4,{i}", Box_Sprite);
+                box = new Box(new Vector2(1366 * 7 / 11, 768 * ((2 * i) - 1) / 7), color, $"4,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                four.Draw(spriteBatch, new Vector2((window.Width * 7 / 11) + (Box_Sprite.Width - four.Width) / 2, (window.Height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
+                four.Draw(spriteBatch, new Vector2((1366 * 7 / 11) + (Box_Sprite.Width - four.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
 
-                box = new Box(new Vector2(window.Width * 9 / 11, window.Height * ((2 * i) - 1) / 7), color, $"5,{i}", Box_Sprite);
+                box = new Box(new Vector2(1366 * 9 / 11, 768 * ((2 * i) - 1) / 7), color, $"5,{i}", Box_Sprite);
                 boxes.Add(box);
                 box.Draw(spriteBatch);
-                five.Draw(spriteBatch, new Vector2((window.Width * 9 / 11) + (Box_Sprite.Width - five.Width) / 2, (window.Height * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
+                five.Draw(spriteBatch, new Vector2((1366 * 9 / 11) + (Box_Sprite.Width - five.Width) / 2, (768 * ((2 * i) - 1)) / 7 + ((Box_Sprite.Height - four.Height) / 2)));
             }
         }
 

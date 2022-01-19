@@ -20,6 +20,7 @@ namespace Platformer_Game
         private List<Spike> Spikes;
         private List<Lava> Lavas;
         private List<Particle> Particles = new List<Particle>();
+        private List<Key> Keys;
         public Rectangle player_edge;
 
         public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
@@ -42,7 +43,41 @@ namespace Platformer_Game
                 {
                     Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, (wall.Position.Y / h_ratio)), (wall.Width / w_ratio) - (float)0.25, (float)(7) / h_ratio));
                 }
-                
+
+            }
+            for (int i = 0; i < walls.Count; i++)
+            {
+                walls[i].Position.Y += 7;
+                walls[i].Height -= 7;
+            }
+            foreach (Spike spike in spikes)
+            {
+                Platforms.Add(new Platform(spriteSheet, new Vector2(spike.Position.X / w_ratio, (spike.Position.Y + 10) / h_ratio), (float)spike.Length / w_ratio, 20));
+            }
+        }
+
+        public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, List<Key> keys, Texture2D spriteSheet)
+        {
+            float w_ratio = 1;
+            float h_ratio = 1;
+            Unlocked = unlocked;
+            Completed = completed;
+            this.id = id;
+            Window = window;
+            Player = player;
+            Platforms = platforms;
+            Walls = walls;
+            Spikes = spikes;
+            Lavas = lavas;
+            Keys = keys;
+            Finish_Point = new Vector2(finish_point.X * w_ratio, finish_point.Y * h_ratio);
+            foreach (Wall wall in walls)
+            {
+                if (!wall.Destructible)
+                {
+                    Platforms.Add(new Platform(spriteSheet, new Vector2((wall.Position.X / w_ratio) - 1, (wall.Position.Y / h_ratio)), (wall.Width / w_ratio) - (float)0.25, (float)(7) / h_ratio));
+                }
+
             }
             for (int i = 0; i < walls.Count; i++)
             {
@@ -92,6 +127,10 @@ namespace Platformer_Game
                         }
                     }
                 }
+                for (int i = 0; i < Keys.Count; i++)
+                {
+                    Keys[i].Position = Keys[i].Start_Position;
+                }
             }
             player_edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);
             if (player_edge.Contains(Finish_Point))
@@ -110,6 +149,11 @@ namespace Platformer_Game
             foreach (Particle particle in Particles)
             {
                 particle.Update(gameTime, Platforms, Particles, Walls, Lavas, Window.Height);
+            }
+
+            foreach (Key key in Keys)
+            {
+                key.Update(gameTime, Player, Platforms, Particles, Walls, Lavas, Window.Height);
             }
             return false;
         }
@@ -135,14 +179,18 @@ namespace Platformer_Game
                 wall.Draw(spriteBatch, gameTime);
             }
 
-            
-
             Player.Draw(spriteBatch, gameTime);
 
             foreach (Particle particle in Particles)
             {
                 particle.Draw(spriteBatch, gameTime);
             }
+
+            foreach (Key key in Keys)
+            {
+                key.Draw(spriteBatch, gameTime);
+            }
+
             Particle finish_point = new Particle(spriteSheet, Finish_Point, new Vector2(0, 0), 0, Color.White);
             finish_point.Draw(spriteBatch, gameTime);
             finish_point.Position.X += finish_point.Width;
