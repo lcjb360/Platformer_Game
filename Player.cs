@@ -188,12 +188,9 @@ namespace Platformer_Game
                                 define_edges();
                                 //return true;
                             }
-
                         }
                     }
-
                 }
-
             }
             return false;
         }
