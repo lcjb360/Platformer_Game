@@ -72,7 +72,7 @@ namespace Platformer_Game
             float w_ratio = 1;
             float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height + 1);
-            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + 2, (int)(Position.Y) + ((int)Height / 2), (int)Width -4, (int)(Height / 2) + 1);
+            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + 2, (int)(Position.Y) + ((int)Height / 2), (int)Width - 4, (int)(Height / 2) + 1);
             foreach (Wall wall in walls)
             {
                 if (wall.Destructible)
@@ -113,89 +113,87 @@ namespace Platformer_Game
             float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
             Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
-            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height/2), (int)Width - 20, ((int)Height / 2));
+            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
             Rectangle player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
             Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
             foreach (Wall wall in walls)
             {
-                foreach (Color colour in Inventory)
+                if (!Inventory.Contains(wall.Colour))
                 {
-                    if(wall.Colour == colour)
+                    if (wall.Destructible)
                     {
-                        return false;
-                    }
-                }
-                if (wall.Destructible)
-                {
-                    for (int i = 0; i < wall.parts.Count; i++)
-                    {
-                        Rectangle part = wall.parts[i];
-                        if (player_edge.Intersects(part))
+                        for (int i = 0; i < wall.parts.Count; i++)
                         {
-                            if (player_bottom_edge.Intersects(part))
+                            Rectangle part = wall.parts[i];
+                            if (player_edge.Intersects(part))
+                            {
+                                if (player_bottom_edge.Intersects(part))
+                                {
+                                    Velocity.Y = 0;
+                                    Position.Y = part.Y - Height;
+                                    //return true;
+                                }
+                                if (player_right_edge.Intersects(part))
+                                {
+                                    Velocity.X = 0;
+                                    Position.X = part.X - Width;
+                                    //return true;
+                                }
+                                if (player_left_edge.Intersects(part))
+                                {
+                                    Velocity.X = 0;
+                                    Position.X = part.X + part.Width;
+                                    //return true;
+                                }
+                                if (player_top_edge.Intersects(part))
+                                {
+                                    Velocity.Y = 0;
+                                    Position.Y = part.Y + part.Height;
+                                    //return true;
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                        if (player_edge.Intersects(wall_edge))
+                        {
+                            if (player_bottom_edge.Intersects(wall_edge) && Velocity.Y >= 0)
                             {
                                 Velocity.Y = 0;
-                                Position.Y = part.Y - Height;
+                                Position.Y = wall.Position.Y - Height;
+                                define_edges();
                                 //return true;
                             }
-                            if (player_right_edge.Intersects(part))
-                            {
-                                Velocity.X = 0;
-                                Position.X = part.X - Width;
-                                //return true;
-                            }
-                            if (player_left_edge.Intersects(part))
-                            {
-                                Velocity.X = 0;
-                                Position.X = part.X + part.Width;
-                                //return true;
-                            }
-                            if (player_top_edge.Intersects(part))
+                            if (player_top_edge.Intersects(wall_edge) && Velocity.Y < 0)
                             {
                                 Velocity.Y = 0;
-                                Position.Y = part.Y + part.Height;
+                                Position.Y = wall.Position.Y + wall.Height;
+                                define_edges();
                                 //return true;
                             }
-                            
+                            if (player_right_edge.Intersects(wall_edge))
+                            {
+                                Velocity.X = 0;
+                                Position.X = wall.Position.X - Width;
+                                define_edges();
+                                //return true;
+                            }
+                            if (player_left_edge.Intersects(wall_edge))
+                            {
+                                Velocity.X = 0;
+                                Position.X = wall.Position.X + wall.Width;
+                                define_edges();
+                                //return true;
+                            }
+
                         }
                     }
+
                 }
-                else
-                {
-                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                    if (player_edge.Intersects(wall_edge))
-                    {
-                        if (player_bottom_edge.Intersects(wall_edge) && Velocity.Y >= 0)
-                        {
-                            Velocity.Y = 0;
-                            Position.Y = wall.Position.Y - Height;
-                            define_edges();
-                            //return true;
-                        }
-                        if (player_top_edge.Intersects(wall_edge) && Velocity.Y <0)
-                        {
-                            Velocity.Y = 0;
-                            Position.Y = wall.Position.Y + wall.Height;
-                            define_edges();
-                            //return true;
-                        }
-                        if (player_right_edge.Intersects(wall_edge))
-                        {
-                            Velocity.X = 0;
-                            Position.X = wall.Position.X - Width;
-                            define_edges();
-                            //return true;
-                        }
-                        if (player_left_edge.Intersects(wall_edge))
-                        {
-                            Velocity.X = 0;
-                            Position.X = wall.Position.X + wall.Width;
-                            define_edges();
-                            //return true;
-                        }
-                        
-                    }
-                }
+
             }
             return false;
         }
@@ -232,7 +230,7 @@ namespace Platformer_Game
         public float Y_of_platform;
         public Vector2 platform_Velocity;
         public bool platform_Moving;
-        public Platform touched_platform =null;
+        public Platform touched_platform = null;
         public float Y_of_particle;
         private bool OnPlatform(List<Platform> platforms, List<Particle> particles, List<Spike> spikes, List<Lava> lavas)
         {
@@ -304,11 +302,11 @@ namespace Platformer_Game
             float h_ratio = 1;
             if (state == "right")
             {
-                Current_Sprite.Draw(spriteBatch, Position, (int)(Width ), (int)(Height ));
+                Current_Sprite.Draw(spriteBatch, Position, (int)(Width), (int)(Height));
             }
             else
             {
-                Current_Sprite.Draw(spriteBatch, Position, (int)(Width ), (int)(Height ));
+                Current_Sprite.Draw(spriteBatch, Position, (int)(Width), (int)(Height));
             }
             Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)particle_id / (float)Capacity)), 5);
 
@@ -319,7 +317,7 @@ namespace Platformer_Game
             float w_ratio = 1;
             float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            if (!(new Rectangle((int)(window.X * w_ratio) + 5, (int)(window.Y*h_ratio) + 5, (int)(window.Width*w_ratio) - 10, (int)(window.Height*h_ratio) - 10)).Contains(player_edge))
+            if (!(new Rectangle((int)(window.X * w_ratio) + 5, (int)(window.Y * h_ratio) + 5, (int)(window.Width * w_ratio) - 10, (int)(window.Height * h_ratio) - 10)).Contains(player_edge))
             {
                 living_state = "dead";
             }
@@ -328,7 +326,7 @@ namespace Platformer_Game
             { ticker--; }
             mouseState = Mouse.GetState();
             //Movement Control
-            
+
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 waiting_to_switch = true;
