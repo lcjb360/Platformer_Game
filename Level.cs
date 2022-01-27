@@ -15,7 +15,7 @@ namespace Platformer_Game
         public int id;
         public Rectangle Window;
         private Player Player;
-        private List<Platform> Platforms;
+        public List<Platform> Platforms;
         private List<Wall> Walls;
         private List<Spike> Spikes;
         private List<Lava> Lavas;
@@ -167,10 +167,7 @@ namespace Platformer_Game
             {
                 platform.Draw(spriteBatch, gameTime);
             }
-            foreach (Lava lava in Lavas)
-            {
-                lava.Draw(spriteBatch, gameTime);
-            }
+            
 
             foreach (Spike spike in Spikes)
             {
@@ -180,6 +177,11 @@ namespace Platformer_Game
             foreach (Wall wall in Walls)
             {
                 wall.Draw(spriteBatch, gameTime);
+            }
+
+            foreach (Lava lava in Lavas)
+            {
+                lava.Draw(spriteBatch, gameTime);
             }
 
             Player.Draw(spriteBatch, gameTime);

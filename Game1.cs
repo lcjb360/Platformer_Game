@@ -43,6 +43,7 @@ namespace Platformer_Game
         public Level two_three;
         public Level three_three;
         public Level four_three;
+        public Level five_three;
 
 
         public Game1()
@@ -232,7 +233,7 @@ namespace Platformer_Game
                 new List<Lava>() { },
                 SpriteSheet);
 
-            five_two = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 330),
+            five_two = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 330),
                 new Player(SpriteSheet, new Vector2(30, screen_height - 290 - 60), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 290), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 290), 60, 30),
@@ -288,7 +289,7 @@ namespace Platformer_Game
                 new List<Key>() { new Key(SpriteSheet, new Vector2(1200, screen_height - 50)) },
                 SpriteSheet);
 
-            three_three = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+            three_three = new Level(false, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
                 new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
                                        new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 30), 60, 30),
@@ -302,17 +303,50 @@ namespace Platformer_Game
                 new List<Lava>() { new Lava(NumberSheet, new Vector2(0, screen_height), screen_width) },
                 SpriteSheet);
 
-            four_three = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+            four_three = new Level(false, false, level_number, window, new Vector2(screen_width - 50, 100),
                 new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
                 new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
-                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, 130), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(0, screen_height), screen_width, 30)
                                      },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
                                        new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
                                        new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30)},
                 new List<Spike>() { },
-                new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, screen_height - 10), screen_width) },
+                new List<Lava>() { new Lava(SpriteSheet, new Vector2(0, screen_height - 10), screen_width),
+                                   new Lava(SpriteSheet, new Vector2(0, screen_height - 300), screen_width - 160, 100),
+                                   new Lava(SpriteSheet, new Vector2(160, screen_height - 600), screen_width, 100)},
                 SpriteSheet);
+
+            five_three = new Level(true, false, level_number, window, new Vector2(screen_width - 50, screen_height - 50),
+                new Player(SpriteSheet, new Vector2(30, screen_height - 90), 200),
+                new List<Platform>() { new Platform(SpriteSheet, new Vector2(0, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(60, screen_height - 30), 400, 30, false, new Vector2(0,0), false, true, true),
+                                       new Platform(SpriteSheet, new Vector2(screen_width - 60, screen_height - 30), 60, 30),
+                                       new Platform(SpriteSheet, new Vector2(420, screen_height - 30), 150, 30, true, new Vector2(820, screen_height - 30), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2(820, screen_height - 90), 150, 30, true, new Vector2(420, screen_height - 90), true, false, true),
+                                       new Platform(SpriteSheet, new Vector2(420, screen_height - 90), 150, 30, true, new Vector2(820, screen_height - 90), true, false, false),
+                                       new Platform(SpriteSheet, new Vector2(820, screen_height - 30), 150, 30, true, new Vector2(420, screen_height - 30), true, false, false)},
+                new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
+                                       new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30),
+                                       new Wall(SpriteSheet, new Vector2(screen_width/2, 0), 50, screen_height, true)},
+                new List<Spike>() { },
+                new List<Lava>() { new Lava(NumberSheet, new Vector2(0, screen_height), screen_width) },
+                SpriteSheet);
+
+            for (int i = 160; i < (screen_width - 30); i+=100)
+            {
+                four_three.Platforms.Add(new Platform(SpriteSheet, new Vector2(i, screen_height - 30), 1, 30));
+            }
+            for (int i = 140; i < (screen_width - 30); i += 100)
+            {
+                four_three.Platforms.Add(new Platform(SpriteSheet, new Vector2(i, screen_height - 330), 1, 30));
+            }
+            for (int i = 190; i < (screen_width - 30); i += 100)
+            {
+                four_three.Platforms.Add(new Platform(SpriteSheet, new Vector2(i, screen_height - 630), 1, 30));
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -512,8 +546,22 @@ namespace Platformer_Game
                         if (four_three.Update(gameTime))
                         {
                             four_three.Completed = true;
-                            //five_three.Unlocked = true;
+                            five_three.Unlocked = true;
                             game_state = "5,3";
+                        }
+                    }
+                    else
+                    {
+                        game_state = "Main_Menu";
+                    }
+                    break;
+                case "5,3":
+                    if (five_three.Unlocked)
+                    {
+                        if (five_three.Update(gameTime))
+                        {
+                            five_three.Completed = true;
+                            game_state = "Main_Menu";
                         }
                     }
                     else
@@ -633,6 +681,13 @@ namespace Platformer_Game
                     {
                         GraphicsDevice.Clear(new Color(150, 200, 255));
                         four_three.Draw(_spriteBatch, gameTime, SpriteSheet);
+                    }
+                    break;
+                case "5,3":
+                    if (five_three.Unlocked)
+                    {
+                        GraphicsDevice.Clear(new Color(150, 200, 255));
+                        five_three.Draw(_spriteBatch, gameTime, SpriteSheet);
                     }
                     break;
                 case ("Main_Menu"):
