@@ -39,17 +39,7 @@ namespace Platformer_Game
 
         private void HittingHazard(List<Lava> lavas)
         {
-            Rectangle key_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            foreach (Lava lava in lavas)
-            {
-                Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y, (int)lava.Length, (int)lava.Height);
-                if (key_edge.Intersects(lava_edge))
-                {
-                    Width = 0;
-                    Height = 0;
-                    //Default_Particle = none;
-                }
-            }
+            return;
         }
 
         private void HittingWall(List<Wall> walls)
@@ -148,10 +138,6 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width - 1 > platform.Position.X && Position.X + 1 < platform.Position.X + platform.Width)
                     {
-                        if (platform.Weak)
-                        {
-                            touched_platform = platform;
-                        }
                         if (platform.Moving)
                         {
                             platform_Velocity = (platform.Destination - platform.Position);
