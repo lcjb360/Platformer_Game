@@ -7,8 +7,9 @@ using System.Text;
 
 namespace Platformer_Game
 {
-    public class Player : Physics_Object
+    public class Player
     {
+        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         private MouseState mouseState = new MouseState();
         public Sprite Stationary_Right_Sprite;
         public Sprite Stationary_Left_Sprite;
@@ -20,7 +21,11 @@ namespace Platformer_Game
         public string Particle_state = "plain";
         public Texture2D Texture;
         public string living_state;
+        public Vector2 Position;
         public Vector2 Start_Position;
+        public float Width;
+        public float Height;
+        public Vector2 Velocity;
         public int Capacity;
         public int particle_id;
         public int ticker = 0;
@@ -309,6 +314,10 @@ namespace Platformer_Game
             float w_ratio = 1;
             float h_ratio = 1;
             Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            if (!(new Rectangle((int)(window.X * w_ratio) + 5, (int)(window.Y * h_ratio) + 5, (int)(window.Width * w_ratio) - 10, (int)(window.Height * h_ratio) - 10)).Contains(player_edge))
+            {
+                living_state = "dead";
+            }
             living_state = "alive";
             if (ticker > 0)
             { ticker--; }

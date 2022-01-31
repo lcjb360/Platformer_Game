@@ -6,14 +6,19 @@ using System.Text;
 
 namespace Platformer_Game
 {
-    public class Key : Physics_Object
+    public class Key
     {
+        public Sprite Default_Key;
+        public Vector2 Position;
         public Vector2 Start_Position;
+        public Vector2 Velocity;
+        public float Height;
+        public float Width;
         public Color Colour = Color.Yellow;
 
         public Key(Texture2D texture, Vector2 position)
         {
-            Default_Sprite = new Sprite(texture, 0, 61, 59, 14);
+            Default_Key = new Sprite(texture, 0, 61, 59, 14);
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
             Start_Position = position;
@@ -23,7 +28,7 @@ namespace Platformer_Game
 
         public Key(Texture2D texture, Vector2 position, Color color)
         {
-            Default_Sprite = new Sprite(texture, 0, 61, 59, 14);
+            Default_Key = new Sprite(texture, 0, 61, 59, 14);
             //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
             Start_Position = position;
@@ -259,7 +264,7 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Default_Sprite.Draw(spriteBatch, Position, (int)Width, (int)Height, Colour);
+            Default_Key.Draw(spriteBatch, Position, (int)Width, (int)Height, Colour);
         }
     }
 }
