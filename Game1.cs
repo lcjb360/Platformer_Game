@@ -56,9 +56,11 @@ namespace Platformer_Game
         protected override void Initialize()
         {
 
+            //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            _graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 60;
+            //_graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
             window = GraphicsDevice.Viewport.Bounds;
             game_state = "Main_Menu";
@@ -333,15 +335,20 @@ namespace Platformer_Game
                                        new Platform(SpriteSheet, new Vector2(820, screen_height - 640), 150, 30, true, new Vector2(420, screen_height - 580), true, false, false),
                                        new Platform(SpriteSheet, new Vector2(420, screen_height - 640), 150, 30, true, new Vector2(820, screen_height - 580), true, false, true),
                                        new Platform(SpriteSheet, new Vector2(820, screen_height - 580), 150, 30, true, new Vector2(420, screen_height - 640), true, false, true),
-                                       new Platform(SpriteSheet, new Vector2(0, screen_height - 130), 80, 30, false, new Vector2(0,0), false, true, true),},
+                                       new Platform(SpriteSheet, new Vector2(0, screen_height - 230), 60, 30, false, new Vector2(0,0), false, true, true),
+                                       },
                 new List<Wall>() {     new Wall(SpriteSheet, new Vector2(0, 0), 30, screen_height),
                                        new Wall(SpriteSheet, new Vector2(screen_width-30, 0), 30, screen_height),
                                        new Wall(SpriteSheet, new Vector2(0, 0), screen_width, 30),
-                                       new Wall(SpriteSheet, new Vector2(screen_width/2, 0), 50, screen_height, true)},
-                new List<Spike>() { },
+                                       new Wall(SpriteSheet, new Vector2(screen_width/2, 0), 50, screen_height, true),
+                                       new Wall(SpriteSheet, new Vector2(60, screen_height - 500), 30, 500 - 200),
+                                       new Wall(SpriteSheet, new Vector2(screen_width - 100, screen_height - 100), 30, 100, Color.Yellow),
+                                       new Wall(SpriteSheet, new Vector2(screen_width - 100, screen_height - 100), 100, 30, Color.Yellow),},
+                new List<Spike>() { new Spike(SpriteSheet, new Vector2(60, screen_height - 530), 300), },
                 new List<Lava>() { new Lava(NumberSheet, new Vector2(0, screen_height), screen_width),
-                                   new Lava(SpriteSheet, new Vector2(0, screen_height - 130), 80, 30)},
-                new List<Key>() {  new Key(SpriteSheet, new Vector2(35, screen_height - 160))},
+                                   new Lava(SpriteSheet, new Vector2(0, screen_height - 230), 60, 30),
+                                   new Lava(SpriteSheet, new Vector2(60, screen_height - 500), 30, 300)},
+                new List<Key>() {  new Key(SpriteSheet, new Vector2(35, screen_height - 260))},
                 SpriteSheet);
 
             for (int i = 160; i < (screen_width - 30); i+=100)
@@ -754,8 +761,8 @@ namespace Platformer_Game
 
         public string Menu_Update(GameTime gameTime)
         {
-            float w_ratio = (float)window.Width / (float)screen_width;
-            float h_ratio = (float)window.Height / (float)screen_height;
+            float w_ratio = 1;
+            float h_ratio = 1;
             mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {

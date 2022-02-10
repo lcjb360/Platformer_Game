@@ -9,6 +9,7 @@ namespace Platformer_Game
     public class Lava : Visible_Object
     {
         public int Length;
+        public new const int Width = 60;
 
         public Lava(Texture2D texture, Vector2 position, int length)
         {
@@ -17,7 +18,6 @@ namespace Platformer_Game
             Default_Sprite = new Sprite(texture, 0, 76, 60, 12);
             Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
             Length = (int)((float)length * w_ratio);
-            Width = 60;
             Height = 12;
         }
         public Lava(Texture2D texture, Vector2 position, int length, int height)
@@ -27,7 +27,6 @@ namespace Platformer_Game
             Default_Sprite = new Sprite(texture, 0, 76, 60, 12);
             Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
             Length = (int)((float)length * w_ratio);
-            Width = 60;
             Height = height;
         }
 

@@ -43,81 +43,37 @@ namespace Platformer_Game
             Rectangle key_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Wall wall in walls)
             {
-
-                Rectangle key_next_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
-                Rectangle key_next_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
-                Rectangle key_next_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
-                Rectangle key_next_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
-                Rectangle key_next_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
-
-                if (wall.Destructible)
+                Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                if (key_edge.Intersects(wall_edge) || key_edge2.Intersects(wall_edge))
                 {
-                    for (int i = 0; i < wall.parts.Count; i++)
+                    //if (new Rectangle((int)(Position.X + Velocity.X), (int)((Position.Y + Velocity.Y) + (Height / 2)), (int)Width, (int)(Height / 2)).Intersects(wall_edge))
+                    //{
+                    //    Velocity.Y = 0;
+                    //    Position.Y = wall.Position.Y - Height;
+                    //}
+                    if (Velocity.X > 0)
                     {
-                        Rectangle part = wall.parts[i];
-                        if (key_next_edge.Intersects(part))
-                        {
-                            if (key_next_bottom_edge.Intersects(part))
-                            {
-                                Velocity.Y = 0;
-                                Position.Y = part.Y - Height;
-                                //return true;
-                            }
-                            if (key_next_right_edge.Intersects(part))
-                            {
-                                Velocity.X = 0;
-                                Position.X = part.X - Width;
-                                //return true;
-                            }
-                            if (key_next_left_edge.Intersects(part))
-                            {
-                                Velocity.X = 0;
-                                Position.X = part.X + part.Width;
-                                //return true;
-                            }
-                            if (key_next_top_edge.Intersects(part))
-                            {
-                                Velocity.Y = 0;
-                                Position.Y = part.Y + part.Height;
-                                //return true;
-                            }
-
-                        }
+                        Position.X = wall.Position.X - Width;
+                        Velocity.X = 0;
                     }
-                }
-                else
-                {
-                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                    if (key_edge.Intersects(wall_edge) || key_edge2.Intersects(wall_edge))
+                    if (Velocity.X < 0)
                     {
-                        //if (new Rectangle((int)(Position.X + Velocity.X), (int)((Position.Y + Velocity.Y) + (Height / 2)), (int)Width, (int)(Height / 2)).Intersects(wall_edge))
-                        //{
-                        //    Velocity.Y = 0;
-                        //    Position.Y = wall.Position.Y - Height;
-                        //}
-                        if (Velocity.X > 0)
-                        {
-                            Position.X = wall.Position.X - Width;
-                            Velocity.X = 0;
-                        }
-                        if (Velocity.X < 0)
+                        Position.X = wall.Position.X + wall.Width;
+                        Velocity.X = 0;
+                    }
+                    if (Velocity.X == 0)
+                    {
+                        if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
                         {
                             Position.X = wall.Position.X + wall.Width;
-                            Velocity.X = 0;
                         }
-                        if (Velocity.X == 0)
+                        else
                         {
-                            if ((Position.X + Width) / 2 > (wall.Position.X + wall.Width) / 2)
-                            {
-                                Position.X = wall.Position.X + wall.Width;
-                            }
-                            else
-                            {
-                                Position.X = wall.Position.X - Width;
-                            }
+                            Position.X = wall.Position.X - Width;
                         }
                     }
                 }
+
             }
         }
 
@@ -166,7 +122,7 @@ namespace Platformer_Game
             return false;
         }
 
-        public void Update(GameTime gameTime, Player player,List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
+        public void Update(GameTime gameTime, Player player, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
         {
             Rectangle player_edge = new Rectangle((int)(player.Position.X), (int)(player.Position.Y), (int)player.Width, (int)player.Height);
             Rectangle edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
@@ -194,7 +150,7 @@ namespace Platformer_Game
                 }
                 else
                 {
-                        Velocity.X = 0;
+                    Velocity.X = 0;
                 }
                 Velocity.Y = 0;
                 Position.Y = Y_of_platform - Height;
