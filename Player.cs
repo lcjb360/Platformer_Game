@@ -9,54 +9,44 @@ namespace Platformer_Game
 {
     public class Player : Physics_Object
     {
-        private MouseState mouseState = new MouseState();
-        public Sprite Stationary_Right_Sprite;
-        public Sprite Stationary_Left_Sprite;
-        public Sprite Moving_Right_Sprite;
-        public Sprite Moving_Left_Sprite;
+        private MouseState Mouse_State = new MouseState();
         public Sprite Current_Sprite;
         public Sprite Container_Bar;
-        public string state;
-        public string Particle_state = "plain";
+        public string State;
+        public string Particle_State = "plain";
         public Texture2D Texture;
-        public string living_state;
+        public string Living_State;
         public Vector2 Start_Position;
         public int Capacity;
-        public int particle_id;
-        public int ticker = 0;
-        bool waiting_to_switch = false;
-        bool waiting_to_reset = false;
+        public int Particle_Id;
+        public int Ticker = 0;
+        bool Waiting_To_Switch = false;
+        bool Waiting_To_Reset = false;
         public List<Color> Inventory = new List<Color>();
 
-        public Rectangle player_edge;
-        public Rectangle player_top_edge;
-        public Rectangle player_bottom_edge;
-        public Rectangle player_right_edge;
-        public Rectangle player_left_edge;
+        public Rectangle Player_Edge;
+        public Rectangle Player_Edge_Top;
+        public Rectangle Player_Edge_Bottom;
+        public Rectangle Player_Edge_Right;
+        public Rectangle Player_Edge_Left;
 
         public void define_edges()
         {
-            player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
-            player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
-            player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
-            player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
-            player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+            Player_Edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
+            Player_Edge_Top = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
+            Player_Edge_Bottom = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
+            Player_Edge_Right = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+            Player_Edge_Left = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
         }
 
         public Player(Texture2D texture, Vector2 start_position, int capacity)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
-            Stationary_Right_Sprite = new Sprite(texture, 0, 0, 30, 60);
-            Stationary_Left_Sprite = new Sprite(texture, 0, 0, 30, 60);
-            Moving_Right_Sprite = new Sprite(texture, 30, 0, 30, 60);
-            Moving_Left_Sprite = new Sprite(texture, 30, 0, 30, 60);
             Container_Bar = new Sprite(texture, 61, 0, 5, 5);
-            Current_Sprite = Stationary_Right_Sprite;
-            state = "alive";
-            Width = (int)((float)Current_Sprite.Width * w_ratio);
-            Height = (int)((float)Current_Sprite.Height * h_ratio);
-            Position = new Vector2(start_position.X * w_ratio, start_position.Y * h_ratio);
+            Current_Sprite = new Sprite(texture, 0, 0, 30, 60);
+            State = "alive";
+            Width = Current_Sprite.Width;
+            Height = Current_Sprite.Height;
+            Position = start_position;
             Start_Position = Position;
             Texture = texture;
             Capacity = 400;
@@ -64,39 +54,24 @@ namespace Platformer_Game
 
         private bool OnWall(List<Wall> walls)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
-            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height + 1);
-            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + 2, (int)(Position.Y) + ((int)Height / 2), (int)Width - 4, (int)(Height / 2) + 1);
+            Rectangle Player_Edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height + 1);
+            Rectangle Player_Bottom_Edge = new Rectangle((int)(Position.X) + 2, (int)(Position.Y) + ((int)Height / 2), (int)Width - 4, (int)(Height / 2) + 1);
             foreach (Wall wall in walls)
             {
                 if (wall.Destructible)
                 {
-                    for (int i = 0; i < wall.parts.Count; i++)
+                    for (int i = 0; i < wall.Parts.Count; i++)
                     {
-                        Rectangle part = wall.parts[i];
-                        if (player_edge.Intersects(part))
+                        Rectangle part = wall.Parts[i];
+                        if (Player_Edge.Intersects(part))
                         {
-                            if (player_bottom_edge.Intersects(part))
+                            if (Player_Bottom_Edge.Intersects(part))
                             {
                                 return true;
                             }
                         }
                     }
                 }
-                //else
-                //{
-                //    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                //    if (player_edge.Intersects(wall_edge))
-                //    {
-                //        if (player_bottom_edge.Intersects(wall_edge))
-                //        {
-                //            Velocity.Y = 0;
-                //            Position.Y = wall.Position.Y - Height;
-                //            return true;
-                //        }
-                //    }
-                //}
             }
             return false;
         }
@@ -104,47 +79,37 @@ namespace Platformer_Game
 
         private bool HittingWall(List<Wall> walls)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
-            Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
-            Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
-            Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
-            Rectangle player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
-            Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+            define_edges();
             foreach (Wall wall in walls)
             {
                 if (!Inventory.Contains(wall.Colour))
                 {
                     if (wall.Destructible)
                     {
-                        for (int i = 0; i < wall.parts.Count; i++)
+                        for (int i = 0; i < wall.Parts.Count; i++)
                         {
-                            Rectangle part = wall.parts[i];
-                            if (player_edge.Intersects(part))
+                            Rectangle part = wall.Parts[i];
+                            if (Player_Edge.Intersects(part))
                             {
-                                if (player_bottom_edge.Intersects(part))
+                                if (Player_Edge_Bottom.Intersects(part))
                                 {
                                     Velocity.Y = 0;
                                     Position.Y = part.Y - Height;
-                                    //return true;
                                 }
-                                if (player_right_edge.Intersects(part))
+                                if (Player_Edge_Right.Intersects(part))
                                 {
                                     Velocity.X = 0;
                                     Position.X = part.X - Width;
-                                    //return true;
                                 }
-                                if (player_left_edge.Intersects(part))
+                                if (Player_Edge_Left.Intersects(part))
                                 {
                                     Velocity.X = 0;
                                     Position.X = part.X + part.Width;
-                                    //return true;
                                 }
-                                if (player_top_edge.Intersects(part))
+                                if (Player_Edge_Top.Intersects(part))
                                 {
                                     Velocity.Y = 0;
                                     Position.Y = part.Y + part.Height;
-                                    //return true;
                                 }
 
                             }
@@ -153,35 +118,31 @@ namespace Platformer_Game
                     else
                     {
                         Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                        if (player_edge.Intersects(wall_edge))
+                        if (Player_Edge.Intersects(wall_edge))
                         {
-                            if (player_bottom_edge.Intersects(wall_edge) && Velocity.Y >= 0)
+                            if (Player_Edge_Bottom.Intersects(wall_edge) && Velocity.Y >= 0)
                             {
                                 Velocity.Y = 0;
                                 Position.Y = wall.Position.Y - Height;
                                 define_edges();
-                                //return true;
                             }
-                            if (player_top_edge.Intersects(wall_edge) && Velocity.Y < 0)
+                            if (Player_Edge_Top.Intersects(wall_edge) && Velocity.Y < 0)
                             {
                                 Velocity.Y = 0;
                                 Position.Y = wall.Position.Y + wall.Height;
                                 define_edges();
-                                //return true;
                             }
-                            if (player_right_edge.Intersects(wall_edge))
+                            if (Player_Edge_Right.Intersects(wall_edge))
                             {
                                 Velocity.X = 0;
                                 Position.X = wall.Position.X - Width;
                                 define_edges();
-                                //return true;
                             }
-                            if (player_left_edge.Intersects(wall_edge))
+                            if (Player_Edge_Left.Intersects(wall_edge))
                             {
                                 Velocity.X = 0;
                                 Position.X = wall.Position.X + wall.Width;
                                 define_edges();
-                                //return true;
                             }
                         }
                     }
@@ -192,42 +153,38 @@ namespace Platformer_Game
 
         private void HittingHazard(List<Spike> spikes, List<Lava> lavas)
         {
-            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            Rectangle Player_Edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Spike spike in spikes)
             {
                 Rectangle spike_edge = new Rectangle((int)spike.Position.X, (int)spike.Position.Y, (int)spike.Length, (int)spike.Height);
-                if (player_edge.Intersects(spike_edge))
+                if (Player_Edge.Intersects(spike_edge))
                 {
-                    living_state = "dead";
-                    particle_id = 0;
+                    Living_State = "dead";
+                    Particle_Id = 0;
                     Position = Start_Position;
                     Velocity = new Vector2(0, 0);
-                    Current_Sprite = Stationary_Right_Sprite;
                 }
             }
             foreach (Lava lava in lavas)
             {
                 Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y + 1, (int)lava.Length, (int)lava.Height);
-                if (player_edge.Intersects(lava_edge))
+                if (Player_Edge.Intersects(lava_edge))
                 {
-                    living_state = "dead";
-                    particle_id = 0;
+                    Living_State = "dead";
+                    Particle_Id = 0;
                     Position = Start_Position;
                     Velocity = new Vector2(0, 0);
-                    Current_Sprite = Stationary_Right_Sprite;
                 }
             }
         }
 
-        public float Y_of_platform;
-        public Vector2 platform_Velocity;
-        public bool platform_Moving;
-        public Platform touched_platform = null;
-        public float Y_of_particle;
+        public float Y_Of_Platform;
+        public Vector2 Platform_Velocity;
+        public bool Platform_Moving;
+        public Platform Touched_Platform = null;
+        public float Y_Of_Particle;
         private bool OnPlatform(List<Platform> platforms, List<Particle> particles, List<Spike> spikes, List<Lava> lavas)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             HittingHazard(spikes, lavas);
             foreach (Platform platform in platforms)
             {
@@ -235,36 +192,36 @@ namespace Platformer_Game
                 {
                     if (Position.X + Width - 1 >= platform.Position.X && Position.X + 1 <= platform.Position.X + platform.Width)
                     {
-                        touched_platform = platform;
+                        Touched_Platform = platform;
                         Position.Y = platform.Position.Y - Height;
                         if (platform.Moving)
                         {
-                            platform_Velocity = (platform.Destination - platform.Position);
-                            if (platform_Velocity.X > 0 && platform_Velocity.Y == 0)
+                            Platform_Velocity = (platform.Destination - platform.Position);
+                            if (Platform_Velocity.X > 0 && Platform_Velocity.Y == 0)
                             {
-                                platform_Velocity.X = (float)8;
+                                Platform_Velocity.X = (float)8;
                             }
-                            if (platform_Velocity.Y == 0 && platform_Velocity.X < 0)
+                            if (Platform_Velocity.Y == 0 && Platform_Velocity.X < 0)
                             {
-                                platform_Velocity.X = (float)-8;
+                                Platform_Velocity.X = (float)-8;
                             }
 
-                            if (platform_Velocity.X != 0)
+                            if (Platform_Velocity.X != 0)
                             {
-                                platform_Moving = true;
+                                Platform_Moving = true;
                             }
                             else
                             {
-                                platform_Moving = false;
+                                Platform_Moving = false;
                             }
-                            if (platform_Velocity.Y != 0)
+                            if (Platform_Velocity.Y != 0)
                             {
-                                platform_Moving = false;
+                                Platform_Moving = false;
                             }
                         }
                         else
                         {
-                            platform_Moving = false;
+                            Platform_Moving = false;
                         }
                         return true;
                     }
@@ -290,84 +247,71 @@ namespace Platformer_Game
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
-            if (state == "right")
-            {
-                Current_Sprite.Draw(spriteBatch, Position, (int)(Width), (int)(Height));
-            }
-            else
-            {
-                Current_Sprite.Draw(spriteBatch, Position, (int)(Width), (int)(Height));
-            }
-            Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)particle_id / (float)Capacity)), 5);
+            Current_Sprite.Draw(spriteBatch, Position, (int)(Width), (int)(Height));
+            Container_Bar.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 15), (int)(Width - (Width * (float)Particle_Id / (float)Capacity)), 5);
 
         }
 
         public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, int screen_height)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
-            Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
-            living_state = "alive";
-            if (ticker > 0)
-            { ticker--; }
-            mouseState = Mouse.GetState();
-            //Movement Control
+            Rectangle Player_Edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            Living_State = "alive";
+            if (Ticker > 0)
+            { Ticker--; }
+            Mouse_State = Mouse.GetState();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-                waiting_to_switch = true;
+                Waiting_To_Switch = true;
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.Q) && waiting_to_switch)
+            if (Keyboard.GetState().IsKeyUp(Keys.Q) && Waiting_To_Switch)
             {
-                waiting_to_switch = false;
-                if (Particle_state == "fire")
+                Waiting_To_Switch = false;
+                if (Particle_State == "fire")
                 {
-                    Particle_state = "liquid";
+                    Particle_State = "liquid";
                 }
-                else if (Particle_state == "liquid")
+                else if (Particle_State == "liquid")
                 {
-                    Particle_state = "plain";
+                    Particle_State = "plain";
                 }
-                else if (Particle_state == "plain")
+                else if (Particle_State == "plain")
                 {
-                    Particle_state = "fire";
+                    Particle_State = "fire";
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.K))
             {
-                waiting_to_reset = true;
+                Waiting_To_Reset = true;
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.K) && waiting_to_reset)
+            if (Keyboard.GetState().IsKeyUp(Keys.K) && Waiting_To_Reset)
             {
-                waiting_to_reset = false;
-                living_state = "dead";
-                particle_id = 0;
+                Waiting_To_Reset = false;
+                Living_State = "dead";
+                Particle_Id = 0;
                 Position = Start_Position;
                 Velocity = new Vector2(0, 0);
-                Current_Sprite = Stationary_Right_Sprite;
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > (float)-10 * w_ratio)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) && Velocity.X > -10)
             {
                 if (OnPlatform(platforms, particles, spikes, lavas))
                 {
-                    Velocity.X -= (float)1 * w_ratio;
+                    Velocity.X -= 1;
                 }
                 else
                 {
-                    Velocity.X -= (float)0.5 * w_ratio;
+                    Velocity.X -= (float)0.5;
                 }
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) && Velocity.X < (float)10 * w_ratio)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) && Velocity.X < 10)
             {
                 if (OnPlatform(platforms, particles, spikes, lavas))
                 {
-                    Velocity.X += (float)1 * w_ratio;
+                    Velocity.X += 1;
                 }
                 else
                 {
-                    Velocity.X += (float)0.5 * w_ratio;
+                    Velocity.X += (float)0.5;
                 }
             }
             if ((Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.D)) &&
@@ -375,15 +319,15 @@ namespace Platformer_Game
             {
                 if (OnPlatform(platforms, particles, spikes, lavas))
                 {
-                    if (platform_Moving && platform_Velocity.Y == 0)
+                    if (Platform_Moving && Platform_Velocity.Y == 0)
                     {
-                        Velocity.X = platform_Velocity.X;
-                        platform_Velocity.X = 0;
-                        platform_Moving = false;
+                        Velocity.X = Platform_Velocity.X;
+                        Platform_Velocity.X = 0;
+                        Platform_Moving = false;
                     }
                     else
                     {
-                        platform_Velocity.X = 0;
+                        Platform_Velocity.X = 0;
                         Velocity.X /= (float)1.3;
                     }
                 }
@@ -392,61 +336,28 @@ namespace Platformer_Game
                     Velocity.X /= (float)1.2;
                 }
             }
-            bool jumping = false;
+            bool Jumping = false;
             if ((Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && (OnPlatform(platforms, particles, spikes, lavas) || OnWall(walls)))
             {
-                Velocity.Y = (float)-10 * h_ratio;
-                jumping = true;
+                Velocity.Y = (float)-10;
+                Jumping = true;
             }
 
-            //foreach (Particle particle in particles)
-            //{
-            //    Rectangle player_edge = new Rectangle((int)(Position.X), (int)(Position.Y) + (int)Height, (int)Width, 1);
-            //    Rectangle particle_edge = new Rectangle((int)(particle.Position.X), (int)(particle.Position.Y), (int)particle.Width, (int)particle.Height);
-            //    if (particle_edge.Intersects(player_edge) && Velocity.Y < 0 && !jumping)
-            //    {
-            //        Velocity.Y = 0;
-            //    }
-            //}
             Position += Velocity;
-
 
             if (!OnPlatform(platforms, particles, spikes, lavas) && Velocity.Y < 8)
             {
-                Velocity.Y += (float)1 * h_ratio;
+                Velocity.Y += 1;
             }
-            //Y_of_particle = 9999;
-            //Y_of_platform = 9999;
 
-            bool colliding1 = HittingWall(walls);
+            bool Colliding1 = HittingWall(walls);
             OnPlatform(platforms, particles, spikes, lavas);
-            //if (OnPlatform(platforms, particles, spikes, lavas))
-            //{
-            //    Position.Y = Y_of_platform - Height;
-            //    if (Y_of_platform != 9999)
-            //    {
-            //        if (platform_Moving)
-            //        {
-            //            //Velocity = new Vector2(platform_Velocity.X, platform_Velocity.Y);
-            //        }
-            //        else
-            //        {
-            //            Velocity.Y = 0;
-            //        }
-            if (touched_platform != null)
+            if (Touched_Platform != null)
             {
 
 
-                touched_platform.Touched = true;
+                Touched_Platform.Touched = true;
             }
-            //        Position.Y = Y_of_platform - Height;
-            //    }
-            //    if (Y_of_particle != 9999 && !colliding1)
-            //    {
-            //        Velocity.Y = 0;
-            //        Position.Y = Y_of_particle - Height;
-            //    }
-            //}
             if (Position.Y > screen_height)
             {
                 Position.Y = 0;
@@ -455,22 +366,20 @@ namespace Platformer_Game
 
 
 
-            Vector2 mousePosVect = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 mousePosVect = new Vector2(Mouse_State.X, Mouse_State.Y);
             mousePosVect -= new Vector2(Position.X + (Width / 2), Position.Y + (Height / 2));
             //Sprite Control
             if (mousePosVect.X > Position.X + (Width / 2))
             {
-                state = "right";
-                Current_Sprite = Stationary_Right_Sprite;
+                State = "right";
             }
             if (mousePosVect.X < Position.X + (Width / 2))
             {
-                state = "left";
-                Current_Sprite = Stationary_Left_Sprite;
+                State = "left";
             }
 
             //particle creation
-            if (((mouseState.LeftButton == ButtonState.Pressed) && ticker == 0 && particle_id < Capacity))
+            if (((Mouse_State.LeftButton == ButtonState.Pressed) && Ticker == 0 && Particle_Id < Capacity))
             {
                 if ((mousePosVect / 10).Length() > 10)
                 {
@@ -483,15 +392,15 @@ namespace Platformer_Game
                 }
 
                 bool colliding = false;
-                if (state == "left")
+                if (State == "left")
                 {
-                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id, Color.Black);
-                    if (Particle_state == "fire")
+                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), Particle_Id, Color.Black);
+                    if (Particle_State == "fire")
                     {
                         particle.Burning = true;
                         particle.Colour = Color.Red;
                     }
-                    if (Particle_state == "liquid")
+                    if (Particle_State == "liquid")
                     {
                         particle.Liquid = true;
                         particle.Colour = Color.MediumPurple;
@@ -500,7 +409,7 @@ namespace Platformer_Game
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     foreach (Particle particlex in particles)
                     {
-                        if (particle.id != particlex.id)
+                        if (particle.Id != particlex.Id)
                         {
                             Rectangle other_edge = new Rectangle((int)(particlex.Position.X + particlex.Velocity.X), (int)(particlex.Position.Y + particlex.Velocity.Y), (int)particlex.Width, (int)particlex.Height);
                             if (particle_edge.Intersects(other_edge))
@@ -512,20 +421,20 @@ namespace Platformer_Game
                     if (!colliding)
                     {
                         particles.Add(particle);
-                        particle_id++;
-                        ticker = 2;
+                        Particle_Id++;
+                        Ticker = 2;
                     }
 
                 }
-                if (Current_Sprite == Moving_Right_Sprite || Current_Sprite == Stationary_Right_Sprite)
+                if (State == "right")
                 {
-                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), particle_id, Color.Black);
-                    if (Particle_state == "fire")
+                    Particle particle = new Particle(Texture, new Vector2(Position.X, Position.Y + 30), new Vector2((mousePosVect.X), mousePosVect.Y), Particle_Id, Color.Black);
+                    if (Particle_State == "fire")
                     {
                         particle.Burning = true;
                         particle.Colour = Color.Red;
                     }
-                    if (Particle_state == "liquid")
+                    if (Particle_State == "liquid")
                     {
                         particle.Liquid = true;
                         particle.Colour = Color.MediumPurple;
@@ -533,7 +442,7 @@ namespace Platformer_Game
                     Rectangle particle_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     foreach (Particle particlex in particles)
                     {
-                        if (particle.id != particlex.id)
+                        if (particle.Id != particlex.Id)
                         {
                             Rectangle other_edge = new Rectangle((int)(particlex.Position.X + particlex.Velocity.X), (int)(particlex.Position.Y + particlex.Velocity.Y), (int)particlex.Width, (int)particlex.Height);
                             if (particle_edge.Intersects(other_edge))
@@ -545,8 +454,8 @@ namespace Platformer_Game
                     if (!colliding)
                     {
                         particles.Add(particle);
-                        particle_id++;
-                        ticker = 2;
+                        Particle_Id++;
+                        Ticker = 2;
                     }
                 }
             }

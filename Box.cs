@@ -8,24 +8,24 @@ namespace Platformer_Game
 {
     public class Box
     {
-        private Vector2 position;
-        private Color color;
-        public Rectangle box;
-        public string state;
-        private Sprite sprite;
+        private Vector2 Position;
+        private Color Colour;
+        public Rectangle Bounds;
+        public string State;
+        private Sprite Sprite;
 
-        public Box(Vector2 Position, Color Color, string State, Sprite Sprite)
+        public Box(Vector2 position, Color color, string state, Sprite sprite)
         {
-            position = Position;
-            color = Color;
-            box = new Rectangle((int)Position.X, (int)Position.Y, 100, 100);
-            state = State;
-            sprite = Sprite;
+            Position = position;
+            Colour = color;
+            Bounds = new Rectangle((int)Position.X, (int)Position.Y, 100, 100);
+            State = state;
+            Sprite = sprite;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, position, color);
+            Sprite.Draw(spriteBatch, Position, Colour);
         }
     }
 }

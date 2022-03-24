@@ -8,11 +8,10 @@ namespace Platformer_Game
 {
     public class Level
     {
-        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         public bool Unlocked;
         public bool Completed;
         public Vector2 Finish_Point;
-        public int id;
+        public int Id;
         public Rectangle Window;
         private Player Player;
         public List<Platform> Platforms;
@@ -21,7 +20,7 @@ namespace Platformer_Game
         private List<Lava> Lavas;
         private List<Particle> Particles = new List<Particle>();
         private List<Key> Keys = new List<Key>();
-        public Rectangle player_edge;
+        public Rectangle Player_Edge;
 
         public Level(bool unlocked, bool completed, int id, Rectangle window, Vector2 finish_point, Player player, List<Platform> platforms, List<Wall> walls, List<Spike> spikes, List<Lava> lavas, Texture2D spriteSheet)
         {
@@ -29,7 +28,7 @@ namespace Platformer_Game
             float h_ratio = 1;
             Unlocked = unlocked;
             Completed = completed;
-            this.id = id;
+            Id = id;
             Window = window;
             Player = player;
             Platforms = platforms;
@@ -62,7 +61,7 @@ namespace Platformer_Game
             float h_ratio = 1;
             Unlocked = unlocked;
             Completed = completed;
-            this.id = id;
+            Id = id;
             Window = window;
             Player = player;
             Platforms = platforms;
@@ -92,10 +91,8 @@ namespace Platformer_Game
 
         public bool Update(GameTime gameTime)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             Player.Update(gameTime, Platforms, Particles, Walls, Spikes, Lavas, Window.Height);
-            if (Player.living_state == "dead")
+            if (Player.Living_State == "dead")
             {
                 Particles = new List<Particle>();
                 for (int i = 0; i < Platforms.Count; i++)
@@ -103,7 +100,7 @@ namespace Platformer_Game
                     if (Platforms[i].Flashing || Platforms[i].Weak)
                     {
 
-                        Platforms[i].ticks = 0;
+                        Platforms[i].Ticks = 0;
                         Platforms[i].Appear = Platforms[i].Start_Appear;
                         Platforms[i].Touched = false;
                     }
@@ -117,12 +114,12 @@ namespace Platformer_Game
                 {
                     if (Walls[i].Destructible)
                     {
-                        Walls[i].parts = new List<Rectangle>();
-                        for (int x = (int)Walls[i].Position.X; x < (int)(Walls[i].Position.X + Walls[i].Width); x += (int)(((float)9) * w_ratio))
+                        Walls[i].Parts = new List<Rectangle>();
+                        for (int x = (int)Walls[i].Position.X; x < (int)(Walls[i].Position.X + Walls[i].Width); x += 9)
                         {
-                            for (int y = (int)Walls[i].Position.Y; y < (int)(Walls[i].Position.Y + Walls[i].Height); y += (int)(((float)9) * h_ratio))
+                            for (int y = (int)Walls[i].Position.Y; y < (int)(Walls[i].Position.Y + Walls[i].Height); y += 9)
                             {
-                                Walls[i].parts.Add(new Rectangle((int)x, (int)y, (int)((float)9 * w_ratio), (int)((float)9 * h_ratio)));
+                                Walls[i].Parts.Add(new Rectangle(x, y, 9, 9));
                             }
                         }
                     }
@@ -135,8 +132,8 @@ namespace Platformer_Game
                     Player.Inventory.Remove(Keys[i].Colour);
                 }
             }
-            player_edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);
-            if (player_edge.Contains(Finish_Point))
+            Player_Edge = new Rectangle((int)Player.Position.X, (int)Player.Position.Y, (int)Player.Width, (int)Player.Height);
+            if (Player_Edge.Contains(Finish_Point))
             {
                 Particles = new List<Particle>();
                 Player.Position = Player.Start_Position;
@@ -151,12 +148,12 @@ namespace Platformer_Game
 
             foreach (Particle particle in Particles)
             {
-                particle.Update(gameTime, Platforms, Particles, Walls, Lavas, Window.Height);
+                particle.Update(gameTime, Platforms, Particles, Walls, Lavas);
             }
 
             foreach (Key key in Keys)
             {
-                key.Update(gameTime, Player, Platforms, Particles, Walls, Lavas, Window.Height);
+                key.Update(gameTime, Player, Platforms, Particles, Walls, Lavas);
             }
             return false;
         }

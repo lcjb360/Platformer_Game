@@ -8,8 +8,6 @@ namespace Platformer_Game
 {
     public class Sprite
     {
-        public Matrix matrix = new Matrix(new Vector4(1, 0, 0, 0), new Vector4(0, 1, 0, 0), new Vector4(0, 0, 1, 0), new Vector4(0, 0, 0, 1));
-        public Rectangle window = new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         public Texture2D Texture { get; private set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -26,8 +24,6 @@ namespace Platformer_Game
         //change x and y etc * ratio
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            Vector2 bounds = new Vector2(matrix.Translation.X, matrix.Translation.Y);
-            
             spriteBatch.Draw(Texture, position, new Rectangle(X, Y, Width, Height), Color.White);
         }
 

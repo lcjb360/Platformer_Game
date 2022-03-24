@@ -12,11 +12,9 @@ namespace Platformer_Game
         
         public Spike(Texture2D texture, Vector2 position, int length)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             Default_Sprite = new Sprite(texture, 0, 92, 9, 10);
-            Position = new Vector2(position.X * w_ratio, position.Y * h_ratio);
-            Length = (int)((float)length * w_ratio);
+            Position = new Vector2(position.X, position.Y);
+            Length = length;
             Width = 9;
             Height = 10;
         }

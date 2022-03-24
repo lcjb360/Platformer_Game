@@ -8,50 +8,40 @@ namespace Platformer_Game
 {
     public class Particle : Physics_Object
     {
-        public int id;
+        public int Id;
         public Color Colour = Color.Black;
         public bool Burning = false;
         public bool Liquid = false;
-        //public Sprite none;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             Default_Sprite = new Sprite(texture, 60, 0, 5, 5);
-            //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
-            Velocity = new Vector2(velocity.X * w_ratio, velocity.Y * h_ratio);
-            Height = (float)9 * h_ratio;
-            Width = (float)9 * w_ratio;
-            id = particle_id;
+            Velocity = new Vector2(velocity.X, velocity.Y);
+            Height = 9;
+            Width = 9;
+            Id = particle_id;
         }
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id, Color color)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             Default_Sprite = new Sprite(texture, 60, 0, 5, 5);
-            //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
-            Velocity = new Vector2(velocity.X * w_ratio, velocity.Y * h_ratio);
-            Height = (float)9 * h_ratio;
-            Width = (float)9 * w_ratio;
-            id = particle_id;
+            Velocity = new Vector2(velocity.X, velocity.Y);
+            Height = 9;
+            Width = 9;
+            Id = particle_id;
             Colour = color;
         }
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, int particle_id, Color color, bool burning, bool liquid)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             Default_Sprite = new Sprite(texture, 60, 0, 5, 5);
-            //none = new Sprite(texture, 1, 93, 1, 1);
             Position = position;
-            Velocity = new Vector2(velocity.X * w_ratio, velocity.Y * h_ratio);
-            Height = (float)9 * h_ratio;
-            Width = (float)9 * w_ratio;
-            id = particle_id;
+            Velocity = new Vector2(velocity.X, velocity.Y);
+            Height = 9;
+            Width = 9;
+            Id = particle_id;
             Colour = color;
             Burning = burning;
             Liquid = liquid;
@@ -59,33 +49,32 @@ namespace Platformer_Game
 
         private void HittingHazard(List<Lava> lavas)
         {
-            Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            Rectangle Particle_Edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Lava lava in lavas)
             {
-                Rectangle lava_edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y, (int)lava.Length, (int)lava.Height);
-                if (particle_edge.Intersects(lava_edge))
+                Rectangle Lava_Edge = new Rectangle((int)lava.Position.X, (int)lava.Position.Y, (int)lava.Length, (int)lava.Height);
+                if (Particle_Edge.Intersects(Lava_Edge))
                 {
                     Width = 0;
                     Height = 0;
-                    //Default_Sprite = none;
                 }
             }
         }
 
         private void HittingWall(List<Wall> walls)
         {
-            Rectangle particle_edge2 = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width + 1, (int)Height + 1);
-            Rectangle particle_edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
+            Rectangle Particle_Edge2 = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width + 1, (int)Height + 1);
+            Rectangle Particle_Edge = new Rectangle((int)(Position.X), (int)(Position.Y), (int)Width, (int)Height);
             foreach (Wall wall in walls)
             {
                 if (wall.Destructible && Burning)
                 {
-                    for (int i = 0; i < wall.parts.Count; i++)
+                    for (int i = 0; i < wall.Parts.Count; i++)
                     {
-                        Rectangle part = wall.parts[i];
-                        if (particle_edge.Intersects(part) || particle_edge2.Intersects(part))
+                        Rectangle part = wall.Parts[i];
+                        if (Particle_Edge.Intersects(part) || Particle_Edge2.Intersects(part))
                         {
-                            wall.parts.RemoveAt(i);
+                            wall.Parts.RemoveAt(i);
                             Width = 0;
                             Height = 0;
                             Position = new Vector2(-100, 500);
@@ -93,42 +82,38 @@ namespace Platformer_Game
                         }
                     }
                 }
-                Rectangle player_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
-                Rectangle player_top_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
-                Rectangle player_bottom_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
-                Rectangle player_right_edge = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
-                Rectangle player_left_edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+                Rectangle Next_Particle_Edge = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + (int)Velocity.Y, (int)Width, (int)Height);
+                Rectangle Next_Particle_Edge_Top = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y, (int)Width - 20, (int)Height / 2);
+                Rectangle Next_Particle_Edge_Bottom = new Rectangle((int)(Position.X) + (int)Velocity.X + 10, (int)(Position.Y) + (int)Velocity.Y + ((int)Height / 2), (int)Width - 20, ((int)Height / 2));
+                Rectangle Next_Particle_Edge_Right = new Rectangle((int)(Position.X) + (int)Velocity.X + ((int)Width / 2), (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
+                Rectangle Next_Particle_Edge_Left = new Rectangle((int)(Position.X) + (int)Velocity.X, (int)(Position.Y) + 5 + (int)Velocity.Y, (int)Width / 2, (int)Height - 10);
 
                 if (wall.Destructible)
                 {
-                    for (int i = 0; i < wall.parts.Count; i++)
+                    for (int i = 0; i < wall.Parts.Count; i++)
                     {
-                        Rectangle part = wall.parts[i];
-                        if (player_edge.Intersects(part))
+                        Rectangle part = wall.Parts[i];
+                        if (Next_Particle_Edge.Intersects(part))
                         {
-                            if (player_bottom_edge.Intersects(part))
+                            if (Next_Particle_Edge_Bottom.Intersects(part))
                             {
                                 Velocity.Y = 0;
                                 Position.Y = part.Y - Height;
-                                //return true;
                             }
-                            if (player_right_edge.Intersects(part))
+                            if (Next_Particle_Edge_Right.Intersects(part))
                             {
                                 Velocity.X = 0;
                                 Position.X = part.X - Width;
-                                //return true;
                             }
-                            if (player_left_edge.Intersects(part))
+                            if (Next_Particle_Edge_Left.Intersects(part))
                             {
                                 Velocity.X = 0;
                                 Position.X = part.X + part.Width;
-                                //return true;
                             }
-                            if (player_top_edge.Intersects(part))
+                            if (Next_Particle_Edge_Top.Intersects(part))
                             {
                                 Velocity.Y = 0;
                                 Position.Y = part.Y + part.Height;
-                                //return true;
                             }
 
                         }
@@ -136,18 +121,13 @@ namespace Platformer_Game
                 }
                 else
                 {
-                    Rectangle wall_edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
-                    if (particle_edge.Intersects(wall_edge) || particle_edge2.Intersects(wall_edge))
+                    Rectangle Wall_Edge = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, (int)wall.Width, (int)wall.Height);
+                    if (Particle_Edge.Intersects(Wall_Edge) || Particle_Edge2.Intersects(Wall_Edge))
                     {
                         if (Burning)
                         {
                             Position = new Vector2(-100, -100);
                         }
-                        //if (new Rectangle((int)(Position.X + Velocity.X), (int)((Position.Y + Velocity.Y) + (Height / 2)), (int)Width, (int)(Height / 2)).Intersects(wall_edge))
-                        //{
-                        //    Velocity.Y = 0;
-                        //    Position.Y = wall.Position.Y - Height;
-                        //}
                         if (Liquid)
                         {
                             Velocity.X = (float)(-1) * Velocity.X;
@@ -184,10 +164,10 @@ namespace Platformer_Game
             }
         }
 
-        public Platform touched_platform = null;
-        public float Y_of_platform;
-        public Vector2 platform_Velocity;
-        public bool platform_Moving;
+        public Platform Touched_Platform = null;
+        public float Y_Of_Platform;
+        public Vector2 Platform_Velocity;
+        public bool Platform_Moving;
         public bool OnPlatform(List<Platform> platforms)
         {
             foreach (Platform platform in platforms)
@@ -198,34 +178,34 @@ namespace Platformer_Game
                     {
                         if (platform.Weak)
                         {
-                            touched_platform = platform;
+                            Touched_Platform = platform;
                         }
                         if (platform.Moving)
                         {
-                            platform_Velocity = (platform.Destination - platform.Position);
-                            if (platform_Velocity.X > 0)
+                            Platform_Velocity = (platform.Destination - platform.Position);
+                            if (Platform_Velocity.X > 0)
                             {
-                                platform_Velocity.X = (float)8;
+                                Platform_Velocity.X = (float)8;
                             }
-                            if (platform_Velocity.X < 0)
+                            if (Platform_Velocity.X < 0)
                             {
-                                platform_Velocity.X = (float)-8;
+                                Platform_Velocity.X = (float)-8;
                             }
 
-                            if (platform_Velocity.X != 0)
+                            if (Platform_Velocity.X != 0)
                             {
-                                platform_Moving = true;
+                                Platform_Moving = true;
                             }
                             else
                             {
-                                platform_Moving = false;
+                                Platform_Moving = false;
                             }
                         }
                         else
                         {
-                            platform_Moving = false;
+                            Platform_Moving = false;
                         }
-                        Y_of_platform = platform.Position.Y;
+                        Y_Of_Platform = platform.Position.Y;
                         if (Burning)
                         {
                             Position = new Vector2(-100, -100);
@@ -237,23 +217,21 @@ namespace Platformer_Game
             return false;
         }
 
-        public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas, float screen_height)
+        public void Update(GameTime gameTime, List<Platform> platforms, List<Particle> particles, List<Wall> walls, List<Lava> lavas)
         {
-            float w_ratio = 1;
-            float h_ratio = 1;
             if (!OnPlatform(platforms) && Velocity.Y < 5)
             {
-                Velocity.Y += (float)1 * h_ratio;
+                Velocity.Y += 1;
             }
             if (OnPlatform(platforms))
             {
-                if (touched_platform != null)
+                if (Touched_Platform != null)
                 {
-                    touched_platform.Touched = true;
+                    Touched_Platform.Touched = true;
                 }
-                if (platform_Moving)
+                if (Platform_Moving)
                 {
-                    Velocity.X = ((float)1.2 * platform_Velocity.X) * w_ratio;
+                    Velocity.X = (float)1.2 * Platform_Velocity.X;
                 }
                 else
                 {
@@ -263,79 +241,79 @@ namespace Platformer_Game
                     }
                     else
                     {
-                        Random rand = new Random();
+                        Random Rand = new Random();
                         if (Velocity.X > 0 && Velocity.X != 0)
                         {
-                            Velocity.X += (float)5 * (float)rand.NextDouble();
+                            Velocity.X += (float)5 * (float)Rand.NextDouble();
                         }
                         if (Velocity.X < 0 && Velocity.X != 0)
                         {
-                            Velocity.X -= (float)5 * (float)rand.NextDouble();
+                            Velocity.X -= (float)5 * (float)Rand.NextDouble();
                         }
                     }
                 }
                 Velocity.Y = 0;
-                Position.Y = Y_of_platform - Height;
+                Position.Y = Y_Of_Platform - Height;
             }
 
-            bool colliding_H = false;
-            bool colliding_V = false;
-            Particle colliding_with = null;
-            Rectangle particle_edge = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
+            bool Colliding_H = false;
+            bool Colliding_V = false;
+            Particle Colliding_With = null;
+            Rectangle Particle_Edge = new Rectangle((int)(Position.X + Velocity.X), (int)(Position.Y + Velocity.Y), (int)Width, (int)Height);
             foreach (Particle particle in particles)
             {
-                if (id != particle.id)
+                if (Id != particle.Id)
                 {
-                    Rectangle other_edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
+                    Rectangle Other_Edge = new Rectangle((int)(particle.Position.X + particle.Velocity.X), (int)(particle.Position.Y + particle.Velocity.Y), (int)particle.Width, (int)particle.Height);
                     if (Position.Y + Height > particle.Position.Y && Position.Y + Height < particle.Position.Y + particle.Height)
                     {
                         if (Position.X + Width > particle.Position.X && Position.X < particle.Position.X + particle.Width)
                         {
-                            colliding_V = true;
+                            Colliding_V = true;
                             if (Burning && !particle.Burning)
                             {
                                 particle.Position = new Vector2(-100, -100);
                                 Position = new Vector2(-100, -100);
                             }
-                            colliding_with = particle;
+                            Colliding_With = particle;
                         }
                     }
-                    if (particle_edge.Intersects(other_edge))
+                    if (Particle_Edge.Intersects(Other_Edge))
                     {
-                        colliding_H = true;
+                        Colliding_H = true;
                         if (Burning && !particle.Burning)
                         {
                             particle.Position = new Vector2(-100, -100);
                             Position = new Vector2(-100, -100);
                         }
-                        colliding_with = particle;
+                        Colliding_With = particle;
                     }
                 }
             }
-            if (colliding_H && !Liquid)
+            if (Colliding_H && !Liquid)
             {
-                if (!colliding_with.Liquid)
+                if (!Colliding_With.Liquid)
                 {
-                    colliding_with.Velocity.X = 0;
+                    Colliding_With.Velocity.X = 0;
                 }
                 Velocity.X = 0;
             }
-            if (colliding_H && !colliding_with.Liquid)
+            if (Colliding_H && !Colliding_With.Liquid)
             {
                 Velocity.X = -Velocity.X;
             }
-            if (colliding_V)
+            if (Colliding_V)
             {
                 if (Liquid)
                 {
-                    Random rand = new Random();
+                    Random Rand = new Random();
                     if (Velocity.X > 0 && Velocity.X != 0)
                     {
-                        Velocity.X += (float)5 * (float)rand.NextDouble();
+                        Velocity.X += (float)5 * (float)Rand.NextDouble();
                     }
                     if (Velocity.X < 0 && Velocity.X != 0)
                     {
-                        Velocity.X -= (float)5 * (float)rand.NextDouble();
+                        Velocity.X -= (float)5 * (float)Rand.NextDouble();
                     }
                 }
                 Velocity.Y = 0;
@@ -350,15 +328,15 @@ namespace Platformer_Game
                         Velocity.X += 1;
                     }
                 }
-                colliding_with.Velocity.Y = 0;
-                Position.Y = colliding_with.Position.Y - Height;
+                Colliding_With.Velocity.Y = 0;
+                Position.Y = Colliding_With.Position.Y - Height;
             }
             HittingWall(walls);
             Position += Velocity;
             HittingHazard(lavas);
             if (Liquid)
             {
-                Velocity = (float)(0.7) * Velocity;
+                Velocity = (float)0.7 * Velocity;
             }
 
         }
